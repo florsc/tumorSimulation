@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+PROJECT ( tumorSimulation C CXX )
+project(tumorSimulation)
+cmake_minimum_required (VERSION 2.6)
+find_package (Threads)
+add_executable (tumorSimulation main.cpp cmake-build-debug/Axon.cpp cmake-build-debug/Axon.h cmake-build-debug/OccupiedSpace.cpp cmake-build-debug/OccupiedSpace.h)
+target_link_libraries (tumorSimulation ${CMAKE_THREAD_LIBS_INIT})
