@@ -2,7 +2,7 @@
 
 struct dataStruct{
     int numberOfStartingBranches = 3;
-    
+
 };
 
 int main() {
