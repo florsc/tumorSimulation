@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.cpp
+Axon.h
+/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.h
+
+/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.h
+memory
+-
+vector
+-
+OccupiedSpace.h
+/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/OccupiedSpace.h
+
+/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/OccupiedSpace.cpp
+OccupiedSpace.h
+/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/OccupiedSpace.h
+
+/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/OccupiedSpace.h
+vector
+-
+
+/home/florian/CLionProjects/tumorSimulation/main.cpp
+iostream
+-
+

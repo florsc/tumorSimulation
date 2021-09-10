@@ -63,6 +63,7 @@ CMAKE_BINARY_DIR = /home/florian/CLionProjects/tumorSimulation/cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/test.dir/all
 all: CMakeFiles/tumorSimulation.dir/all
 .PHONY : all
 
@@ -71,8 +72,35 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/test.dir/clean
 clean: CMakeFiles/tumorSimulation.dir/clean
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test.dir
+
+# All Build rule for target.
+CMakeFiles/test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target test"
+.PHONY : CMakeFiles/test.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/test.dir/rule
+
+# Convenience name for target.
+test: CMakeFiles/test.dir/rule
+.PHONY : test
+
+# clean rule for target.
+CMakeFiles/test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/clean
+.PHONY : CMakeFiles/test.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/tumorSimulation.dir
@@ -81,7 +109,7 @@ clean: CMakeFiles/tumorSimulation.dir/clean
 CMakeFiles/tumorSimulation.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4 "Built target tumorSimulation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=3,4,5,6 "Built target tumorSimulation"
 .PHONY : CMakeFiles/tumorSimulation.dir/all
 
 # Build rule for subdir invocation for target.
