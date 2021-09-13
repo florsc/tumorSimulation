@@ -10,9 +10,15 @@
 
 
 class Axon {
+    using PositionList = std::vector<std::vector<double>>;
+    PositionList tipPositions;
+public:
+    PositionList getTipPositions(){return tipPositions;}
     std::shared_ptr<OccupiedSpace> occupiedSpaceCenters;
     Axon();
-    ~Axon();
+    ~Axon(){};
+    void growthStep(double i);
+    void run();
 };
 
 

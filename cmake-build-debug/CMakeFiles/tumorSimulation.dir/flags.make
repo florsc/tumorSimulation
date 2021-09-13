@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include
 
 CXX_FLAGS = -g
 

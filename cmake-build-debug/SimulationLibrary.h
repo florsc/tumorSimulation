@@ -1,0 +1,13 @@
+//
+// Created by florian on 9/10/21.
+//
+
+#ifndef TUMORSIMULATION_SIMULATIONLIBRARY_H
+#define TUMORSIMULATION_SIMULATIONLIBRARY_H
+
+extern "C" {
+int run();
+}
+
+
+#endif //TUMORSIMULATION_SIMULATIONLIBRARY_H

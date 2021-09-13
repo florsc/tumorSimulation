@@ -66,27 +66,27 @@ include CMakeFiles/test.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test.dir/flags.make
 
-CMakeFiles/test.dir/test_lib.cpp.o: CMakeFiles/test.dir/flags.make
-CMakeFiles/test.dir/test_lib.cpp.o: test_lib.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/test_lib.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test.dir/test_lib.cpp.o -c /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/test_lib.cpp
+CMakeFiles/test.dir/SimulationLibrary.cpp.o: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/SimulationLibrary.cpp.o: SimulationLibrary.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/SimulationLibrary.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test.dir/SimulationLibrary.cpp.o -c /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/SimulationLibrary.cpp
 
-CMakeFiles/test.dir/test_lib.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/test_lib.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/test_lib.cpp > CMakeFiles/test.dir/test_lib.cpp.i
+CMakeFiles/test.dir/SimulationLibrary.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/SimulationLibrary.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/SimulationLibrary.cpp > CMakeFiles/test.dir/SimulationLibrary.cpp.i
 
-CMakeFiles/test.dir/test_lib.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/test_lib.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/test_lib.cpp -o CMakeFiles/test.dir/test_lib.cpp.s
+CMakeFiles/test.dir/SimulationLibrary.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/SimulationLibrary.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/SimulationLibrary.cpp -o CMakeFiles/test.dir/SimulationLibrary.cpp.s
 
 # Object files for target test
 test_OBJECTS = \
-"CMakeFiles/test.dir/test_lib.cpp.o"
+"CMakeFiles/test.dir/SimulationLibrary.cpp.o"
 
 # External object files for target test
 test_EXTERNAL_OBJECTS =
 
-libtest.so: CMakeFiles/test.dir/test_lib.cpp.o
+libtest.so: CMakeFiles/test.dir/SimulationLibrary.cpp.o
 libtest.so: CMakeFiles/test.dir/build.make
 libtest.so: CMakeFiles/test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libtest.so"
