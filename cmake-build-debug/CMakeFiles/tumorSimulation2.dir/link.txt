@@ -1,1 +1,0 @@
-/usr/bin/c++ -g -rdynamic CMakeFiles/tumorSimulation2.dir/main.cpp.o CMakeFiles/tumorSimulation2.dir/Axon.cpp.o CMakeFiles/tumorSimulation2.dir/OccupiedSpace.cpp.o -o tumorSimulation2 

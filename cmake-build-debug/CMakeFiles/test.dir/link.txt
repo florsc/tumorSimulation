@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libtest.so -o libtest.so CMakeFiles/test.dir/SimulationLibrary.cpp.o 

@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libsimulationLibrary.so -o libsimulationLibrary.so CMakeFiles/simulationLibrary.dir/SimulationLibrary.cpp.o CMakeFiles/simulationLibrary.dir/Axon.cpp.o CMakeFiles/simulationLibrary.dir/helperFunctions.cpp.o  -lpthread 

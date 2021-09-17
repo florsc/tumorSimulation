@@ -3,7 +3,7 @@ PROJECT ( tumorSimulation C CXX )
 project(tumorSimulation)
 cmake_minimum_required (VERSION 2.6)
 find_package (Threads)
-add_library(simulationLibrary SHARED cmake-build-debug/SimulationLibrary.cpp cmake-build-debug/SimulationLibrary.h cmake-build-debug/Axon.cpp cmake-build-debug/Axon.h cmake-build-debug/helperFunctions.cpp cmake-build-debug/helperFunctions.h)
+add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/Axon.cpp src/Axon.h src/helperFunctions.cpp src/helperFunctions.h)
 
 
 
@@ -18,13 +18,12 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
-
 add_executable(
         tests
-        Axon.h
-        Axon.cpp
-        cmake-build-debug/Testing/helperFunctionTest.cpp
-        cmake-build-debug/helperFunctions.cpp cmake-build-debug/helperFunctions.h cmake-build-debug/Testing/axonTest.cpp cmake-build-debug/Testing/generalTest.cpp)
+        src/Axon.h
+        src/Axon.cpp
+        src/Tests/helperFunctionTest.cpp
+        src/helperFunctions.cpp src/helperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp)
 
 FetchContent_Declare(json
         GIT_REPOSITORY https://github.com/nlohmann/json

@@ -4,7 +4,7 @@ import math
 import json
 
 if __name__ == '__main__':
-    lib = ctypes.cdll['./cmake-build-debug/libsimulationLibrary.so']
+    lib = ctypes.cdll['./src/libsimulationLibrary.so']
     print("aa")
     lib['run']()
     print("aa")
