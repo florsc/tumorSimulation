@@ -13,7 +13,7 @@ double Axon::angleDifferenceCalculator(double a1, double a2) {
 }
 
 bool Axon::checkForBackwardGrowth(double previousAz, double previousEl, double newAz, double newEl, double threshold) {
-    double tmp = std::acos(cos(previousEl) * cos(newEl) + sin(previousEl) * cos(previousAz) * sin(newEl) * cos(newAz) +
+    double tmp = M_PI - std::acos(cos(previousEl) * cos(newEl) + sin(previousEl) * cos(previousAz) * sin(newEl) * cos(newAz) +
                            sin(previousEl) * sin(previousAz) * sin(newEl) * sin(newAz));
     return tmp < threshold;
 }
