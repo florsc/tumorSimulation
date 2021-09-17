@@ -3,8 +3,7 @@ PROJECT ( tumorSimulation C CXX )
 project(tumorSimulation)
 cmake_minimum_required (VERSION 2.6)
 find_package (Threads)
-add_executable (tumorSimulation main.cpp cmake-build-debug/Axon.cpp cmake-build-debug/Axon.h cmake-build-debug/OccupiedSpace.cpp cmake-build-debug/OccupiedSpace.h)
-add_library(simulationLibrary SHARED cmake-build-debug/SimulationLibrary.cpp cmake-build-debug/SimulationLibrary.h cmake-build-debug/Axon.cpp cmake-build-debug/Axon.h)
+add_library(simulationLibrary SHARED cmake-build-debug/SimulationLibrary.cpp cmake-build-debug/SimulationLibrary.h cmake-build-debug/Axon.cpp cmake-build-debug/Axon.h cmake-build-debug/helperFunctions.cpp cmake-build-debug/helperFunctions.h)
 
 
 
@@ -24,7 +23,8 @@ add_executable(
         tests
         Axon.h
         Axon.cpp
-        cmake-build-debug/Testing/test.cpp)
+        cmake-build-debug/Testing/helperFunctionTest.cpp
+        cmake-build-debug/helperFunctions.cpp cmake-build-debug/helperFunctions.h cmake-build-debug/Testing/axonTest.cpp cmake-build-debug/Testing/generalTest.cpp)
 
 FetchContent_Declare(json
         GIT_REPOSITORY https://github.com/nlohmann/json
@@ -35,8 +35,8 @@ if(NOT json_POPULATED)
     FetchContent_Populate(json)
     add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
-target_link_libraries (tumorSimulation ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries (tumorSimulation PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries (simulationLibrary ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (simulationLibrary  nlohmann_json::nlohmann_json)
 target_link_libraries(
         tests
         gtest_main

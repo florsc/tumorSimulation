@@ -5,9 +5,10 @@
 #ifndef TUMORSIMULATION_HELPERFUNCTIONS_H
 #define TUMORSIMULATION_HELPERFUNCTIONS_H
 
+#include <vector>
 
-class helperFunctions {
-
+struct HelperFunctions {
+    static std::vector<double> sph2cart(double az, double el, double r);
 };
 
 

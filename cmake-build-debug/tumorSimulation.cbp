@@ -74,6 +74,7 @@
 				<Option type="3"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
 					<Add directory="/usr/include/c++/7/backward"/>
@@ -97,6 +98,7 @@
 				<Option type="3"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include"/>
 					<Add directory="/usr/include/c++/7"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
 					<Add directory="/usr/include/c++/7/backward"/>
@@ -123,54 +125,6 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="tumorSimulation">
-				<Option output="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/tumorSimulation" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include"/>
-					<Add directory="/usr/include/c++/7"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
-					<Add directory="/usr/include/c++/7/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 tumorSimulation"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="tumorSimulation/fast">
-				<Option output="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/tumorSimulation" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include"/>
-					<Add directory="/usr/include/c++/7"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
-					<Add directory="/usr/include/c++/7/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 tumorSimulation/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="tests">
 				<Option output="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/tests" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug"/>
@@ -178,6 +132,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include"/>
 					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest/include"/>
 					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest"/>
 					<Add directory="/usr/include/c++/7"/>
@@ -203,6 +158,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include"/>
 					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest/include"/>
 					<Add directory="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest"/>
 					<Add directory="/usr/include/c++/7"/>
@@ -472,19 +428,11 @@
 		</Build>
 		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.cpp">
 			<Option target="simulationLibrary"/>
-			<Option target="tumorSimulation"/>
 			<Option target="tests"/>
 		</Unit>
 		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.h">
 			<Option target="simulationLibrary"/>
-			<Option target="tumorSimulation"/>
 			<Option target="tests"/>
-		</Unit>
-		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/OccupiedSpace.cpp">
-			<Option target="tumorSimulation"/>
-		</Unit>
-		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/OccupiedSpace.h">
-			<Option target="tumorSimulation"/>
 		</Unit>
 		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/SimulationLibrary.cpp">
 			<Option target="simulationLibrary"/>
@@ -492,7 +440,13 @@
 		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/SimulationLibrary.h">
 			<Option target="simulationLibrary"/>
 		</Unit>
-		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/test.cpp">
+		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/axonTest.cpp">
+			<Option target="tests"/>
+		</Unit>
+		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/generalTest.cpp">
+			<Option target="tests"/>
+		</Unit>
+		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/helperFunctionTest.cpp">
 			<Option target="tests"/>
 		</Unit>
 		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googlemock/src/gmock-all.cc">
@@ -507,8 +461,13 @@
 		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest/src/gtest_main.cc">
 			<Option target="gtest_main"/>
 		</Unit>
-		<Unit filename="/home/florian/CLionProjects/tumorSimulation/main.cpp">
-			<Option target="tumorSimulation"/>
+		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/helperFunctions.cpp">
+			<Option target="simulationLibrary"/>
+			<Option target="tests"/>
+		</Unit>
+		<Unit filename="/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/helperFunctions.h">
+			<Option target="simulationLibrary"/>
+			<Option target="tests"/>
 		</Unit>
 		<Unit filename="/home/florian/CLionProjects/tumorSimulation/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

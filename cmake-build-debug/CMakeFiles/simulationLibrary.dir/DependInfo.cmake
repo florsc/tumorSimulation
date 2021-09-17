@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/simulationLibrary.dir/Axon.cpp.o"
   "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/SimulationLibrary.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/simulationLibrary.dir/SimulationLibrary.cpp.o"
+  "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/helperFunctions.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/simulationLibrary.dir/helperFunctions.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -20,6 +21,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "_deps/json-src/single_include"
   )
 
 # The set of dependency files which are needed:

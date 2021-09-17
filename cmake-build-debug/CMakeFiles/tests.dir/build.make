@@ -79,35 +79,80 @@ CMakeFiles/tests.dir/Axon.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/Axon.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.cpp -o CMakeFiles/tests.dir/Axon.cpp.s
 
-CMakeFiles/tests.dir/Testing/test.cpp.o: CMakeFiles/tests.dir/flags.make
-CMakeFiles/tests.dir/Testing/test.cpp.o: Testing/test.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tests.dir/Testing/test.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/Testing/test.cpp.o -c /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/test.cpp
+CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o: Testing/helperFunctionTest.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o -c /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/helperFunctionTest.cpp
 
-CMakeFiles/tests.dir/Testing/test.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/Testing/test.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/test.cpp > CMakeFiles/tests.dir/Testing/test.cpp.i
+CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/helperFunctionTest.cpp > CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.i
 
-CMakeFiles/tests.dir/Testing/test.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/Testing/test.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/test.cpp -o CMakeFiles/tests.dir/Testing/test.cpp.s
+CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/helperFunctionTest.cpp -o CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.s
+
+CMakeFiles/tests.dir/helperFunctions.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/helperFunctions.cpp.o: helperFunctions.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tests.dir/helperFunctions.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/helperFunctions.cpp.o -c /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/helperFunctions.cpp
+
+CMakeFiles/tests.dir/helperFunctions.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/helperFunctions.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/helperFunctions.cpp > CMakeFiles/tests.dir/helperFunctions.cpp.i
+
+CMakeFiles/tests.dir/helperFunctions.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/helperFunctions.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/helperFunctions.cpp -o CMakeFiles/tests.dir/helperFunctions.cpp.s
+
+CMakeFiles/tests.dir/Testing/axonTest.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/Testing/axonTest.cpp.o: Testing/axonTest.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tests.dir/Testing/axonTest.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/Testing/axonTest.cpp.o -c /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/axonTest.cpp
+
+CMakeFiles/tests.dir/Testing/axonTest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/Testing/axonTest.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/axonTest.cpp > CMakeFiles/tests.dir/Testing/axonTest.cpp.i
+
+CMakeFiles/tests.dir/Testing/axonTest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/Testing/axonTest.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/axonTest.cpp -o CMakeFiles/tests.dir/Testing/axonTest.cpp.s
+
+CMakeFiles/tests.dir/Testing/generalTest.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/Testing/generalTest.cpp.o: Testing/generalTest.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tests.dir/Testing/generalTest.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/Testing/generalTest.cpp.o -c /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/generalTest.cpp
+
+CMakeFiles/tests.dir/Testing/generalTest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/Testing/generalTest.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/generalTest.cpp > CMakeFiles/tests.dir/Testing/generalTest.cpp.i
+
+CMakeFiles/tests.dir/Testing/generalTest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/Testing/generalTest.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/generalTest.cpp -o CMakeFiles/tests.dir/Testing/generalTest.cpp.s
 
 # Object files for target tests
 tests_OBJECTS = \
 "CMakeFiles/tests.dir/Axon.cpp.o" \
-"CMakeFiles/tests.dir/Testing/test.cpp.o"
+"CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o" \
+"CMakeFiles/tests.dir/helperFunctions.cpp.o" \
+"CMakeFiles/tests.dir/Testing/axonTest.cpp.o" \
+"CMakeFiles/tests.dir/Testing/generalTest.cpp.o"
 
 # External object files for target tests
 tests_EXTERNAL_OBJECTS =
 
 tests: CMakeFiles/tests.dir/Axon.cpp.o
-tests: CMakeFiles/tests.dir/Testing/test.cpp.o
+tests: CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o
+tests: CMakeFiles/tests.dir/helperFunctions.cpp.o
+tests: CMakeFiles/tests.dir/Testing/axonTest.cpp.o
+tests: CMakeFiles/tests.dir/Testing/generalTest.cpp.o
 tests: CMakeFiles/tests.dir/build.make
 tests: lib/libgtest_maind.a
 tests: libsimulationLibrary.so
 tests: lib/libgtestd.a
 tests: CMakeFiles/tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)
 	/snap/clion/163/bin/cmake/linux/bin/cmake -D TEST_TARGET=tests -D TEST_EXECUTABLE=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/tests -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=tests_TESTS -D CTEST_FILE=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/tests[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /snap/clion/163/bin/cmake/linux/share/cmake-3.20/Modules/GoogleTestAddTests.cmake
 

@@ -7,6 +7,10 @@ class Visualizer:
         self.simulatedAxons = simulatedAxons
         plt.figure()
         self.axis = plt.axes(projection='3d')
+
+        self.axis.set_xlim3d(-10, 10)
+        self.axis.set_ylim3d(-10, 10)
+        self.axis.set_zlim3d(-10, 10)
         '''
     def addBallLimits(self, radius):
 
@@ -53,24 +57,22 @@ class Visualizer:
             self.axis.plot_surface(x, y, z, alpha=0.2, color='r')
         '''
 
-
     def addAxons(self):
         for i in range(len(self.simulatedAxons)):
-            axon=self.simulatedAxons[i]
+            axon = self.simulatedAxons[i]
             xline = [tipPosition[0]
                      for tipPosition in self.simulatedAxons]
             yline = [tipPosition[1]
                      for tipPosition in self.simulatedAxons]
             zline = [tipPosition[2]
                      for tipPosition in self.simulatedAxons]
-            self.axis.plot3D(xline, yline, zline, 'gray')
+            self.axis.plot3D(xline, yline, zline, 'gray', scalex=False, scaley=False)
 
     def visualize(self):
         self.addAxons()
         self.axis.set_xlabel("X")
         self.axis.set_ylabel("Y")
         self.axis.set_zlabel("Z")
-
 
         plt.show()
 

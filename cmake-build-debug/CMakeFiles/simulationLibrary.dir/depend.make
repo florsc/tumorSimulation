@@ -4,9 +4,14 @@
 CMakeFiles/simulationLibrary.dir/Axon.cpp.o: \
  Axon.cpp \
  Axon.h \
- OccupiedSpace.h
+ OccupiedSpace.h \
+ helperFunctions.h
 CMakeFiles/simulationLibrary.dir/SimulationLibrary.cpp.o: \
  Axon.h \
  OccupiedSpace.h \
  SimulationLibrary.cpp \
- SimulationLibrary.h
+ SimulationLibrary.h \
+ _deps/json-src/single_include/nlohmann/json.hpp
+CMakeFiles/simulationLibrary.dir/helperFunctions.cpp.o: \
+ helperFunctions.cpp \
+ helperFunctions.h

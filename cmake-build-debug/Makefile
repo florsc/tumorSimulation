@@ -185,19 +185,6 @@ simulationLibrary/fast:
 .PHONY : simulationLibrary/fast
 
 #=============================================================================
-# Target rules for targets named tumorSimulation
-
-# Build rule for target.
-tumorSimulation: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tumorSimulation
-.PHONY : tumorSimulation
-
-# fast build rule for target.
-tumorSimulation/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/build
-.PHONY : tumorSimulation/fast
-
-#=============================================================================
 # Target rules for targets named tests
 
 # Build rule for target.
@@ -632,7 +619,6 @@ Axon.o: Axon.cpp.o
 # target to build an object file
 Axon.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulationLibrary.dir/build.make CMakeFiles/simulationLibrary.dir/Axon.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/Axon.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Axon.cpp.o
 .PHONY : Axon.cpp.o
 
@@ -642,7 +628,6 @@ Axon.i: Axon.cpp.i
 # target to preprocess a source file
 Axon.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulationLibrary.dir/build.make CMakeFiles/simulationLibrary.dir/Axon.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/Axon.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Axon.cpp.i
 .PHONY : Axon.cpp.i
 
@@ -652,33 +637,8 @@ Axon.s: Axon.cpp.s
 # target to generate assembly for a file
 Axon.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulationLibrary.dir/build.make CMakeFiles/simulationLibrary.dir/Axon.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/Axon.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Axon.cpp.s
 .PHONY : Axon.cpp.s
-
-OccupiedSpace.o: OccupiedSpace.cpp.o
-.PHONY : OccupiedSpace.o
-
-# target to build an object file
-OccupiedSpace.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/OccupiedSpace.cpp.o
-.PHONY : OccupiedSpace.cpp.o
-
-OccupiedSpace.i: OccupiedSpace.cpp.i
-.PHONY : OccupiedSpace.i
-
-# target to preprocess a source file
-OccupiedSpace.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/OccupiedSpace.cpp.i
-.PHONY : OccupiedSpace.cpp.i
-
-OccupiedSpace.s: OccupiedSpace.cpp.s
-.PHONY : OccupiedSpace.s
-
-# target to generate assembly for a file
-OccupiedSpace.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/OccupiedSpace.cpp.s
-.PHONY : OccupiedSpace.cpp.s
 
 SimulationLibrary.o: SimulationLibrary.cpp.o
 .PHONY : SimulationLibrary.o
@@ -704,53 +664,104 @@ SimulationLibrary.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulationLibrary.dir/build.make CMakeFiles/simulationLibrary.dir/SimulationLibrary.cpp.s
 .PHONY : SimulationLibrary.cpp.s
 
-Testing/test.o: Testing/test.cpp.o
-.PHONY : Testing/test.o
+Testing/axonTest.o: Testing/axonTest.cpp.o
+.PHONY : Testing/axonTest.o
 
 # target to build an object file
-Testing/test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/test.cpp.o
-.PHONY : Testing/test.cpp.o
+Testing/axonTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/axonTest.cpp.o
+.PHONY : Testing/axonTest.cpp.o
 
-Testing/test.i: Testing/test.cpp.i
-.PHONY : Testing/test.i
+Testing/axonTest.i: Testing/axonTest.cpp.i
+.PHONY : Testing/axonTest.i
 
 # target to preprocess a source file
-Testing/test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/test.cpp.i
-.PHONY : Testing/test.cpp.i
+Testing/axonTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/axonTest.cpp.i
+.PHONY : Testing/axonTest.cpp.i
 
-Testing/test.s: Testing/test.cpp.s
-.PHONY : Testing/test.s
+Testing/axonTest.s: Testing/axonTest.cpp.s
+.PHONY : Testing/axonTest.s
 
 # target to generate assembly for a file
-Testing/test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/test.cpp.s
-.PHONY : Testing/test.cpp.s
+Testing/axonTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/axonTest.cpp.s
+.PHONY : Testing/axonTest.cpp.s
 
-main.o: main.cpp.o
-.PHONY : main.o
+Testing/generalTest.o: Testing/generalTest.cpp.o
+.PHONY : Testing/generalTest.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/main.cpp.o
-.PHONY : main.cpp.o
+Testing/generalTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/generalTest.cpp.o
+.PHONY : Testing/generalTest.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+Testing/generalTest.i: Testing/generalTest.cpp.i
+.PHONY : Testing/generalTest.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/main.cpp.i
-.PHONY : main.cpp.i
+Testing/generalTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/generalTest.cpp.i
+.PHONY : Testing/generalTest.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+Testing/generalTest.s: Testing/generalTest.cpp.s
+.PHONY : Testing/generalTest.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tumorSimulation.dir/build.make CMakeFiles/tumorSimulation.dir/main.cpp.s
-.PHONY : main.cpp.s
+Testing/generalTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/generalTest.cpp.s
+.PHONY : Testing/generalTest.cpp.s
+
+Testing/helperFunctionTest.o: Testing/helperFunctionTest.cpp.o
+.PHONY : Testing/helperFunctionTest.o
+
+# target to build an object file
+Testing/helperFunctionTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o
+.PHONY : Testing/helperFunctionTest.cpp.o
+
+Testing/helperFunctionTest.i: Testing/helperFunctionTest.cpp.i
+.PHONY : Testing/helperFunctionTest.i
+
+# target to preprocess a source file
+Testing/helperFunctionTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.i
+.PHONY : Testing/helperFunctionTest.cpp.i
+
+Testing/helperFunctionTest.s: Testing/helperFunctionTest.cpp.s
+.PHONY : Testing/helperFunctionTest.s
+
+# target to generate assembly for a file
+Testing/helperFunctionTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.s
+.PHONY : Testing/helperFunctionTest.cpp.s
+
+helperFunctions.o: helperFunctions.cpp.o
+.PHONY : helperFunctions.o
+
+# target to build an object file
+helperFunctions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulationLibrary.dir/build.make CMakeFiles/simulationLibrary.dir/helperFunctions.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/helperFunctions.cpp.o
+.PHONY : helperFunctions.cpp.o
+
+helperFunctions.i: helperFunctions.cpp.i
+.PHONY : helperFunctions.i
+
+# target to preprocess a source file
+helperFunctions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulationLibrary.dir/build.make CMakeFiles/simulationLibrary.dir/helperFunctions.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/helperFunctions.cpp.i
+.PHONY : helperFunctions.cpp.i
+
+helperFunctions.s: helperFunctions.cpp.s
+.PHONY : helperFunctions.s
+
+# target to generate assembly for a file
+helperFunctions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulationLibrary.dir/build.make CMakeFiles/simulationLibrary.dir/helperFunctions.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/helperFunctions.cpp.s
+.PHONY : helperFunctions.cpp.s
 
 # Help Target
 help:
@@ -799,22 +810,24 @@ help:
 	@echo "... gtest_main"
 	@echo "... simulationLibrary"
 	@echo "... tests"
-	@echo "... tumorSimulation"
 	@echo "... Axon.o"
 	@echo "... Axon.i"
 	@echo "... Axon.s"
-	@echo "... OccupiedSpace.o"
-	@echo "... OccupiedSpace.i"
-	@echo "... OccupiedSpace.s"
 	@echo "... SimulationLibrary.o"
 	@echo "... SimulationLibrary.i"
 	@echo "... SimulationLibrary.s"
-	@echo "... Testing/test.o"
-	@echo "... Testing/test.i"
-	@echo "... Testing/test.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... Testing/axonTest.o"
+	@echo "... Testing/axonTest.i"
+	@echo "... Testing/axonTest.s"
+	@echo "... Testing/generalTest.o"
+	@echo "... Testing/generalTest.i"
+	@echo "... Testing/generalTest.s"
+	@echo "... Testing/helperFunctionTest.o"
+	@echo "... Testing/helperFunctionTest.i"
+	@echo "... Testing/helperFunctionTest.s"
+	@echo "... helperFunctions.o"
+	@echo "... helperFunctions.i"
+	@echo "... helperFunctions.s"
 .PHONY : help
 
 

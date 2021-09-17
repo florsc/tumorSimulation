@@ -9,12 +9,16 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Axon.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/tests.dir/Axon.cpp.o"
-  "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/test.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/tests.dir/Testing/test.cpp.o"
+  "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/axonTest.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/tests.dir/Testing/axonTest.cpp.o"
+  "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/generalTest.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/tests.dir/Testing/generalTest.cpp.o"
+  "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/Testing/helperFunctionTest.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/tests.dir/Testing/helperFunctionTest.cpp.o"
+  "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/helperFunctions.cpp" "/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/CMakeFiles/tests.dir/helperFunctions.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "_deps/json-src/single_include"
   "_deps/googletest-src/googletest/include"
   "_deps/googletest-src/googletest"
   )

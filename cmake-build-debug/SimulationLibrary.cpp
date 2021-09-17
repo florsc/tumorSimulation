@@ -11,13 +11,13 @@
 using json = nlohmann::json;
 
 
-int run(){
+int run() {
     Axon a;
     a.run();
     json j(a.getTipPositions());
-        std::ofstream myfile;
-        myfile.open ("cpp_results.json");
-        myfile << j.dump();
-        myfile.close();
-    return 4;
+    std::ofstream myfile;
+    myfile.open("cpp_results.json");
+    myfile << j.dump();
+    myfile.close();
+    return 0;
 }

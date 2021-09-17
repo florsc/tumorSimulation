@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+# Log files
+*.log
+
+# Other
+*.includecache
+*.make
+*.internal
+*.cmake
+
+/CMakeFiles/*
+/bin/*

@@ -433,6 +433,9 @@ nlohmann_json_BINARY_DIR:STATIC=/home/florian/CLionProjects/tumorSimulation/cmak
 //Value Computed by CMake
 nlohmann_json_SOURCE_DIR:STATIC=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src
 
+//Dependencies for the target
+simulationLibrary_LIB_DEPENDS:STATIC=general;-lpthread;
+
 //Value Computed by CMake
 tumorSimulation_BINARY_DIR:STATIC=/home/florian/CLionProjects/tumorSimulation/cmake-build-debug
 

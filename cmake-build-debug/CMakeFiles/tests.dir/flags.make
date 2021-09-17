@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -isystem /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest/include -isystem /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest
+CXX_INCLUDES = -I/home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/json-src/single_include -isystem /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest/include -isystem /home/florian/CLionProjects/tumorSimulation/cmake-build-debug/_deps/googletest-src/googletest
 
 CXX_FLAGS = -g
 
