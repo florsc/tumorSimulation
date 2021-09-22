@@ -3,7 +3,7 @@ PROJECT ( tumorSimulation C CXX )
 project(tumorSimulation)
 cmake_minimum_required (VERSION 2.6)
 find_package (Threads)
-add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/Axon.cpp src/Axon.h src/helperFunctions.cpp src/helperFunctions.h)
+add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/ConstraintHandler.h src/ConstraintHandler.cpp src/Axon.cpp src/Axon.h src/helperFunctions.cpp src/helperFunctions.h src/ExteriorLimit.cpp src/ExteriorLimit.h src/EuclideanVector.cpp src/EuclideanVector.h)
 
 
 
@@ -23,7 +23,7 @@ add_executable(
         src/Axon.h
         src/Axon.cpp
         src/Tests/helperFunctionTest.cpp
-        src/helperFunctions.cpp src/helperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp)
+        src/helperFunctions.cpp src/helperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp src/EuclideanVector.cpp src/EuclideanVector.h src/Tests/constraintHandlerTest.cpp)
 
 FetchContent_Declare(json
         GIT_REPOSITORY https://github.com/nlohmann/json

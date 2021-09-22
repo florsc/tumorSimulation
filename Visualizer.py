@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 
 class Visualizer:
 
-    def __init__(self, simulatedAxons):
+    def __init__(self, simulatedAxons, range):
         self.simulatedAxons = simulatedAxons
         plt.figure()
         self.axis = plt.axes(projection='3d')
 
-        self.axis.set_xlim3d(-10, 10)
-        self.axis.set_ylim3d(-10, 10)
-        self.axis.set_zlim3d(-10, 10)
+        self.axis.set_xlim3d(range[0][0], range[0][1])
+        self.axis.set_ylim3d(range[1][0], range[1][1])
+        self.axis.set_zlim3d(range[2][0], range[2][1])
         '''
     def addBallLimits(self, radius):
 
