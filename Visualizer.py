@@ -61,11 +61,11 @@ class Visualizer:
         for i in range(len(self.simulatedAxons)):
             axon = self.simulatedAxons[i]
             xline = [tipPosition[0]
-                     for tipPosition in self.simulatedAxons]
+                     for tipPosition in axon]
             yline = [tipPosition[1]
-                     for tipPosition in self.simulatedAxons]
+                     for tipPosition in axon]
             zline = [tipPosition[2]
-                     for tipPosition in self.simulatedAxons]
+                     for tipPosition in axon]
             self.axis.plot3D(xline, yline, zline, 'gray', scalex=False, scaley=False)
 
     def visualize(self):

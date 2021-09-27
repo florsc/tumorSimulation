@@ -16,12 +16,13 @@ if __name__ == '__main__':
     # Closing file
     f.close()
     axisLimits = [[999999999, -999999999],[999999999, -999999999],[999999999, -999999999]]
-    for position in data:
-        for i in range(3):
-            if position[i]<axisLimits[i][0]:
-                axisLimits[i][0]=position[i]
-            if position[i]>axisLimits[i][1]:
-                axisLimits[i][1]=position[i]
+    for axon in data:
+        for position in axon:
+            for i in range(3):
+                if position[i]<axisLimits[i][0]:
+                    axisLimits[i][0]=position[i]
+                if position[i]>axisLimits[i][1]:
+                    axisLimits[i][1]=position[i]
 
     ranges = [-1,-1,-1]
     for i in range(3):

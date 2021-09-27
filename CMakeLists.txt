@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 PROJECT ( tumorSimulation C CXX )
 project(tumorSimulation)
+set(CMAKE_CXX_FLAGS "-std=c++17")
 cmake_minimum_required (VERSION 2.6)
 find_package (Threads)
-add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/ConstraintHandler.h src/ConstraintHandler.cpp src/Axon.cpp src/Axon.h src/helperFunctions.cpp src/helperFunctions.h src/ExteriorLimit.cpp src/ExteriorLimit.h src/EuclideanVector.cpp src/EuclideanVector.h)
+add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/ConstraintHandler.h src/ConstraintHandler.cpp src/Axon.cpp src/Axon.h src/helperFunctions.cpp src/helperFunctions.h src/ExteriorLimit.cpp src/ExteriorLimit.h src/EuclideanVector.cpp src/EuclideanVector.h src/AxonManager.cpp src/AxonManager.h src/ProcessSampler.cpp src/ProcessSampler.h)
 
 
 
@@ -23,7 +24,7 @@ add_executable(
         src/Axon.h
         src/Axon.cpp
         src/Tests/helperFunctionTest.cpp
-        src/helperFunctions.cpp src/helperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp src/EuclideanVector.cpp src/EuclideanVector.h src/Tests/constraintHandlerTest.cpp)
+        src/helperFunctions.cpp src/helperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp src/EuclideanVector.cpp src/EuclideanVector.h src/Tests/constraintHandlerTest.cpp src/Tests/axonManagerTest.cpp)
 
 FetchContent_Declare(json
         GIT_REPOSITORY https://github.com/nlohmann/json

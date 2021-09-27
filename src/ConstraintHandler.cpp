@@ -24,16 +24,12 @@ bool ConstraintHandler::checkForOccupiedSpace(std::vector<EuclideanVector> posit
         double low = std::min(positions.at(0).at(0), positions.back().at(0));
         double high = std::max(positions.at(0).at(0), positions.back().at(0));
         auto itLow = centerMap.lower_bound(low - distanceLimit);
-        std::cout << itLow->second << "a" << std::endl;
         auto itHigh = centerMap.lower_bound(high + distanceLimit);
         bool collisionDetected = false;
         auto itLowTmp = itLow;
         while (itLowTmp != itHigh && !collisionDetected) {
             auto center = itLowTmp->second;
             for (const auto &position: positions) {
-
-                std::cout << center << "b" << std::endl;
-                std::cout << position << "c" << std::endl;
                 if ((position - center) * (position - center) < distanceLimitSquared) {
                     collisionDetected = true;
                     break;
@@ -62,7 +58,6 @@ ConstraintHandler::ConstraintHandler(std::shared_ptr<ExteriorLimit> exteriorLimi
 
 void ConstraintHandler::addConstraintCenters(std::vector<EuclideanVector> constraintCenters) {
     for (const auto &constraintCenter: constraintCenters) {
-        std::cout << "here" << std::endl;
         centerMap.insert(std::make_pair(constraintCenter.at(0), constraintCenter));
     }
 }

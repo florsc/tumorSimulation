@@ -6,8 +6,9 @@
 #include "Axon.h"
 #include "helperFunctions.h"
 
-Axon::Axon(EuclideanVector startPosition, std::shared_ptr<ConstraintHandler> constraintHandler) : m_constraintHandler(
-        constraintHandler) {
+Axon::Axon(int identifier, EuclideanVector startPosition, std::shared_ptr<ConstraintHandler> constraintHandler,
+           std::shared_ptr<ProcessSampler> processSampler) : m_identifier(identifier), m_constraintHandler(
+        constraintHandler), m_processSampler(processSampler) {
     tipPositions.push_back(startPosition);
 }
 
@@ -26,7 +27,7 @@ std::vector<EuclideanVector> Axon::createCenters(EuclideanVector start, Euclidea
         }
         return res;
     }
-    return std::vector<EuclideanVector>();
+    return {};
 }
 
 bool Axon::checkForBackwardGrowth(double previousAz, double previousEl, double newAz, double newEl, double threshold) {
@@ -36,27 +37,24 @@ bool Axon::checkForBackwardGrowth(double previousAz, double previousEl, double n
     return tmp < threshold;
 }
 
-void Axon::growthStep(double i) {
-    double az = azSampler(generator);
-    double el = elSampler(generator);
+void Axon::growthStep() {
+    double az = std::acos(1 - sampler(generator));
+    double el = 2 * M_PI * sampler(generator);
     if (!angles.empty()) {
-        while (checkForBackwardGrowth(az, el, angles.back().at(0), angles.back().at(1), 0.9 * M_PI)) {
-            az = azSampler(generator);
-            el = elSampler(generator);
+        while (checkForBackwardGrowth(az, el, angles.back().at(0), angles.back().at(1), 0.3 * M_PI)) {
+            az = std::acos(1 - sampler(generator));
+            el = 2 * M_PI * sampler(generator);
         }
     }
     angles.push_back({az, el});
-    std::vector<double> cartesianGrowthVectorTmp = HelperFunctions::sph2cart(az, el, 1);
+    std::vector<double> cartesianGrowthVectorTmp = HelperFunctions::sph2cart(az, el, m_processSampler->sampleLength());
     EuclideanVector cartesianGrowthVector(cartesianGrowthVectorTmp.begin(), cartesianGrowthVectorTmp.end());
     auto centers = createCenters(tipPositions.back(), cartesianGrowthVector);
     if (!m_constraintHandler->checkForConstraint(centers)) {
         tipPositions.emplace_back(tipPositions.back() + cartesianGrowthVector);
     }
-}
-
-void Axon::run() {
-    for (int i = 0; i < 100; i++) {
-        growthStep(i);
+    if (m_processSampler->sampleWaitingTime()) {
+        m_processSampler->addAxon(m_identifier);
     }
-
 }
+

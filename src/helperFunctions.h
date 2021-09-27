@@ -11,7 +11,6 @@
 struct HelperFunctions {
     static std::vector<double> sph2cart(double az, double el, double r);
 
-    static std::vector<EuclideanVector> sampleStartPositions(EuclideanVector c1, EuclideanVector c2);
 };
 
 

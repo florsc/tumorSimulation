@@ -2,31 +2,71 @@
 // Created by florian on 9/23/21.
 //
 
-#ifndef TUMORSIMULATION_LENGTHSAMPLER_H
-#define TUMORSIMULATION_LENGTHSAMPLER_H
+#ifndef TUMORSIMULATION_PROCESSSAMPLER_H
+#define TUMORSIMULATION_PROCESSSAMPLER_H
 
 
 #include <random>
 #include <chrono>
+#include <memory>
+#include <queue>
+#include "Axon.h"
 
-class LengthSampler {
+class ProcessSampler {
+protected:
+    std::mt19937 m_generator;
+    bool m_sampleWaitingTime;
 public:
-    virtual double sampleLength();
+    explicit ProcessSampler(bool sampleWaitingTime = false, std::mt19937 generator = std::mt19937(
+            std::chrono::system_clock::now().time_since_epoch().count()));
+
+    virtual double sampleLength() {};
+
+    virtual bool sampleWaitingTime() {return m_sampleWaitingTime;};
+
+    virtual std::pair<double, int> getNextAxon() { return std::pair<double, int>(0.0,0); }
+
+    virtual void addAxon(double earlierTime, int axonIdentifier) {};
+    virtual void addAxon(int axonIdentifier) {};
 };
 
-class uniformLengthSampler: public LengthSampler{
-    std::mt19937 generator{static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count())};
-    std::uniform_real_distribution<double> sampler;
+
+class uniformLengthNoWaitingTimeSampler : public ProcessSampler {
+    std::uniform_real_distribution<double> m_lengthSampler;
+
 public:
-    uniformLengthSampler(double low, double high);
-    double sample();
+    uniformLengthNoWaitingTimeSampler(double low, double high);
+
+    double sampleLength() override;
 };
 
-class constantLengthSampler: public LengthSampler{
+class constantLengthNoWaitingTimeSampler : public ProcessSampler {
     double m_length;
 public:
-    constantLengthSampler(double length);
-    double sample();
+    explicit constantLengthNoWaitingTimeSampler(double length);
+
+    double sampleLength() override;
 };
 
-#endif //TUMORSIMULATION_LENGTHSAMPLER_H
+struct Comparator {
+    bool operator()(const std::pair<double, int> &a, const std::pair<double, int> &b) {
+        return a.first < b.first;
+    }
+};
+
+class biasedRandomWalk : public ProcessSampler {
+    std::priority_queue<std::pair<double, int>, std::vector<std::pair<double, int>>, Comparator> m_waitingTimeQueue;
+    std::uniform_real_distribution<double> m_waitingTimeSampler;
+public:
+    explicit biasedRandomWalk();
+
+    double sampleLength() override;
+
+    std::pair<double, int> getNextAxon() override;
+
+    void addAxon(double earlierTime, int axonIdentifier) override;
+
+    void addAxon( int axonIdentifier) override;
+};
+
+#endif //TUMORSIMULATION_PROCESSSAMPLER_H
