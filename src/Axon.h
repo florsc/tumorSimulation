@@ -7,7 +7,7 @@
 #include <chrono>
 #include "EuclideanVector.h"
 #include "ProcessSampler.h"
-
+#include "AxonManager.h"
 #include <random>
 #include <queue>
 #include "ProcessSampler.h"
@@ -16,6 +16,7 @@
 #define TUMORSIMULATION_AXON_H
 
 class ProcessSampler;
+class AxonManager;
 class Axon {
     std::mt19937 generator{static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count())};
     std::uniform_real_distribution<double> sampler{0.0, 1.0};
@@ -25,10 +26,13 @@ class Axon {
     AngleList angles;
     std::shared_ptr<ConstraintHandler> m_constraintHandler;
     std::shared_ptr<ProcessSampler> m_processSampler;
+    AxonManager& m_AxonManager;
     int m_identifier;
 public:
     static bool
     checkForBackwardGrowth(double previousAz, double previousEl, double newAz, double newEl, double threshold);
+int getIdentifier(){return m_identifier;}
+    std::shared_ptr<Axon> createNewBranch();
 
     static std::vector<EuclideanVector> createCenters(EuclideanVector start, EuclideanVector end);
 
@@ -36,7 +40,9 @@ public:
 
     std::shared_ptr<ConstraintHandler> occupiedSpaceCenters;
 
-    Axon(int identifier, EuclideanVector startPosition, std::shared_ptr<ConstraintHandler> constraintHandler, std::shared_ptr<ProcessSampler> processSampler);
+    Axon(int identifier, EuclideanVector startPosition, std::shared_ptr<ConstraintHandler> constraintHandler, std::shared_ptr<ProcessSampler> processSampler, AxonManager& axonManager);
+
+    Axon(int identifier, EuclideanVector startPosition,  EuclideanVector nextPosition, std::shared_ptr<ConstraintHandler> constraintHandler, std::shared_ptr<ProcessSampler> processSampler, AxonManager& axonManager);
 
     void growthStep();
 

@@ -7,9 +7,16 @@
 #include "helperFunctions.h"
 
 Axon::Axon(int identifier, EuclideanVector startPosition, std::shared_ptr<ConstraintHandler> constraintHandler,
-           std::shared_ptr<ProcessSampler> processSampler) : m_identifier(identifier), m_constraintHandler(
-        constraintHandler), m_processSampler(processSampler) {
+           std::shared_ptr<ProcessSampler> processSampler, AxonManager& axonManager) : m_identifier(identifier), m_constraintHandler(
+        constraintHandler), m_processSampler(processSampler), m_AxonManager(axonManager) {
     tipPositions.push_back(startPosition);
+}
+
+Axon::Axon(int identifier, EuclideanVector startPosition, EuclideanVector nextPosition, std::shared_ptr<ConstraintHandler> constraintHandler,
+           std::shared_ptr<ProcessSampler> processSampler, AxonManager& axonManager) : m_identifier(identifier), m_constraintHandler(
+        constraintHandler), m_processSampler(processSampler), m_AxonManager(axonManager) {
+    tipPositions.push_back(startPosition);
+    tipPositions.push_back(nextPosition);
 }
 
 double Axon::angleDifferenceCalculator(double a1, double a2) {
@@ -37,6 +44,15 @@ bool Axon::checkForBackwardGrowth(double previousAz, double previousEl, double n
     return tmp < threshold;
 }
 
+std::shared_ptr<Axon> Axon::createNewBranch() {
+    auto size = tipPositions.size();
+    std::cout<<"a"<<std::endl;
+    std::cout<<size<<std::endl;
+    auto crossProductVector = crossProduct(tipPositions.at(size-1)-tipPositions.at(size-2),tipPositions.at(size-2)-tipPositions.at(size-3));
+    std::cout<<"b"<<std::endl;
+    return std::shared_ptr<Axon>(new Axon(m_AxonManager.getNumOfAxons(),tipPositions.at(size-2),tipPositions.at(size-2)+0.1*crossProductVector.CreateUnitVector(),m_constraintHandler,m_processSampler, m_AxonManager));
+}
+
 void Axon::growthStep() {
     double az = std::acos(1 - sampler(generator));
     double el = 2 * M_PI * sampler(generator);
@@ -53,8 +69,9 @@ void Axon::growthStep() {
     if (!m_constraintHandler->checkForConstraint(centers)) {
         tipPositions.emplace_back(tipPositions.back() + cartesianGrowthVector);
     }
-    if (m_processSampler->sampleWaitingTime()) {
-        m_processSampler->addAxon(m_identifier);
+    if(m_processSampler->branch()&& tipPositions.size()>4){
+        m_AxonManager.addAxon(createNewBranch());
+
     }
 }
 

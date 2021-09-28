@@ -16,6 +16,7 @@ class AxonManager {
     std::list<EuclideanVector> m_startPositions;
     std::shared_ptr<ConstraintHandler> m_constraintHandler;
     std::shared_ptr<ProcessSampler> m_processSampler;
+    double m_currentTime{0};
 
 public:
     AxonManager(int numberOfStartingAxons, EuclideanVector cornerStartingArea1, EuclideanVector cornerStartingArea2,
@@ -28,6 +29,10 @@ public:
     std::vector<std::vector<std::vector<double>>> getAxonPositions();
 
     void addAxon(EuclideanVector startPosition);
+
+
+    void addAxon(std::shared_ptr<Axon> axon);
+    int getNumOfAxons(){return m_axons.size();}
 };
 
 

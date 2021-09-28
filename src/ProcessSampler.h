@@ -16,18 +16,21 @@ class ProcessSampler {
 protected:
     std::mt19937 m_generator;
     bool m_sampleWaitingTime;
+    std::uniform_real_distribution<double> m_branchSampler;
 public:
     explicit ProcessSampler(bool sampleWaitingTime = false, std::mt19937 generator = std::mt19937(
-            std::chrono::system_clock::now().time_since_epoch().count()));
+            std::chrono::system_clock::now().time_since_epoch().count()), double branchProbability = 0.05);
 
     virtual double sampleLength() {};
 
-    virtual bool sampleWaitingTime() {return m_sampleWaitingTime;};
+    virtual bool sampleWaitingTime() { return m_sampleWaitingTime; };
 
-    virtual std::pair<double, int> getNextAxon() { return std::pair<double, int>(0.0,0); }
+    virtual std::pair<double, int> getNextAxon() { return std::pair<double, int>(0.0, 0); }
 
     virtual void addAxon(double earlierTime, int axonIdentifier) {};
+
     virtual void addAxon(int axonIdentifier) {};
+    bool branch(){return m_branchSampler(m_generator);}
 };
 
 
@@ -66,7 +69,7 @@ public:
 
     void addAxon(double earlierTime, int axonIdentifier) override;
 
-    void addAxon( int axonIdentifier) override;
+    void addAxon(int axonIdentifier) override;
 };
 
 #endif //TUMORSIMULATION_PROCESSSAMPLER_H

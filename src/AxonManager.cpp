@@ -19,14 +19,15 @@ AxonManager::AxonManager(int numberOfStartingAxons, EuclideanVector cornerStarti
         int startPositionIndex = distrib(gen);
         std::advance(startPositionIter, startPositionIndex);
         m_axons.push_back(std::shared_ptr<Axon>(
-                new Axon(m_axons.size(), *startPositionIter, m_constraintHandler, m_processSampler)));
+                new Axon(m_axons.size(), *startPositionIter, m_constraintHandler, m_processSampler, *this)));
         m_startPositions.erase(startPositionIter);
     }
 
     if (m_processSampler->sampleWaitingTime()) {
-        for(int i = 0; i<m_axons.size();i++){
+        for (int i = 0; i < m_axons.size(); i++) {
             m_processSampler->addAxon(i);
-        }}
+        }
+    }
 }
 
 
@@ -61,7 +62,13 @@ void AxonManager::run() {
     if (m_processSampler->sampleWaitingTime()) {
         for (int i = 0; i < 10; i++) {
             auto axonTimeIndex = m_processSampler->getNextAxon();
+            m_currentTime = axonTimeIndex.first;
+
+            std::cout<<"a"<<std::endl;
+            std::cout<<axonTimeIndex.second<<std::endl;
+            std::cout<<m_axons.size()<<std::endl;
             m_axons.at(axonTimeIndex.second)->growthStep();
+            std::cout<<"b"<<std::endl;
             m_processSampler->addAxon(axonTimeIndex.first, axonTimeIndex.second);
         }
     } else {
@@ -86,5 +93,10 @@ std::vector<std::vector<std::vector<double>>> AxonManager::getAxonPositions() {
 
 void AxonManager::addAxon(EuclideanVector startPosition) {
     m_axons.push_back(
-            std::shared_ptr<Axon>(new Axon(m_axons.size(), startPosition, m_constraintHandler, m_processSampler)));
+            std::shared_ptr<Axon>(new Axon(m_axons.size(), startPosition, m_constraintHandler, m_processSampler,*this)));
+}
+
+void AxonManager::addAxon(std::shared_ptr<Axon> axon) {
+    m_axons.push_back(axon);
+    m_processSampler->addAxon(m_currentTime,axon->getIdentifier());
 }

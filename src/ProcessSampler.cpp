@@ -4,8 +4,10 @@
 
 #include "ProcessSampler.h"
 #include <iostream>
-ProcessSampler::ProcessSampler(bool sampleWaitingTime, std::mt19937 generator) : m_sampleWaitingTime(sampleWaitingTime),
-                                                                                 m_generator(generator) {
+
+ProcessSampler::ProcessSampler(bool sampleWaitingTime, std::mt19937 generator, double branchProbability) : m_sampleWaitingTime(sampleWaitingTime),
+                                                                                 m_generator(generator),
+                                                                                 m_branchSampler(std::uniform_real_distribution<double>(0, branchProbability)) {
 
 }
 
@@ -29,14 +31,14 @@ double constantLengthNoWaitingTimeSampler::sampleLength() {
 
 void biasedRandomWalk::addAxon(double earlierTime, int axonIdentifier) {
     double tmp = m_waitingTimeSampler(m_generator);
-    m_waitingTimeQueue.push(std::make_pair<double, int>(earlierTime-tmp, std::move(axonIdentifier)));
+    m_waitingTimeQueue.push(std::make_pair<double, int>(earlierTime - tmp, std::move(axonIdentifier)));
 }
 
-biasedRandomWalk::biasedRandomWalk(): m_waitingTimeSampler(
-        std::uniform_real_distribution<double>(0,1)), ProcessSampler(true) {
+biasedRandomWalk::biasedRandomWalk() : m_waitingTimeSampler(
+        std::uniform_real_distribution<double>(0, 1)), ProcessSampler(true) {
 }
 
-std::pair<double,int> biasedRandomWalk::getNextAxon() {
+std::pair<double, int> biasedRandomWalk::getNextAxon() {
     auto tmp = m_waitingTimeQueue.top();
     m_waitingTimeQueue.pop();
     return tmp;
@@ -47,4 +49,5 @@ double biasedRandomWalk::sampleLength() {
 }
 
 void biasedRandomWalk::addAxon(int axonIdentifier) {
-addAxon(0.0,axonIdentifier);}
+    addAxon(0.0, axonIdentifier);
+}

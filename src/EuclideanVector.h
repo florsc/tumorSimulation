@@ -77,6 +77,8 @@ public:
     // Friends
     friend bool operator==(const EuclideanVector &, const EuclideanVector &);
 
+    friend EuclideanVector crossProduct(const EuclideanVector &, const EuclideanVector &);
+
     friend bool operator!=(const EuclideanVector &, const EuclideanVector &);
 
     friend EuclideanVector operator+(const EuclideanVector &, const EuclideanVector &);
