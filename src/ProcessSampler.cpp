@@ -4,10 +4,11 @@
 
 #include "ProcessSampler.h"
 #include <iostream>
+#include "parameterStruct.h"
 
 ProcessSampler::ProcessSampler(bool sampleWaitingTime, std::mt19937 generator, double branchProbability) : m_sampleWaitingTime(sampleWaitingTime),
                                                                                  m_generator(generator),
-                                                                                 m_branchSampler(std::uniform_real_distribution<double>(0, branchProbability)) {
+                                                                                 m_branchSampler(std::uniform_real_distribution<double>(0, 1/branchProbability)) {
 
 }
 

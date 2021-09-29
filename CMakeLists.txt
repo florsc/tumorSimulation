@@ -4,7 +4,7 @@ project(tumorSimulation)
 set(CMAKE_CXX_FLAGS "-std=c++17")
 cmake_minimum_required (VERSION 2.6)
 find_package (Threads)
-add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/ConstraintHandler.h src/ConstraintHandler.cpp src/Axon.cpp src/Axon.h src/helperFunctions.cpp src/helperFunctions.h src/ExteriorLimit.cpp src/ExteriorLimit.h src/EuclideanVector.cpp src/EuclideanVector.h src/AxonManager.cpp src/AxonManager.h src/ProcessSampler.cpp src/ProcessSampler.h)
+add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/ConstraintHandler.h src/ConstraintHandler.cpp src/Axon.cpp src/Axon.h src/helperFunctions.cpp src/helperFunctions.h src/ExteriorLimit.cpp src/ExteriorLimit.h src/EuclideanVector.cpp src/EuclideanVector.h src/AxonManager.cpp src/AxonManager.h src/ProcessSampler.cpp src/ProcessSampler.h src/parameterStruct.h)
 
 
 

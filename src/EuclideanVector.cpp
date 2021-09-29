@@ -311,7 +311,6 @@ EuclideanVector::EuclideanVector(std::initializer_list<double> magnitudes, const
 }
 
 EuclideanVector crossProduct(const EuclideanVector &v1, const EuclideanVector &v2) {
-    std::cout<<v1<<" "<<v2<<std::endl;
     auto tmp = EuclideanVector({v1.at(1) * v2.at(2) - v1.at(2) * v2.at(1),
                             v1.at(2) * v2.at(0) - v1.at(0) * v2.at(2),
                             v1.at(0) * v2.at(1) - v1.at(1) * v2.at(0)});

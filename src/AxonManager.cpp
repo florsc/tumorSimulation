@@ -3,35 +3,31 @@
 //
 
 #include <iostream>
+#include <utility>
 #include "AxonManager.h"
 
-AxonManager::AxonManager(int numberOfStartingAxons, EuclideanVector cornerStartingArea1,
-                         EuclideanVector cornerStartingArea2,
+AxonManager::AxonManager(int numberOfStartingAxons, const EuclideanVector& cornerStartingArea1,
+                         const EuclideanVector& cornerStartingArea2,
                          std::shared_ptr<ConstraintHandler> constraintHandler,
-                         std::shared_ptr<ProcessSampler> processSampler) : m_constraintHandler(constraintHandler),
-                                                                           m_processSampler(processSampler) {
-    m_startPositions = sampleStartPositions(cornerStartingArea1, cornerStartingArea2);
+                         std::shared_ptr<ProcessSampler> processSampler) : m_constraintHandler(std::move(constraintHandler)),
+                                                                           m_processSampler(std::move(processSampler)) {
+    auto startPositions = sampleStartPositions(cornerStartingArea1, cornerStartingArea2);
     std::random_device rd;
     std::mt19937 gen(rd());
     for (int i = 0; i < numberOfStartingAxons; i++) {
-        std::uniform_int_distribution<> distrib(0, m_startPositions.size() - 1);
-        auto startPositionIter = m_startPositions.begin();
+        std::uniform_int_distribution<> distrib(0, startPositions.size() - 1);
+        auto startPositionIter = startPositions.begin();
         int startPositionIndex = distrib(gen);
         std::advance(startPositionIter, startPositionIndex);
-        m_axons.push_back(std::shared_ptr<Axon>(
+        addAxon(std::shared_ptr<Axon>(
                 new Axon(m_axons.size(), *startPositionIter, m_constraintHandler, m_processSampler, *this)));
-        m_startPositions.erase(startPositionIter);
+        startPositions.erase(startPositionIter);
     }
 
-    if (m_processSampler->sampleWaitingTime()) {
-        for (int i = 0; i < m_axons.size(); i++) {
-            m_processSampler->addAxon(i);
-        }
-    }
 }
 
 
-std::list<EuclideanVector> AxonManager::sampleStartPositions(EuclideanVector c1, EuclideanVector c2) {
+std::list<EuclideanVector> AxonManager::sampleStartPositions(const EuclideanVector& c1, const EuclideanVector& c2) {
     double minDistance = 0.1;
     auto diff = c2 - c1;
     std::vector<std::vector<double>> spacedAxisValues;
@@ -60,16 +56,12 @@ std::list<EuclideanVector> AxonManager::sampleStartPositions(EuclideanVector c1,
 
 void AxonManager::run() {
     if (m_processSampler->sampleWaitingTime()) {
-        for (int i = 0; i < 10; i++) {
+        while(m_currentTime>-10) {
             auto axonTimeIndex = m_processSampler->getNextAxon();
             m_currentTime = axonTimeIndex.first;
-
-            std::cout<<"a"<<std::endl;
-            std::cout<<axonTimeIndex.second<<std::endl;
-            std::cout<<m_axons.size()<<std::endl;
             m_axons.at(axonTimeIndex.second)->growthStep();
-            std::cout<<"b"<<std::endl;
-            m_processSampler->addAxon(axonTimeIndex.first, axonTimeIndex.second);
+            if(m_axons.at(axonTimeIndex.second)->isActive()){
+            m_processSampler->addAxon(axonTimeIndex.first, axonTimeIndex.second);};
         }
     } else {
         for (int i = 0; i < 10; i++) {
@@ -94,6 +86,12 @@ std::vector<std::vector<std::vector<double>>> AxonManager::getAxonPositions() {
 void AxonManager::addAxon(EuclideanVector startPosition) {
     m_axons.push_back(
             std::shared_ptr<Axon>(new Axon(m_axons.size(), startPosition, m_constraintHandler, m_processSampler,*this)));
+}
+
+void AxonManager::addAxon(EuclideanVector startPosition,EuclideanVector direction) {
+    addAxon(
+            std::shared_ptr<Axon>(new Axon(m_axons.size(), startPosition, startPosition+direction, m_constraintHandler, m_processSampler,*this)));
+
 }
 
 void AxonManager::addAxon(std::shared_ptr<Axon> axon) {

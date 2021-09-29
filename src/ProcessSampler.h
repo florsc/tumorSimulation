@@ -19,7 +19,7 @@ protected:
     std::uniform_real_distribution<double> m_branchSampler;
 public:
     explicit ProcessSampler(bool sampleWaitingTime = false, std::mt19937 generator = std::mt19937(
-            std::chrono::system_clock::now().time_since_epoch().count()), double branchProbability = 0.05);
+            std::chrono::system_clock::now().time_since_epoch().count()), double branchProbability = 0.1);
 
     virtual double sampleLength() {};
 
@@ -30,7 +30,7 @@ public:
     virtual void addAxon(double earlierTime, int axonIdentifier) {};
 
     virtual void addAxon(int axonIdentifier) {};
-    bool branch(){return m_branchSampler(m_generator);}
+    bool branch(){return m_branchSampler(m_generator)<1;}
 };
 
 

@@ -12,17 +12,15 @@
 
 class AxonManager {
     std::vector<std::shared_ptr<Axon>> m_axons;
-    std::priority_queue<std::shared_ptr<Axon>> waitingTimeQueue;
-    std::list<EuclideanVector> m_startPositions;
     std::shared_ptr<ConstraintHandler> m_constraintHandler;
     std::shared_ptr<ProcessSampler> m_processSampler;
     double m_currentTime{0};
 
 public:
-    AxonManager(int numberOfStartingAxons, EuclideanVector cornerStartingArea1, EuclideanVector cornerStartingArea2,
+    AxonManager(int numberOfStartingAxons, const EuclideanVector& cornerStartingArea1, const EuclideanVector& cornerStartingArea2,
                 std::shared_ptr<ConstraintHandler> constraintHandler, std::shared_ptr<ProcessSampler> processSampler);
 
-    static std::list<EuclideanVector> sampleStartPositions(EuclideanVector c1, EuclideanVector c2);
+    static std::list<EuclideanVector> sampleStartPositions(const EuclideanVector& c1, const EuclideanVector& c2);
 
     void run();
 
@@ -30,6 +28,7 @@ public:
 
     void addAxon(EuclideanVector startPosition);
 
+    void addAxon(EuclideanVector startPosition, EuclideanVector direction);
 
     void addAxon(std::shared_ptr<Axon> axon);
     int getNumOfAxons(){return m_axons.size();}

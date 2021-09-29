@@ -44,20 +44,17 @@ bool Axon::checkForBackwardGrowth(double previousAz, double previousEl, double n
     return tmp < threshold;
 }
 
-std::shared_ptr<Axon> Axon::createNewBranch() {
+void Axon::createNewBranch() {
     auto size = tipPositions.size();
-    std::cout<<"a"<<std::endl;
-    std::cout<<size<<std::endl;
     auto crossProductVector = crossProduct(tipPositions.at(size-1)-tipPositions.at(size-2),tipPositions.at(size-2)-tipPositions.at(size-3));
-    std::cout<<"b"<<std::endl;
-    return std::shared_ptr<Axon>(new Axon(m_AxonManager.getNumOfAxons(),tipPositions.at(size-2),tipPositions.at(size-2)+0.1*crossProductVector.CreateUnitVector(),m_constraintHandler,m_processSampler, m_AxonManager));
+    m_AxonManager.addAxon(tipPositions.at(size-1), m_processSampler->sampleLength()*crossProductVector.CreateUnitVector());
 }
 
 void Axon::growthStep() {
     double az = std::acos(1 - sampler(generator));
     double el = 2 * M_PI * sampler(generator);
     if (!angles.empty()) {
-        while (checkForBackwardGrowth(az, el, angles.back().at(0), angles.back().at(1), 0.3 * M_PI)) {
+        while (checkForBackwardGrowth(az, el, angles.back().at(0), angles.back().at(1), 0.9 * M_PI)) {
             az = std::acos(1 - sampler(generator));
             el = 2 * M_PI * sampler(generator);
         }
@@ -68,10 +65,13 @@ void Axon::growthStep() {
     auto centers = createCenters(tipPositions.back(), cartesianGrowthVector);
     if (!m_constraintHandler->checkForConstraint(centers)) {
         tipPositions.emplace_back(tipPositions.back() + cartesianGrowthVector);
-    }
-    if(m_processSampler->branch()&& tipPositions.size()>4){
-        m_AxonManager.addAxon(createNewBranch());
 
+        if (m_processSampler->branch() && tipPositions.size() > 3) {
+            createNewBranch();
+        }
     }
+    else{m_constraintCounter++;
+    if(m_constraintCounter>10){stopAxon();}}
+
 }
 
