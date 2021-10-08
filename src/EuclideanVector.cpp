@@ -10,223 +10,140 @@
 
 // Constructor for one arg (int): Initialises an EV of size 'int', with magnitudes 0
 EuclideanVector::EuclideanVector(const int &size) {
-    size_ = size;
-    magnitudes_ = std::make_unique<double[]>(size);
-    for (int i = 0; i <= size; i++) {
-        magnitudes_[i] = 0;
-    }
+    x = 0;
+    y = 0;
+    z = 0;
 }
 
 // Constructor for two args (int, double): Initialises an EV of size 'int', with magnitudes 'double'
 EuclideanVector::EuclideanVector(const int &size, const double &magnitudes) {
-    size_ = size;
-    magnitudes_ = std::make_unique<double[]>(size);
-    for (int i = 0; i <= size; i++) {
-        magnitudes_[i] = magnitudes;
-    }
+    x = magnitudes;
+    y = magnitudes;
+    z = magnitudes;
 }
 
-// Constructor for lists: Initialises an EV with the same specifications as that of the list
-EuclideanVector::EuclideanVector(const std::vector<double>::iterator &begin,
-                                 const std::vector<double>::iterator &end) {
-    size_ = end - begin;
-    magnitudes_ = std::make_unique<double[]>(size_);
-    int counter = 0;
-    for (auto i = begin; i != end; ++i) {
-        magnitudes_[counter] = *i;
-        ++counter;
-    }
-}
 
 // Copy constructor
 EuclideanVector::EuclideanVector(const EuclideanVector &copy) {
-    size_ = copy.size_;
-    magnitudes_ = std::make_unique<double[]>(size_);
-    for (int i = 0; i < copy.size_; ++i) {
-        magnitudes_[i] = copy.magnitudes_[i];
-    }
-}
-
-// Move constructor
-EuclideanVector::EuclideanVector(EuclideanVector &&o) noexcept
-        : magnitudes_{std::move(o.magnitudes_)}, size_{o.size_} {
-    o.size_ = 0;
+x = copy.x;
+y = copy.y;
+z = copy.z;
 }
 
 // Copy assignment
 EuclideanVector &EuclideanVector::operator=(const EuclideanVector &o) {
-    size_ = o.size_;
-    magnitudes_ = std::make_unique<double[]>(size_);
-    for (int i = 0; i < o.size_; ++i) {
-        magnitudes_[i] = o.magnitudes_[i];
-    }
-    return *this;
-}
-
-// Move assignment
-EuclideanVector &EuclideanVector::operator=(EuclideanVector &&o) noexcept {
-    magnitudes_ = std::move(o.magnitudes_);
-    size_ = o.size_;
-    o.size_ = 0;
+    x = o.x;
+    y = o.y;
+    z = o.z;
     return *this;
 }
 
 // Subscript operator
 double &EuclideanVector::operator[](const int &i) {
-    return magnitudes_[i];
+    switch(i){
+        case(0): return x;
+    case(1): return y;
+    case(2): return z;}
 }
 
 // Subscript operator for a const EV
 const double &EuclideanVector::operator[](const int &i) const {
-    return magnitudes_[i];
+    switch(i){
+        case(0): return x;
+        case(1): return y;
+        case(2): return z;}
 }
 
 // Addition (+=) operator
 EuclideanVector &EuclideanVector::operator+=(const EuclideanVector &o) {
-    if (this->size_ != o.size_) {
-        throw EuclideanVectorError("Dimensions of LHS(" + std::to_string(this->size_) + ") and RHS(" +
-                                   std::to_string(o.size_) + ") do not match");
-    }
-    for (int i = 0; i < size_; ++i) {
-        this->magnitudes_[i] += o.magnitudes_[i];
-    }
+    x +=o.x;
+    y +=o.y;
+    z +=o.z;
     return *this;
 }
 
 // Subtraction (-=) operator
 EuclideanVector &EuclideanVector::operator-=(const EuclideanVector &o) {
-    if (this->size_ != o.size_) {
-        throw EuclideanVectorError("Dimensions of LHS(" + std::to_string(this->size_) + ") and RHS(" +
-                                   std::to_string(o.size_) + ") do not match");
-    }
-    for (int i = 0; i < size_; ++i) {
-        this->magnitudes_[i] -= o.magnitudes_[i];
-    }
+    x -=o.x;
+    y -=o.y;
+    z -=o.z;
     return *this;
 }
 
 // Multiplication (*=) operator
 EuclideanVector &EuclideanVector::operator*=(const double &multiplier) {
-    for (int i = 0; i < this->size_; ++i) {
-        this->magnitudes_[i] *= multiplier;
-    }
+    x *=multiplier;
+    y *=multiplier;
+    z *=multiplier;
     return *this;
 }
 
 // Division (/=) operator
-EuclideanVector &EuclideanVector::operator/=(const int &divider) {
-    if (divider == 0) {
-        throw EuclideanVectorError("Invalid vector division by 0");
-    }
-    for (int i = 0; i < this->size_; ++i) {
-        this->magnitudes_[i] /= divider;
-    }
+EuclideanVector &EuclideanVector::operator/=(const double &divider) {
+    x /=divider;
+    y /=divider;
+    z /=divider;
     return *this;
 }
 
 // EV -> vector<double> typecast
 EuclideanVector::operator std::vector<double>() const {
-    std::vector<double> returnVector(this->size_);
-    for (int i = 0; i < this->size_; ++i) {
-        returnVector[i] = magnitudes_[i];
-    }
+    std::vector<double> returnVector(3);
+    returnVector[0]=x;
+    returnVector[1]=y;
+    returnVector[2]=z;
     return returnVector;
-}
-
-// EV -> list<double> typecast
-EuclideanVector::operator std::list<double>() const {
-    std::list<double> returnList;
-    for (int i = 0; i < this->size_; ++i) {
-        returnList.push_back(magnitudes_[i]);
-    }
-    return returnList;
 }
 
 // Magnitude in dimension as a double
 double EuclideanVector::at(const int &place) const {
-    if (place < 0 || place >= this->size_) {
-        throw EuclideanVectorError("Index " + std::to_string(place) +
-                                   " is not valid for this EuclideanVector object");
-    }
-    return magnitudes_[place];
+    switch(place){
+        case(0): return x;
+        case(1): return y;
+        case(2): return z;}
 }
 
 // Magnitude in dimension as a reference
 double &EuclideanVector::at(const int &place) {
-    if (place < 0 || place >= this->size_) {
+    if (place < 0 || place > 2) {
         throw EuclideanVectorError("Index " + std::to_string(place) +
                                    " is not valid for this EuclideanVector object");
     }
-    return magnitudes_[place];
-}
-
-// size_ getter
-int EuclideanVector::GetNumDimensions() const {
-    return size_;
+    switch(place){
+        case(0): return x;
+        case(1): return y;
+        case(2): return z;}
 }
 
 // Calculates EV's Euclidean normal
 double EuclideanVector::GetEuclideanNorm() const {
-    if (this->GetNumDimensions() == 0) {
-        throw EuclideanVectorError("EuclideanVector with no dimensions does not have a norm");
-    }
-    double returnValue = 0;
-    for (int i = 0; i < size_; ++i) {
-        returnValue += (magnitudes_[i]) * (magnitudes_[i]);
-    }
+    double returnValue = x*x+y*y+z*z;
     return std::sqrt(returnValue);
 }
 
 // Calculates EV's unit vector
 EuclideanVector EuclideanVector::CreateUnitVector() const {
-    if (this->GetNumDimensions() == 0) {
-        throw EuclideanVectorError("EuclideanVector with no dimensions does not have a unit vector");
-    }
-
     if (this->GetEuclideanNorm() == 0) {
         throw EuclideanVectorError(
                 "EuclideanVector with euclidean normal of 0 does not have a unit vector");
     }
-    std::vector<double> preVector(this->size_);
     double eucNorm = this->GetEuclideanNorm();
-    for (int i = 0; i < size_; ++i) {
-        preVector[i] = magnitudes_[i] / eucNorm;
-    }
-    EuclideanVector resultVector{preVector.begin(), preVector.end()};
-    return resultVector;
+    return *this/eucNorm;
 }
 
 // Friends
 // Equals to operator
 bool operator==(const EuclideanVector &v1, const EuclideanVector &v2) {
-    if (v1.size_ != v2.size_)
-        return false;
-
-    for (int i = 0; i < v1.size_; ++i) {
-        if (v1.magnitudes_[i] != v2.magnitudes_[i])
-            return false;
-    }
-    return true;
+    return v1.x==v2.x&&v1.y==v2.y&&v1.z==v2.z;
 }
 
 // Not equals to operator
 bool operator!=(const EuclideanVector &v1, const EuclideanVector &v2) {
-    if (v1.size_ != v2.size_)
-        return true;
-
-    for (int i = 0; i < v1.size_; ++i) {
-        if (v1.magnitudes_[i] != v2.magnitudes_[i])
-            return true;
-    }
-    return false;
+    return v1.x!=v2.x&&v1.y!=v2.y&&v1.z!=v2.z;
 }
 
 // Subtraction operator
 EuclideanVector operator+(const EuclideanVector &v1, const EuclideanVector &v2) {
-    if (v1.size_ != v2.size_) {
-        throw EuclideanVectorError("Dimensions of LHS(" + std::to_string(v1.size_) + ") and RHS(" +
-                                   std::to_string(v2.size_) + ") do not match");
-    }
     // Use a copy constructor here
     EuclideanVector result{v1};
     result += v2;
@@ -235,10 +152,6 @@ EuclideanVector operator+(const EuclideanVector &v1, const EuclideanVector &v2) 
 
 // Subtraction operator
 EuclideanVector operator-(const EuclideanVector &v1, const EuclideanVector &v2) {
-    if (v1.size_ != v2.size_) {
-        throw EuclideanVectorError("Dimensions of LHS(" + std::to_string(v1.size_) + ") and RHS(" +
-                                   std::to_string(v2.size_) + ") do not match");
-    }
     // Use a copy constructor here
     EuclideanVector result{v1};
     result -= v2;
@@ -247,16 +160,7 @@ EuclideanVector operator-(const EuclideanVector &v1, const EuclideanVector &v2) 
 
 // Multiplication (Dot product) operator
 double operator*(const EuclideanVector &v1, const EuclideanVector &v2) {
-    if (v1.size_ != v2.size_) {
-        throw EuclideanVectorError("Dimensions of LHS(" + std::to_string(v1.size_) + ") and RHS(" +
-                                   std::to_string(v2.size_) + ") do not match");
-    }
-    int size = v1.size_;
-    double result = 0;
-    for (int i = 0; i < size; ++i) {
-        result += (v1.magnitudes_[i] * v2.magnitudes_[i]);
-    }
-    return result;
+    return v1.x*v2.x+v1.y*v2.y+v1.z*v2.z;
 }
 
 // Scalar multiplication operator
@@ -276,7 +180,7 @@ EuclideanVector operator*(const double &multipliedBy, const EuclideanVector &v1)
 }
 
 // Scalar division operator
-EuclideanVector operator/(const EuclideanVector &v1, const int &dividedBy) {
+EuclideanVector operator/(const EuclideanVector &v1, const double &dividedBy) {
     if (dividedBy == 0) {
         throw EuclideanVectorError("Invalid vector division by 0");
     }
@@ -289,30 +193,24 @@ EuclideanVector operator/(const EuclideanVector &v1, const int &dividedBy) {
 // Output stream operator
 std::ostream &operator<<(std::ostream &os, const EuclideanVector &v) {
     // Output is [x, x2, x3, ...]
-    os << "[";
-    for (int i = 0; i < v.size_; ++i) {
-        os << v.magnitudes_[i];
-        if (i != v.size_ - 1) {
-            os << " ";
-        }
-    }
-    os << "]";
+    os << "["<<v.x<<", "<<v.y<<" ,"<<v.z<<"]";
     return os;
 }
 
-EuclideanVector::EuclideanVector(std::initializer_list<double> magnitudes, const int &size) {
-    size_ = size;
-    magnitudes_ = std::make_unique<double[]>(size);
-    int i = 0;
-    for (const auto &magnitude: magnitudes) {
-        magnitudes_[i] = magnitude;
-        i++;
-    }
+EuclideanVector::EuclideanVector(std::initializer_list<double> magnitudes) {
+    auto it = magnitudes.begin();
+    x = *it++;
+    y = *it++;
+    z = *it;
 }
 
 EuclideanVector crossProduct(const EuclideanVector &v1, const EuclideanVector &v2) {
     auto tmp = EuclideanVector({v1.at(1) * v2.at(2) - v1.at(2) * v2.at(1),
-                            v1.at(2) * v2.at(0) - v1.at(0) * v2.at(2),
-                            v1.at(0) * v2.at(1) - v1.at(1) * v2.at(0)});
+                                v1.at(2) * v2.at(0) - v1.at(0) * v2.at(2),
+                                v1.at(0) * v2.at(1) - v1.at(1) * v2.at(0)});
     return tmp;
+}
+
+EuclideanVector::EuclideanVector(double xi, double yi, double zi):x(xi),y(yi),z(zi) {
+
 }

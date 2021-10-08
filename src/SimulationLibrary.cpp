@@ -7,8 +7,9 @@
 #include <nlohmann/json.hpp>
 #include "SimulationLibrary.h"
 #include "Axon.h"
-#include "helperFunctions.h"
-#include "AxonManager.h"
+#include "HelperFunctions.h"
+#include "SimulationManager.h"
+#include "ParameterStruct.h"
 
 using json = nlohmann::json;
 
@@ -17,14 +18,14 @@ int run() {
     std::cout << "Create spherical Limit" << std::endl;
     std::shared_ptr<SphericalLimit> sphericalLimit(new SphericalLimit(100));
     std::cout << "Create constraint Handle" << std::endl;
-    std::shared_ptr<ConstraintHandler> constraintHandler(new ConstraintHandler(sphericalLimit));
-    std::shared_ptr<ProcessSampler> processSampler(new biasedRandomWalk());
+    std::shared_ptr<ConstraintHandler> constraintHandler = std::make_shared<ConstraintHandler>();
+    std::shared_ptr<Sampler> processSampler(new biasedRandomWalk());
     std::cout << "Create Axon Manager" << std::endl;
-    AxonManager axonManager(2, EuclideanVector({-1, -1, -1}), EuclideanVector({1, 1, 1}), constraintHandler,
-                            processSampler);
+    SimulationManager simulationManager(constraintHandler);
     std::cout << "Run Axon growth" << std::endl;
-    axonManager.run();
-    std::vector<std::vector<std::vector<double>>> vec = axonManager.getAxonPositions();
+    simulationManager.run();
+
+    std::vector<std::vector<std::vector<double>>> vec = simulationManager.getAxonPositions();
     std::cout << "Create json" << std::endl;
     json j(vec);
     std::ofstream myfile;

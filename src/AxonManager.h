@@ -1,38 +1,59 @@
 //
-// Created by florian on 9/22/21.
+// Created by florian on 9/30/21.
 //
 
 #ifndef TUMORSIMULATION_AXONMANAGER_H
 #define TUMORSIMULATION_AXONMANAGER_H
 
 
-#include <queue>
 #include "Axon.h"
-#include "ProcessSampler.h"
+#include "ParameterStruct.h"
+#include <vector>
+#include <memory>
+
+class Axon;
 
 class AxonManager {
-    std::vector<std::shared_ptr<Axon>> m_axons;
-    std::shared_ptr<ConstraintHandler> m_constraintHandler;
-    std::shared_ptr<ProcessSampler> m_processSampler;
-    double m_currentTime{0};
-
+protected:
+    std::vector<std::shared_ptr<Axon>> m_allAxons;
 public:
-    AxonManager(int numberOfStartingAxons, const EuclideanVector& cornerStartingArea1, const EuclideanVector& cornerStartingArea2,
-                std::shared_ptr<ConstraintHandler> constraintHandler, std::shared_ptr<ProcessSampler> processSampler);
+    virtual std::shared_ptr<Axon> getNextAxon() = 0;
 
-    static std::list<EuclideanVector> sampleStartPositions(const EuclideanVector& c1, const EuclideanVector& c2);
+    virtual void addAxon(std::shared_ptr<Axon> axon) = 0;
 
-    void run();
+    virtual std::vector<std::shared_ptr<Axon>> getAllAxons() { return m_allAxons; }
 
-    std::vector<std::vector<std::vector<double>>> getAxonPositions();
-
-    void addAxon(EuclideanVector startPosition);
-
-    void addAxon(EuclideanVector startPosition, EuclideanVector direction);
-
-    void addAxon(std::shared_ptr<Axon> axon);
-    int getNumOfAxons(){return m_axons.size();}
 };
 
+class AxonManagerNoWaitingTime : public AxonManager {
+    std::list<std::shared_ptr<Axon>> m_activeAxons;
+    std::list<std::shared_ptr<Axon>>::iterator m_currentAxon;
+public:
+    AxonManagerNoWaitingTime() : m_activeAxons(), m_currentAxon(m_activeAxons.begin()) {}
+
+    void addAxon(std::shared_ptr<Axon> axon) {
+        m_allAxons.push_back(axon);
+        m_activeAxons.push_back(axon);
+    }
+
+    std::shared_ptr<Axon> getNextAxon();
+
+};
+
+struct Comparator {
+    bool
+    operator()(const std::pair<double, std::shared_ptr<Axon>> &a, const std::pair<double, std::shared_ptr<Axon>> &b) {
+        return a.first > b.first;
+    }
+};
+
+class AxonManagerWaitingTime : public AxonManager {
+    double m_currentTime{0};
+    std::priority_queue<std::pair<double, std::shared_ptr<Axon>>, std::vector<std::pair<double, std::shared_ptr<Axon>>>, Comparator> m_waitingTimeQueue;
+public:
+    std::shared_ptr<Axon> getNextAxon();
+
+    void addAxon(std::shared_ptr<Axon> axon);
+};
 
 #endif //TUMORSIMULATION_AXONMANAGER_H

@@ -5,27 +5,32 @@
 #ifndef TUMORSIMULATION_CONSTRAINTHANDLER_H
 #define TUMORSIMULATION_CONSTRAINTHANDLER_H
 
-
+#include <iostream>
 #include <vector>
 #include <map>
 #include "ExteriorLimit.h"
 #include "EuclideanVector.h"
+#include "ParameterStruct.h"
 
 class ConstraintHandler {
-    std::multimap<double, EuclideanVector> centerMap;
+    std::multimap<double, EuclideanVector> m_centerMap;
     std::shared_ptr<ExteriorLimit> m_exteriorLimit;
-    double distanceLimitSquared{0.01};
-    double distanceLimit{0.1};
+    double m_distanceLimit;
 public:
-    ConstraintHandler(std::shared_ptr<ExteriorLimit> exteriorLimit);
+    ConstraintHandler();
 
-    void addConstraintCenters(std::vector<EuclideanVector> constraintCenters);
+    explicit ConstraintHandler(std::shared_ptr<ExteriorLimit>&& exteriorLimit, double distanceLimit);
 
-    bool checkForConstraint(std::vector<EuclideanVector> positions);
+    void addConstraintCenters(const std::vector<EuclideanVector>& constraintCenters);
 
-    bool checkForOccupiedSpace(std::vector<EuclideanVector> position);
+    bool checkForConstraint(const std::vector<EuclideanVector>& positions);
 
-    bool checkForExteriorLimit(EuclideanVector position);
+    bool checkForOccupiedSpace(const std::vector<EuclideanVector>& position);
+
+    bool checkForExteriorLimit(const EuclideanVector& position);
+
+    ~ConstraintHandler(){std::cout<<"ConstraintHandler destructed"<<std::endl;}
+
 };
 
 

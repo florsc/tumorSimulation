@@ -2,7 +2,7 @@
 // Created by florian on 9/13/21.
 //
 
-#include "helperFunctions.h"
+#include "HelperFunctions.h"
 #include <cmath>
 #include <iostream>
 

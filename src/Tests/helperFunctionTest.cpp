@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../helperFunctions.h"
+#include "../HelperFunctions.h"
 #include <cmath>
 
 // Demonstrate some basic assertions.

@@ -5,13 +5,7 @@
 #include <gtest/gtest.h>
 #include "../Axon.h"
 
-TEST(Test, AngleDifferenceCalculator) {
-    EXPECT_NEAR(Axon::angleDifferenceCalculator(1, 2), 1, 0.01);
-    EXPECT_NEAR(Axon::angleDifferenceCalculator(0.1, 2 * M_PI - 0.1), 0.2, 0.01);
-    EXPECT_NEAR(Axon::angleDifferenceCalculator(1, 1 + M_PI), M_PI, 0.01);
-    EXPECT_NEAR(Axon::angleDifferenceCalculator(3, 2), 1, 0.01);
-    EXPECT_NEAR(Axon::angleDifferenceCalculator(2 * M_PI - 0.5, 0.3), 0.8, 0.01);
-}
+/*
 
 TEST(Test, CheckForBackwardGrowth) {
     EXPECT_FALSE(Axon::checkForBackwardGrowth(1, 2, 1, 2, 0.01));
@@ -40,7 +34,7 @@ TEST(Test, CheckForBackwardGrowth) {
 
     EXPECT_TRUE(Axon::checkForBackwardGrowth(1.75 * M_PI, 0.25 * M_PI, 0.75 * M_PI, 0.75 * M_PI, 0.3 * M_PI));
 }
-
+*/
 void checkCenterEquality(std::initializer_list<double> start, std::initializer_list<double> end,
                          std::initializer_list<std::initializer_list<double>> expectedResults) {
     auto calculatedCenters = Axon::createCenters(EuclideanVector(start), EuclideanVector(end));

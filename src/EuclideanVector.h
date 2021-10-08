@@ -28,24 +28,19 @@ public:
     // Constructors
     explicit EuclideanVector(const int &);
 
-    explicit EuclideanVector(std::initializer_list<double>, const int &size = 3);
+    explicit EuclideanVector(double x, double y, double z);
+
+    EuclideanVector(std::initializer_list<double>);
 
     explicit EuclideanVector(const int &, const double &);
 
-    explicit EuclideanVector(const std::vector<double>::iterator &,
-                             const std::vector<double>::iterator &);
-
     EuclideanVector(const EuclideanVector &);
-
-    EuclideanVector(EuclideanVector &&) noexcept;
 
     // Destructor (is this correct?)
     ~EuclideanVector() = default;
 
     // Operators
     EuclideanVector &operator=(const EuclideanVector &);
-
-    EuclideanVector &operator=(EuclideanVector &&) noexcept;
 
     double &operator[](const int &);
 
@@ -57,18 +52,14 @@ public:
 
     EuclideanVector &operator*=(const double &);
 
-    EuclideanVector &operator/=(const int &);
+    EuclideanVector &operator/=(const double &);
 
     explicit operator std::vector<double>() const;
-
-    explicit operator std::list<double>() const;
 
     // Methods
     double at(const int &) const;
 
     double &at(const int &);
-
-    int GetNumDimensions() const;
 
     double GetEuclideanNorm() const;
 
@@ -87,7 +78,7 @@ public:
 
     friend double operator*(const EuclideanVector &, const EuclideanVector &);
 
-    friend EuclideanVector operator/(const EuclideanVector &, const int &);
+    friend EuclideanVector operator/(const EuclideanVector &, const double &);
 
     friend EuclideanVector operator*(const EuclideanVector &, const double &);
 
@@ -96,8 +87,9 @@ public:
     friend std::ostream &operator<<(std::ostream &, const EuclideanVector &);
 
 private:
-    std::unique_ptr<double[]> magnitudes_;
-    int size_;
+    double x;
+    double y;
+    double z;
 };
 
 #endif //TUMORSIMULATION_EUCLIDEANVECTOR_H
