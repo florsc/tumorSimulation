@@ -13,19 +13,22 @@
 #include "ParameterStruct.h"
 
 class ConstraintHandler {
-    std::multimap<double, EuclideanVector> m_centerMap;
+    std::multimap<double, std::pair<EuclideanVector, std::pair<int, int>>> m_centerMap;
     std::shared_ptr<ExteriorLimit> m_exteriorLimit;
     double m_distanceLimit;
+
 public:
     ConstraintHandler();
 
     explicit ConstraintHandler(std::shared_ptr<ExteriorLimit>&& exteriorLimit, double distanceLimit);
 
-    void addConstraintCenters(const std::vector<EuclideanVector>& constraintCenters);
+    void addConstraintCenters(const std::vector<EuclideanVector>& constraintCenters, int axonIdentifier=0, int growthStep=0);
 
-    bool checkForConstraint(const std::vector<EuclideanVector>& positions);
+    void freeSpace(int axonIdentifier, std::initializer_list<int> growthSteps);
 
-    bool checkForOccupiedSpace(const std::vector<EuclideanVector>& position);
+    bool checkForConstraint(const std::vector<EuclideanVector>& positions, int axonIdentifier=0, int growthStep=0);
+
+    bool checkForOccupiedSpace(const std::vector<EuclideanVector>& position, int axonIdentifier=0, int growthStep=0);
 
     bool checkForExteriorLimit(const EuclideanVector& position);
 

@@ -64,7 +64,7 @@ void Axon::growthStep() {
     auto centers = createCenters(m_tipPositions.back(), vec);
     for(const auto center:centers){
     }
-    if (!m_constraintHandler->checkForConstraint(centers)) {
+    if (!m_constraintHandler->checkForConstraint(centers, m_identifier, m_tipPositions.size())) {
         m_tipPositions.emplace_back(m_tipPositions.back() + vec);
 
         if (parameters.sampler->branch() && m_tipPositions.size() > 3) {
