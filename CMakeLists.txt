@@ -4,7 +4,7 @@ project(tumorSimulation)
 set(CMAKE_CXX_FLAGS "-std=c++17")
 cmake_minimum_required (VERSION 2.6)
 find_package (Threads)
-add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/ConstraintHandler.h src/ConstraintHandler.cpp src/Axon.cpp src/Axon.h src/HelperFunctions.cpp src/HelperFunctions.h src/ExteriorLimit.cpp src/ExteriorLimit.h src/EuclideanVector.cpp src/EuclideanVector.h src/SimulationManager.cpp src/SimulationManager.h src/Sampler.cpp src/Sampler.h src/ParameterStruct.h src/ParameterStruct.cpp src/AxonManager.cpp src/AxonManager.h)
+add_library(simulationLibrary SHARED src/SimulationLibrary.cpp src/SimulationLibrary.h src/Managers/ConstraintManager.h src/Managers/ConstraintManager.cpp src/Axon.cpp src/Axon.h src/util/HelperFunctions.cpp src/util/HelperFunctions.h src/ExteriorLimits/ExteriorLimit.cpp src/ExteriorLimits/ExteriorLimit.h src/util/EuclideanVector.cpp src/util/EuclideanVector.h src/Managers/SimulationManager.cpp src/Managers/SimulationManager.h src/Sampler.cpp src/Sampler.h src/SimulationSetUp/ParameterStruct.h src/SimulationSetUp/ParameterStruct.cpp src/Managers/AxonManager.cpp src/Managers/AxonManager.h src/Axons/AxonTypes/BaseAxon.cpp src/Axons/AxonTypes/BaseAxon.h src/Axons/AxonTypes/RazettiAxon.cpp src/Axons/AxonTypes/RazettiAxon.h src/util/TypeDefs.h src/Axons/Factories/AxonFactory.cpp src/Axons/Factories/AxonFactory.h src/Axons/Factories/RazettiFactory.cpp src/Axons/Factories/RazettiFactory.h)
 
 
 
@@ -24,7 +24,7 @@ add_executable(
         src/Axon.h
         src/Axon.cpp
         src/Tests/helperFunctionTest.cpp
-        src/HelperFunctions.cpp src/HelperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp src/EuclideanVector.cpp src/EuclideanVector.h src/Tests/constraintHandlerTest.cpp src/Tests/axonManagerTest.cpp)
+        src/util/HelperFunctions.cpp src/util/HelperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp src/util/EuclideanVector.cpp src/util/EuclideanVector.h src/Tests/constraintHandlerTest.cpp src/Tests/axonManagerTest.cpp)
 
 FetchContent_Declare(json
         GIT_REPOSITORY https://github.com/nlohmann/json

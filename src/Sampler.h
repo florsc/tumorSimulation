@@ -10,8 +10,7 @@
 #include <chrono>
 #include <memory>
 #include <queue>
-#include "Axon.h"
-#include "ParameterStruct.h"
+#include "SimulationSetUp/ParameterStruct.h"
 
 
 class Sampler {
@@ -21,16 +20,16 @@ protected:
     std::normal_distribution<> m_normalSampler;
     bool m_processWithWaitingTime;
 public:
-    explicit Sampler( bool waitingTime=false, std::mt19937 generator = std::mt19937(
+    explicit Sampler(bool waitingTime = false, std::mt19937 generator = std::mt19937(
             std::chrono::system_clock::now().time_since_epoch().count()));
 
     virtual double sampleLength() {};
 
-    virtual double sampleWaitingTime() { return 0.0;};
+    virtual double sampleWaitingTime() { return 0.0; };
 
-    virtual bool waitingTimeIsUsed(){return m_processWithWaitingTime;}
+    virtual bool waitingTimeIsUsed() { return m_processWithWaitingTime; }
 
-    virtual std::pair<double, int> getNextAxon() { return {}; }
+    virtual std::pair<double, int> getNextAxon();
 
     bool branch();
 
@@ -40,15 +39,16 @@ public:
 
 };
 
-class WaitingTimeSampler{
+class WaitingTimeSampler {
 public:
     virtual double sampleWaitingTime() = 0;
 };
 
-class LengthSampler{
+class LengthSampler {
 public:
     virtual double sampleLength() = 0;
 };
+
 class uniformLengthNoWaitingTimeSampler : public Sampler {
     std::uniform_real_distribution<double> m_lengthSampler;
 
@@ -67,14 +67,14 @@ public:
 };
 
 
-
 class biasedRandomWalk : public Sampler {
     std::uniform_real_distribution<double> m_waitingTimeSampler;
 public:
     explicit biasedRandomWalk();
 
     double sampleLength() override;
-    double sampleWaitingTime() override {return m_waitingTimeSampler(m_generator);}
+
+    double sampleWaitingTime() override { return m_waitingTimeSampler(m_generator); }
 };
 
 #endif //TUMORSIMULATION_SAMPLER_H

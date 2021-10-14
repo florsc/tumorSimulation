@@ -5,14 +5,14 @@
 #ifndef TUMORSIMULATION_AXON_H
 #define TUMORSIMULATION_AXON_H
 
-#include "ParameterStruct.h"
+#include "SimulationSetUp/ParameterStruct.h"
 #include <memory>
 #include <vector>
-#include "ConstraintHandler.h"
+#include "Managers/ConstraintManager.h"
 #include <chrono>
-#include "EuclideanVector.h"
+#include "util/EuclideanVector.h"
 #include "Sampler.h"
-#include "SimulationManager.h"
+#include "Managers/SimulationManager.h"
 #include <random>
 #include <queue>
 
@@ -23,8 +23,8 @@ class SimulationManager;
 class Axon {
     using PositionList = std::vector<EuclideanVector>;
     PositionList m_tipPositions;
-    std::shared_ptr<ConstraintHandler> m_constraintHandler;
-    SimulationManager &m_AxonManager;
+    std::shared_ptr<ConstraintManager> m_constraintHandler;
+    SimulationManager &m_simulationManager;
     int m_identifier;
     bool m_active{true};
     int m_constraintCounter{0};
@@ -33,28 +33,24 @@ public:
 
     void createNewBranch();
 
-    static std::vector<EuclideanVector> createCenters(const EuclideanVector &start, const EuclideanVector &end);
-
     PositionList getTipPositions() { return m_tipPositions; }
 
-    Axon(int identifier, EuclideanVector startPosition, std::shared_ptr<ConstraintHandler> constraintHandler,
+    Axon(int identifier, EuclideanVector startPosition, std::shared_ptr<ConstraintManager> constraintHandler,
          SimulationManager &axonManager);
 
     Axon(int identifier, EuclideanVector startPosition, EuclideanVector nextPosition,
-         std::shared_ptr<ConstraintHandler> constraintHandler, SimulationManager &axonManager);
+         std::shared_ptr<ConstraintManager> constraintHandler, SimulationManager &axonManager);
 
     void growthStep();
 
-    bool isActive() const;
+    [[nodiscard]] bool isActive() const;
+
+    ~Axon() { std::cout << "Axon destructed" << std::endl; }
 
     void stopAxon() { m_active = false; }
 
     EuclideanVector sampleVector();
 
-    bool checkForBackwardGrowth(const EuclideanVector &oldVector, const EuclideanVector &newVector, double threshold);
-
-    ~Axon(){std::cout<<"Axon destructed"<<std::endl;}
 };
-
 
 #endif //TUMORSIMULATION_AXON_H

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Visualizer:
@@ -68,8 +69,22 @@ class Visualizer:
                      for tipPosition in axon]
             self.axis.plot3D(xline, yline, zline, 'gray', scalex=False, scaley=False)
 
+    def addBallLimits(self, radius):
+
+        # Ball
+        u = np.linspace(0, 2 * np.pi, 100)
+        v = np.linspace(0, np.pi, 100)
+        x = radius * np.outer(np.cos(u), np.sin(v))
+        y = radius * np.outer(np.sin(u), np.sin(v))
+        z = radius * np.outer(np.ones(np.size(u)), np.cos(v))
+
+        # Plot the surface
+        self.axis.plot_surface(x, y, z, alpha=0.2, color='b')
+
+
     def visualize(self):
         self.addAxons()
+        self.addBallLimits(30)
         self.axis.set_xlabel("X")
         self.axis.set_ylabel("Y")
         self.axis.set_zlabel("Z")

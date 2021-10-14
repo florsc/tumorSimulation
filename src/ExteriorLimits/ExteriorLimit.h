@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include "EuclideanVector.h"
+#include "../util/EuclideanVector.h"
 
 class ExteriorLimit {
 public:

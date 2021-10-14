@@ -3,9 +3,9 @@
 //
 
 #include "ParameterStruct.h"
+#include "../Sampler.h"
 
-
-ParameterStruct::ParameterStruct():sampler(new biasedRandomWalk()) {
+ParameterStruct::ParameterStruct() : sampler(new biasedRandomWalk()) {
 
 }
 

@@ -4,12 +4,21 @@
 
 #include <iostream>
 #include <utility>
-#include "ParameterStruct.h"
+#include "../SimulationSetUp/ParameterStruct.h"
 #include "SimulationManager.h"
+#include "AxonManager.h"
+#include "../Sampler.h"
+#include "../Axons/AxonTypes/RazettiAxon.h"
+#include "../Axons/AxonTypes/BaseAxon.h"
+#include "../Axons/Factories/RazettiFactory.h"
 
-SimulationManager::SimulationManager(std::shared_ptr<ConstraintHandler> constraintHandler) : m_constraintHandler(
-        std::move(constraintHandler)), m_axonManager(parameters.sampler->waitingTimeIsUsed()? std::unique_ptr<AxonManager>(new AxonManagerWaitingTime()):std::unique_ptr<AxonManager>(new AxonManagerNoWaitingTime())) {
-    auto startPositions = sampleStartPositions(parameters.startingAreaCorners.first, parameters.startingAreaCorners.second);
+SimulationManager::SimulationManager(std::shared_ptr<ConstraintManager> constraintHandler) : m_constraintHandler(
+        std::move(constraintHandler)), m_axonManager(
+        parameters.sampler->waitingTimeIsUsed() ? std::unique_ptr<AxonManager>(new AxonManagerNoWaitingTime())
+                                                : std::unique_ptr<AxonManager>(new AxonManagerNoWaitingTime())) {
+    m_axonFactory = std::unique_ptr<AxonFactory>(new RazettiFactory(m_constraintHandler, 6, 2, 100, 10, 0, 1));
+    auto startPositions = sampleStartPositions(parameters.startingAreaCorners.first,
+                                               parameters.startingAreaCorners.second, parameters.minDistance);
     for (int i = 0; i < parameters.numberOfStartingAxons; i++) {
         auto startPositionIter = startPositions.begin();
         int startPositionIndex = parameters.sampler->getUniformSample() * (startPositions.size() - 1);
@@ -23,8 +32,7 @@ SimulationManager::SimulationManager(std::shared_ptr<ConstraintHandler> constrai
 
 
 std::list<EuclideanVector>
-SimulationManager::sampleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2) {
-    double minDistance = parameters.minDistance;
+SimulationManager::sampleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance) {
     auto diff = c2 - c1;
     std::vector<std::vector<double>> spacedAxisValues;
     for (int i = 0; i < 3; i++) {
@@ -51,14 +59,14 @@ SimulationManager::sampleStartPositions(const EuclideanVector &c1, const Euclide
 }
 
 void SimulationManager::run() {
-    while(auto axon = m_axonManager->getNextAxon()){
-        axon->growthStep();
+    while (auto axon = m_axonManager->getNextAxon()) {
+        axon->grow();
     }
 }
 
 std::vector<std::vector<std::vector<double>>> SimulationManager::getAxonPositions() {
     std::vector<std::vector<std::vector<double>>> axonVec;
-    for (const auto &axon: m_axons) {
+    for (const auto &axon: m_axonManager->getAllAxons()) {
         auto &positionVec = axonVec.emplace_back();
         for (const auto &position: axon->getTipPositions()) {
             positionVec.push_back(std::vector<double>({position.at(0), position.at(1), position.at(2)}));
@@ -67,18 +75,20 @@ std::vector<std::vector<std::vector<double>>> SimulationManager::getAxonPosition
     return axonVec;
 }
 
-void SimulationManager::addAxon(const EuclideanVector& startPosition) {
-    addAxon(
-            std::make_shared<Axon>(m_axons.size(), startPosition, m_constraintHandler, *this));
+void SimulationManager::addAxon(const EuclideanVector &startPosition) {
+    addAxon(m_axonFactory->makeAxon(startPosition));
 }
 
-void SimulationManager::addAxon(const EuclideanVector& startPosition, const EuclideanVector& direction) {
-    addAxon(
-            std::make_shared<Axon>(m_axons.size(), startPosition, startPosition + direction, m_constraintHandler, *this));
-
+void SimulationManager::addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &direction) {
+    addAxon(m_axonFactory->makeDirectedAxon(startPosition, direction));
 }
 
-void SimulationManager::addAxon(std::shared_ptr<Axon> axon) {
-    m_axons.push_back(axon);
+void SimulationManager::addDirectedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
+    addAxon(m_axonFactory->makeDirectedAxon(startPosition, nextPosition));
+}
+
+void SimulationManager::addAxon(AxonHandle axon) {
     m_axonManager->addAxon(axon);
 }
+
+SimulationManager::~SimulationManager() { std::cout << "SimulationManager destructed" << std::endl; }

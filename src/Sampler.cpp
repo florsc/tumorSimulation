@@ -6,16 +6,18 @@
 #include <iostream>
 
 
-Sampler::Sampler( bool waitingTime, std::mt19937 generator):
-          m_generator(generator),
-          m_uniformSampler(std::uniform_real_distribution<double>(0.0, 1.0)), m_normalSampler(
-                std::normal_distribution<>(0, 1)),m_processWithWaitingTime(waitingTime) {
+Sampler::Sampler(bool waitingTime, std::mt19937 generator) :
+        m_generator(generator),
+        m_uniformSampler(std::uniform_real_distribution<double>(0.0, 1.0)), m_normalSampler(
+        std::normal_distribution<>(0, 1)), m_processWithWaitingTime(waitingTime) {
 
 }
 
 bool Sampler::branch() {
     return false;
 }
+
+std::pair<double, int> Sampler::getNextAxon() { return {}; }
 
 
 uniformLengthNoWaitingTimeSampler::uniformLengthNoWaitingTimeSampler(double low, double high) : m_lengthSampler(
@@ -27,7 +29,8 @@ double uniformLengthNoWaitingTimeSampler::sampleLength() {
     return m_lengthSampler(m_generator);
 }
 
-constantLengthNoWaitingTimeSampler::constantLengthNoWaitingTimeSampler(double length) : m_length(length),Sampler(false) {
+constantLengthNoWaitingTimeSampler::constantLengthNoWaitingTimeSampler(double length) : m_length(length),
+                                                                                        Sampler(false) {
 
 }
 

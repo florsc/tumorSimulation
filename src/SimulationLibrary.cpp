@@ -7,18 +7,18 @@
 #include <nlohmann/json.hpp>
 #include "SimulationLibrary.h"
 #include "Axon.h"
-#include "HelperFunctions.h"
-#include "SimulationManager.h"
-#include "ParameterStruct.h"
+#include "util/HelperFunctions.h"
+#include "Managers/SimulationManager.h"
+#include "SimulationSetUp/ParameterStruct.h"
 
 using json = nlohmann::json;
 
 
 int run() {
     std::cout << "Create spherical Limit" << std::endl;
-    std::shared_ptr<SphericalLimit> sphericalLimit(new SphericalLimit(100));
+    std::shared_ptr<SphericalLimit> sphericalLimit(new SphericalLimit(10));
     std::cout << "Create constraint Handle" << std::endl;
-    std::shared_ptr<ConstraintHandler> constraintHandler = std::make_shared<ConstraintHandler>();
+    std::shared_ptr<ConstraintManager> constraintHandler = std::make_shared<ConstraintManager>();
     std::shared_ptr<Sampler> processSampler(new biasedRandomWalk());
     std::cout << "Create Axon Manager" << std::endl;
     SimulationManager simulationManager(constraintHandler);

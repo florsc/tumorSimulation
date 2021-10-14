@@ -25,9 +25,9 @@ EuclideanVector::EuclideanVector(const int &size, const double &magnitudes) {
 
 // Copy constructor
 EuclideanVector::EuclideanVector(const EuclideanVector &copy) {
-x = copy.x;
-y = copy.y;
-z = copy.z;
+    x = copy.x;
+    y = copy.y;
+    z = copy.z;
 }
 
 // Copy assignment
@@ -40,67 +40,79 @@ EuclideanVector &EuclideanVector::operator=(const EuclideanVector &o) {
 
 // Subscript operator
 double &EuclideanVector::operator[](const int &i) {
-    switch(i){
-        case(0): return x;
-    case(1): return y;
-    case(2): return z;}
+    switch (i) {
+        case (0):
+            return x;
+        case (1):
+            return y;
+        case (2):
+            return z;
+    }
 }
 
 // Subscript operator for a const EV
 const double &EuclideanVector::operator[](const int &i) const {
-    switch(i){
-        case(0): return x;
-        case(1): return y;
-        case(2): return z;}
+    switch (i) {
+        case (0):
+            return x;
+        case (1):
+            return y;
+        case (2):
+            return z;
+    }
 }
 
 // Addition (+=) operator
 EuclideanVector &EuclideanVector::operator+=(const EuclideanVector &o) {
-    x +=o.x;
-    y +=o.y;
-    z +=o.z;
+    x += o.x;
+    y += o.y;
+    z += o.z;
     return *this;
 }
 
 // Subtraction (-=) operator
 EuclideanVector &EuclideanVector::operator-=(const EuclideanVector &o) {
-    x -=o.x;
-    y -=o.y;
-    z -=o.z;
+    x -= o.x;
+    y -= o.y;
+    z -= o.z;
     return *this;
 }
 
 // Multiplication (*=) operator
 EuclideanVector &EuclideanVector::operator*=(const double &multiplier) {
-    x *=multiplier;
-    y *=multiplier;
-    z *=multiplier;
+    x *= multiplier;
+    y *= multiplier;
+    z *= multiplier;
     return *this;
 }
 
 // Division (/=) operator
 EuclideanVector &EuclideanVector::operator/=(const double &divider) {
-    x /=divider;
-    y /=divider;
-    z /=divider;
+    x /= divider;
+    y /= divider;
+    z /= divider;
     return *this;
 }
 
 // EV -> vector<double> typecast
 EuclideanVector::operator std::vector<double>() const {
     std::vector<double> returnVector(3);
-    returnVector[0]=x;
-    returnVector[1]=y;
-    returnVector[2]=z;
+    returnVector[0] = x;
+    returnVector[1] = y;
+    returnVector[2] = z;
     return returnVector;
 }
 
 // Magnitude in dimension as a double
 double EuclideanVector::at(const int &place) const {
-    switch(place){
-        case(0): return x;
-        case(1): return y;
-        case(2): return z;}
+    switch (place) {
+        case (0):
+            return x;
+        case (1):
+            return y;
+        case (2):
+            return z;
+    }
 }
 
 // Magnitude in dimension as a reference
@@ -109,15 +121,19 @@ double &EuclideanVector::at(const int &place) {
         throw EuclideanVectorError("Index " + std::to_string(place) +
                                    " is not valid for this EuclideanVector object");
     }
-    switch(place){
-        case(0): return x;
-        case(1): return y;
-        case(2): return z;}
+    switch (place) {
+        case (0):
+            return x;
+        case (1):
+            return y;
+        case (2):
+            return z;
+    }
 }
 
 // Calculates EV's Euclidean normal
 double EuclideanVector::GetEuclideanNorm() const {
-    double returnValue = x*x+y*y+z*z;
+    double returnValue = x * x + y * y + z * z;
     return std::sqrt(returnValue);
 }
 
@@ -128,18 +144,18 @@ EuclideanVector EuclideanVector::CreateUnitVector() const {
                 "EuclideanVector with euclidean normal of 0 does not have a unit vector");
     }
     double eucNorm = this->GetEuclideanNorm();
-    return *this/eucNorm;
+    return *this / eucNorm;
 }
 
 // Friends
 // Equals to operator
 bool operator==(const EuclideanVector &v1, const EuclideanVector &v2) {
-    return v1.x==v2.x&&v1.y==v2.y&&v1.z==v2.z;
+    return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
 }
 
 // Not equals to operator
 bool operator!=(const EuclideanVector &v1, const EuclideanVector &v2) {
-    return v1.x!=v2.x&&v1.y!=v2.y&&v1.z!=v2.z;
+    return v1.x != v2.x && v1.y != v2.y && v1.z != v2.z;
 }
 
 // Subtraction operator
@@ -160,7 +176,7 @@ EuclideanVector operator-(const EuclideanVector &v1, const EuclideanVector &v2) 
 
 // Multiplication (Dot product) operator
 double operator*(const EuclideanVector &v1, const EuclideanVector &v2) {
-    return v1.x*v2.x+v1.y*v2.y+v1.z*v2.z;
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
 // Scalar multiplication operator
@@ -193,7 +209,7 @@ EuclideanVector operator/(const EuclideanVector &v1, const double &dividedBy) {
 // Output stream operator
 std::ostream &operator<<(std::ostream &os, const EuclideanVector &v) {
     // Output is [x, x2, x3, ...]
-    os << "["<<v.x<<", "<<v.y<<" ,"<<v.z<<"]";
+    os << "[" << v.x << ", " << v.y << " ," << v.z << "]";
     return os;
 }
 
@@ -211,6 +227,6 @@ EuclideanVector crossProduct(const EuclideanVector &v1, const EuclideanVector &v
     return tmp;
 }
 
-EuclideanVector::EuclideanVector(double xi, double yi, double zi):x(xi),y(yi),z(zi) {
+EuclideanVector::EuclideanVector(double xi, double yi, double zi) : x(xi), y(yi), z(zi) {
 
 }
