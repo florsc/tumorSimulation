@@ -8,26 +8,9 @@
 #include <iostream>
 #include <utility>
 
-// Constructor for one arg (int): Initialises an EV of size 'int', with magnitudes 0
-EuclideanVector::EuclideanVector(const int &size) {
-    x = 0;
-    y = 0;
-    z = 0;
-}
-
-// Constructor for two args (int, double): Initialises an EV of size 'int', with magnitudes 'double'
-EuclideanVector::EuclideanVector(const int &size, const double &magnitudes) {
-    x = magnitudes;
-    y = magnitudes;
-    z = magnitudes;
-}
-
 
 // Copy constructor
-EuclideanVector::EuclideanVector(const EuclideanVector &copy) {
-    x = copy.x;
-    y = copy.y;
-    z = copy.z;
+constexpr EuclideanVector::EuclideanVector(const EuclideanVector &copy) : x(copy.x), y(copy.y), z(copy.z) {
 }
 
 // Copy assignment
@@ -213,7 +196,11 @@ std::ostream &operator<<(std::ostream &os, const EuclideanVector &v) {
     return os;
 }
 
-EuclideanVector::EuclideanVector(std::initializer_list<double> magnitudes) {
+constexpr EuclideanVector::EuclideanVector(const std::initializer_list<double> &magnitudes) : x(*magnitudes.begin()),
+                                                                                              y(*std::next(
+                                                                                                      magnitudes.begin(),
+                                                                                                      1)), z(*std::next(
+                magnitudes.begin(), 2)) {
     auto it = magnitudes.begin();
     x = *it++;
     y = *it++;

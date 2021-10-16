@@ -3,6 +3,7 @@
 //
 
 #include "../Managers/ConstraintManager.h"
+#include "../ExteriorLimits/ExteriorLimit.h"
 #include <gtest/gtest.h>
 
 class ConstraintHandlerTest : public ::testing::Test {

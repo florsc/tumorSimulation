@@ -4,7 +4,7 @@
 
 #ifndef TUMORSIMULATION_SAMPLER_H
 #define TUMORSIMULATION_SAMPLER_H
-
+/*
 
 #include <random>
 #include <chrono>
@@ -15,13 +15,11 @@
 
 class Sampler {
 protected:
-    std::mt19937 m_generator;
     std::uniform_real_distribution<double> m_uniformSampler;
     std::normal_distribution<> m_normalSampler;
     bool m_processWithWaitingTime;
 public:
-    explicit Sampler(bool waitingTime = false, std::mt19937 generator = std::mt19937(
-            std::chrono::system_clock::now().time_since_epoch().count()));
+    explicit Sampler(bool waitingTime = false);
 
     virtual double sampleLength() {};
 
@@ -33,9 +31,7 @@ public:
 
     bool branch();
 
-    double getUniformSample() { return m_uniformSampler(m_generator); };
-
-    double getNormalSample() { return m_normalSampler(m_generator); };
+    double getNormalSample() { return m_normalSampler(parameters.m_generator); };
 
 };
 
@@ -74,7 +70,7 @@ public:
 
     double sampleLength() override;
 
-    double sampleWaitingTime() override { return m_waitingTimeSampler(m_generator); }
+    double sampleWaitingTime() override { return m_waitingTimeSampler(parameters.m_generator); }
 };
-
+*/
 #endif //TUMORSIMULATION_SAMPLER_H

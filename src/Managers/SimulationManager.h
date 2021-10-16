@@ -9,7 +9,6 @@
 #include <queue>
 #include <list>
 #include "../util/TypeDefs.h"
-#include "../Axons/Factories/AxonFactory.h"
 
 class ParameterStruct;
 
@@ -17,17 +16,16 @@ class Axon;
 
 class AxonManager;
 
-class ConstraintManager;
 
 class SimulationManager {
-    ConstraintManagerHandle m_constraintHandler;
     AxonManagerHandle m_axonManager;
     AxonFactoryHandle m_axonFactory;
 
 public:
-    explicit SimulationManager(ConstraintManagerHandle constraintHandler);
+    explicit SimulationManager();
 
-    static std::list<EuclideanVector> sampleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);
+    static std::list<EuclideanVector>
+    createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);
 
     void run();
 

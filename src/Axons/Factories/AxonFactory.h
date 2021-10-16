@@ -14,7 +14,7 @@ class AxonFactory {
 protected:
     ConstraintManagerHandle m_constraintManager;
 
-    AxonFactory(ConstraintManagerHandle constraintManager) : m_constraintManager(constraintManager) {}
+    AxonFactory();
 
 public:
     virtual AxonHandle makeAxon(const EuclideanVector &startPosition) = 0;

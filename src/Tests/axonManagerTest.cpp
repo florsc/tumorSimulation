@@ -10,7 +10,8 @@
 
 void checkStartPositionEquality(std::initializer_list<double> c1, std::initializer_list<double> c2,
                                 std::initializer_list<std::initializer_list<double>> expectedStartPositions) {
-    auto calculatedStartPositions = SimulationManager::sampleStartPositions(EuclideanVector(c1), EuclideanVector(c2), 0.1);
+    auto calculatedStartPositions = SimulationManager::createPossibleStartPositions(EuclideanVector(c1),
+                                                                                    EuclideanVector(c2), 0.1);
 
     EXPECT_EQ(calculatedStartPositions.size(), expectedStartPositions.size());
     if (calculatedStartPositions.size() == expectedStartPositions.size()) {

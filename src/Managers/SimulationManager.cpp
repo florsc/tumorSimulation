@@ -4,24 +4,26 @@
 
 #include <iostream>
 #include <utility>
+#include <random>
 #include "../SimulationSetUp/ParameterStruct.h"
 #include "SimulationManager.h"
-#include "AxonManager.h"
+#include "AxonManagers/AxonManager.h"
 #include "../Sampler.h"
 #include "../Axons/AxonTypes/RazettiAxon.h"
-#include "../Axons/AxonTypes/BaseAxon.h"
-#include "../Axons/Factories/RazettiFactory.h"
+#include "../Axons/Factories/AxonFactory.h"
+#include "../SimulationSetUp/GrowthModels/GrowthModel.h"
+#include "../SimulationSetUp/AxonOrder/AxonOrder.h"
+#include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.h"
 
-SimulationManager::SimulationManager(std::shared_ptr<ConstraintManager> constraintHandler) : m_constraintHandler(
-        std::move(constraintHandler)), m_axonManager(
-        parameters.sampler->waitingTimeIsUsed() ? std::unique_ptr<AxonManager>(new AxonManagerNoWaitingTime())
-                                                : std::unique_ptr<AxonManager>(new AxonManagerNoWaitingTime())) {
-    m_axonFactory = std::unique_ptr<AxonFactory>(new RazettiFactory(m_constraintHandler, 6, 2, 100, 10, 0, 1));
-    auto startPositions = sampleStartPositions(parameters.startingAreaCorners.first,
-                                               parameters.startingAreaCorners.second, parameters.minDistance);
+SimulationManager::SimulationManager() : m_axonManager(std::move(parameters.axonOrder->makeAxonManager())),
+                                         m_axonFactory(std::move(parameters.growthModel->makeAxonFactory())) {
+
+    auto startPositions = createPossibleStartPositions(parameters.startingAreaCorners.first,
+                                                       parameters.startingAreaCorners.second, parameters.minDistance);
     for (int i = 0; i < parameters.numberOfStartingAxons; i++) {
         auto startPositionIter = startPositions.begin();
-        int startPositionIndex = parameters.sampler->getUniformSample() * (startPositions.size() - 1);
+        auto indexSampler = std::uniform_int_distribution<int>(0, startPositions.size() - 1);
+        int startPositionIndex = indexSampler(parameters.m_generator);
         std::advance(startPositionIter, startPositionIndex);
         addAxon(*startPositionIter);
         startPositions.erase(startPositionIter);
@@ -32,7 +34,8 @@ SimulationManager::SimulationManager(std::shared_ptr<ConstraintManager> constrai
 
 
 std::list<EuclideanVector>
-SimulationManager::sampleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance) {
+SimulationManager::createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2,
+                                                double minDistance) {
     auto diff = c2 - c1;
     std::vector<std::vector<double>> spacedAxisValues;
     for (int i = 0; i < 3; i++) {
@@ -51,7 +54,7 @@ SimulationManager::sampleStartPositions(const EuclideanVector &c1, const Euclide
     for (const auto &xValue: spacedAxisValues.at(0)) {
         for (const auto &yValue: spacedAxisValues.at(1)) {
             for (const auto &zValue: spacedAxisValues.at(2)) {
-                startPositions.push_back(EuclideanVector({xValue, yValue, zValue}));
+                startPositions.emplace_back(xValue, yValue, zValue);
             }
         }
     }

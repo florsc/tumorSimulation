@@ -26,17 +26,13 @@ private:
 class EuclideanVector {
 public:
     // Constructors
-    explicit EuclideanVector(const int &);
 
-    explicit EuclideanVector(double x, double y, double z);
+    EuclideanVector(double x, double y, double z);
 
-    EuclideanVector(std::initializer_list<double>);
+    constexpr EuclideanVector(const std::initializer_list<double> &);
 
-    explicit EuclideanVector(const int &, const double &);
+    constexpr EuclideanVector(const EuclideanVector &);
 
-    EuclideanVector(const EuclideanVector &);
-
-    // Destructor (is this correct?)
     ~EuclideanVector() = default;
 
     // Operators
@@ -57,13 +53,13 @@ public:
     explicit operator std::vector<double>() const;
 
     // Methods
-    double at(const int &) const;
+    [[nodiscard]] double at(const int &) const;
 
     double &at(const int &);
 
-    double GetEuclideanNorm() const;
+    [[nodiscard]] double GetEuclideanNorm() const;
 
-    EuclideanVector CreateUnitVector() const;
+    [[nodiscard]] EuclideanVector CreateUnitVector() const;
 
     // Friends
     friend bool operator==(const EuclideanVector &, const EuclideanVector &);

@@ -8,9 +8,9 @@
 #include "../../util/HelperFunctions.h"
 #include <cmath>
 
-RazettiFactory::RazettiFactory(ConstraintManagerHandle constraintManager, int numberOfGrowthStepsEachTimeStep,
+RazettiFactory::RazettiFactory(int numberOfGrowthStepsEachTimeStep,
                                int numberOfRetractions, int maxNumberOfConstraintEncounters, double alpha, double beta,
-                               double stepLength) : AxonFactory(constraintManager),
+                               double stepLength) : AxonFactory(),
                                                     m_numberOfGrowthStepsEachTimeStep(numberOfGrowthStepsEachTimeStep),
                                                     m_numberOfRetractions(numberOfRetractions),
                                                     m_maxNumberOfConstraintEncounters(maxNumberOfConstraintEncounters),
@@ -20,7 +20,8 @@ RazettiFactory::RazettiFactory(ConstraintManagerHandle constraintManager, int nu
 
 AxonHandle RazettiFactory::makeAxon(const EuclideanVector &startPosition) {
     return std::shared_ptr<BaseAxon>(
-            new RazettiAxon(m_numberOfGrowthStepsEachTimeStep, m_numberOfRetractions, m_alpha, m_beta, m_stepLength,
+            new RazettiAxon(m_numberOfGrowthStepsEachTimeStep, m_numberOfRetractions, m_maxNumberOfConstraintEncounters,
+                            m_alpha, m_beta, m_stepLength,
                             startPosition, m_constraintManager));
 }
 

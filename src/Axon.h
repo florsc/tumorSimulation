@@ -4,7 +4,7 @@
 
 #ifndef TUMORSIMULATION_AXON_H
 #define TUMORSIMULATION_AXON_H
-
+/*
 #include "SimulationSetUp/ParameterStruct.h"
 #include <memory>
 #include <vector>
@@ -52,5 +52,5 @@ public:
     EuclideanVector sampleVector();
 
 };
-
+*/
 #endif //TUMORSIMULATION_AXON_H

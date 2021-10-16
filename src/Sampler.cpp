@@ -5,9 +5,8 @@
 #include "Sampler.h"
 #include <iostream>
 
-
-Sampler::Sampler(bool waitingTime, std::mt19937 generator) :
-        m_generator(generator),
+/*
+Sampler::Sampler(bool waitingTime) :
         m_uniformSampler(std::uniform_real_distribution<double>(0.0, 1.0)), m_normalSampler(
         std::normal_distribution<>(0, 1)), m_processWithWaitingTime(waitingTime) {
 
@@ -26,7 +25,7 @@ uniformLengthNoWaitingTimeSampler::uniformLengthNoWaitingTimeSampler(double low,
 }
 
 double uniformLengthNoWaitingTimeSampler::sampleLength() {
-    return m_lengthSampler(m_generator);
+    return m_lengthSampler(parameters.m_generator);
 }
 
 constantLengthNoWaitingTimeSampler::constantLengthNoWaitingTimeSampler(double length) : m_length(length),
@@ -47,3 +46,4 @@ biasedRandomWalk::biasedRandomWalk() : m_waitingTimeSampler(
 double biasedRandomWalk::sampleLength() {
     return 1.0;
 }
+*/

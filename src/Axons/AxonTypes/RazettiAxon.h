@@ -18,24 +18,28 @@ class RazettiAxon : public BaseAxon {
     double m_alpha;
     double m_beta;
     double m_stepLength;
-    int m_maxConstraintEncounters{10};
+    int m_maxConstraintEncounters;
     int m_numberOfGrowthTimes{0};
     int m_constraintCounter{0};
 
 public:
-    RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions, double alpha, double beta,
+    RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
+                int maxConstraintEncounters, double alpha, double beta,
                 double stepLength, EuclideanVector startPosition, EuclideanVector nextPosition,
                 ConstraintManagerHandle constraintManager);
 
-    RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions, double alpha, double beta,
+    RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
+                int maxConstraintEncounters, double alpha, double beta,
                 double stepLength, EuclideanVector startPosition, ConstraintManagerHandle constraintManager);
 
-    RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions, double alpha, double beta,
-                double stepLength, const EuclideanVector &startPosition, std::pair<double, double> startingAngles,
-                ConstraintManagerHandle constraintManager);
+    RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
+                int maxConstraintEncounters, double alpha, double beta,
+                double stepLength, const EuclideanVector &startPosition,
+                std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager);
 
     void grow() override;
 
+private:
     EuclideanVector sampleVector();
 
     void checkStopCondition();

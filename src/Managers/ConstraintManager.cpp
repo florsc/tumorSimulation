@@ -6,6 +6,8 @@
 #include <iostream>
 #include "ConstraintManager.h"
 #include <algorithm>
+#include "../ExteriorLimits/ExteriorLimit.h"
+#include "../SimulationSetUp/ParameterStruct.h"
 
 bool ConstraintManager::checkForExteriorLimit(const EuclideanVector &position) {
     return m_exteriorLimit->checkExteriorLimitExceeded(position);
@@ -44,28 +46,30 @@ bool ConstraintManager::checkForOccupiedSpace(const std::vector<EuclideanVector>
             }
             itLowTmp++;
         }
-        if(addCenters){
-        auto itPos = positions.begin();
-        while (itPos != positions.end()) {
-            while (itLow != itHigh && itLow->first < itPos->at(0)) {
-                itLow++;
-            }
+        if (addCenters) {
+            auto itPos = positions.begin();
+            while (itPos != positions.end()) {
+                while (itLow != itHigh && itLow->first < itPos->at(0)) {
+                    itLow++;
+                }
 
-            m_centerMap.insert(
-                    std::make_pair(itPos->at(0), std::make_pair(*itPos, std::make_pair(axonIdentifier, growthStep))));
-            itPos++;
-        }}
+                m_centerMap.insert(
+                        std::make_pair(itPos->at(0),
+                                       std::make_pair(*itPos, std::make_pair(axonIdentifier, growthStep))));
+                itPos++;
+            }
+        }
     } else { addConstraintCenters(positions); }
     return false;
 }
 
-ConstraintManager::ConstraintManager() : m_exteriorLimit(std::move(parameters.exteriorLimit)),
+ConstraintManager::ConstraintManager() : m_exteriorLimit(parameters.exteriorLimit),
                                          m_distanceLimit(parameters.minDistance) {
 
 }
 
-ConstraintManager::ConstraintManager(std::shared_ptr<ExteriorLimit> &&exteriorLimit, double distanceLimit)
-        : m_exteriorLimit(std::move(exteriorLimit)), m_distanceLimit(distanceLimit) {
+ConstraintManager::ConstraintManager(std::shared_ptr<ExteriorLimit> exteriorLimit, double distanceLimit)
+        : m_exteriorLimit(exteriorLimit), m_distanceLimit(distanceLimit) {
 
 }
 

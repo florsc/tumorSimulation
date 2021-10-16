@@ -6,10 +6,12 @@
 #define TUMORSIMULATION_TYPEDEFS_H
 
 #include <memory>
-
+#include <vector>
 class BaseAxon;
 
 class Axon;
+
+class Samplers;
 
 class RazettiAxon;
 
@@ -24,6 +26,7 @@ class AxonFactory;
 class SimulationManager;
 
 using AxonFactoryHandle = std::unique_ptr<AxonFactory>;
+using SamplerHandle = std::unique_ptr<Samplers>;
 using SimulationManagerHandle = std::weak_ptr<SimulationManager>;
 using AxonManagerHandle = std::shared_ptr<AxonManager>;
 using PositionVector = std::vector<EuclideanVector>;

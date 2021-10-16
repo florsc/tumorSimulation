@@ -4,7 +4,9 @@
 
 #include "HelperFunctions.h"
 #include <cmath>
+#include "EuclideanVector.h"
 #include <iostream>
+
 /*
 EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     double rsin_theta = r * sin(el);

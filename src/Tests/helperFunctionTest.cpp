@@ -72,15 +72,15 @@ TEST(Test, sphericalCoordinateTestValues) {
 */
 
 TEST(Test, removeElementsFromEndTest) {
-    std::vector<int> vec({1,2,3,4});
-    HelperFunctions::removeElementsFromEnd(vec,2);
-    EXPECT_EQ(vec,std::vector<int>({1,2}));
-    std::list<int> list({1,2,3,4});
-    HelperFunctions::removeElementsFromEnd(list,2);
-    EXPECT_EQ(list,std::list<int>({1,2}));
-    HelperFunctions::removeElementsFromEnd(vec,0);
-    EXPECT_EQ(vec,std::vector<int>({1,2}));
-    }
+    std::vector<int> vec({1, 2, 3, 4});
+    HelperFunctions::removeElementsFromEnd(vec, 2);
+    EXPECT_EQ(vec, std::vector<int>({1, 2}));
+    std::list<int> list({1, 2, 3, 4});
+    HelperFunctions::removeElementsFromEnd(list, 2);
+    EXPECT_EQ(list, std::list<int>({1, 2}));
+    HelperFunctions::removeElementsFromEnd(vec, 0);
+    EXPECT_EQ(vec, std::vector<int>({1, 2}));
+}
 
 
 void checkCenterEquality(std::initializer_list<double> start, std::initializer_list<double> end,

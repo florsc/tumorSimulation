@@ -8,9 +8,9 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include "../ExteriorLimits/ExteriorLimit.h"
 #include "../util/EuclideanVector.h"
-#include "../SimulationSetUp/ParameterStruct.h"
+
+class ExteriorLimit;
 
 class ConstraintManager {
     std::multimap<double, std::pair<EuclideanVector, std::pair<int, int>>> m_centerMap;
@@ -20,7 +20,7 @@ class ConstraintManager {
 public:
     ConstraintManager();
 
-    explicit ConstraintManager(std::shared_ptr<ExteriorLimit> &&exteriorLimit, double distanceLimit);
+    ConstraintManager(std::shared_ptr<ExteriorLimit> exteriorLimit, double distanceLimit);
 
     void addConstraintCenters(const std::vector<EuclideanVector> &constraintCenters, int axonIdentifier = 0,
                               int growthStep = 0);

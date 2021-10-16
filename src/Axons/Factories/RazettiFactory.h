@@ -16,7 +16,7 @@ class RazettiFactory : public AxonFactory {
     double m_stepLength;
 
 public:
-    RazettiFactory(ConstraintManagerHandle constraintManager, int numberOfGrowthStepsEachTimeStep,
+    RazettiFactory(int numberOfGrowthStepsEachTimeStep,
                    int numberOfRetractions, int maxNumberOfConstraintEncounters, double alpha, double beta,
                    double stepLength);
 
