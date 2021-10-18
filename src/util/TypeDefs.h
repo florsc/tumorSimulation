@@ -7,6 +7,8 @@
 
 #include <memory>
 #include <vector>
+#include <list>
+
 class BaseAxon;
 
 class Axon;
@@ -30,7 +32,7 @@ using SamplerHandle = std::unique_ptr<Samplers>;
 using SimulationManagerHandle = std::weak_ptr<SimulationManager>;
 using AxonManagerHandle = std::shared_ptr<AxonManager>;
 using PositionVector = std::vector<EuclideanVector>;
-using PositionList = std::vector<EuclideanVector>;
+using PositionList = std::list<EuclideanVector>;
 using AxonHandle = std::shared_ptr<BaseAxon>;
 using AxonVector = std::vector<AxonHandle>;
 using ConstraintManagerHandle = std::shared_ptr<ConstraintManager>;

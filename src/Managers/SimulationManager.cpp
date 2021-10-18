@@ -15,8 +15,13 @@
 #include "../SimulationSetUp/AxonOrder/AxonOrder.h"
 #include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.h"
 
-SimulationManager::SimulationManager() : m_axonManager(std::move(parameters.axonOrder->makeAxonManager())),
-                                         m_axonFactory(std::move(parameters.growthModel->makeAxonFactory())) {
+SimulationManager::SimulationManager() {
+
+}
+
+void SimulationManager::setUp(SimulationManagerHandle  simulationManager){
+    m_axonManager = std::move(parameters.axonOrder->makeAxonManager());
+    m_axonFactory = std::move(parameters.growthModel->makeAxonFactory(simulationManager));
 
     auto startPositions = createPossibleStartPositions(parameters.startingAreaCorners.first,
                                                        parameters.startingAreaCorners.second, parameters.minDistance);
@@ -27,9 +32,7 @@ SimulationManager::SimulationManager() : m_axonManager(std::move(parameters.axon
         std::advance(startPositionIter, startPositionIndex);
         addAxon(*startPositionIter);
         startPositions.erase(startPositionIter);
-
     }
-
 }
 
 
@@ -82,12 +85,8 @@ void SimulationManager::addAxon(const EuclideanVector &startPosition) {
     addAxon(m_axonFactory->makeAxon(startPosition));
 }
 
-void SimulationManager::addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &direction) {
-    addAxon(m_axonFactory->makeDirectedAxon(startPosition, direction));
-}
-
-void SimulationManager::addDirectedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
-    addAxon(m_axonFactory->makeDirectedAxon(startPosition, nextPosition));
+void SimulationManager::addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
+    addAxon(m_axonFactory->makeStartedAxon(startPosition, nextPosition));
 }
 
 void SimulationManager::addAxon(AxonHandle axon) {

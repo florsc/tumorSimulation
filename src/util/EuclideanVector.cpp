@@ -217,3 +217,9 @@ EuclideanVector crossProduct(const EuclideanVector &v1, const EuclideanVector &v
 EuclideanVector::EuclideanVector(double xi, double yi, double zi) : x(xi), y(yi), z(zi) {
 
 }
+
+EuclideanVector::EuclideanVector() {
+    x=0;
+    y=0;
+    z=0;
+}

@@ -13,11 +13,13 @@
 
 int run() {
     std::cout << "Create Simulation Manager" << std::endl;
-    SimulationManager simulationManager;
+    auto simulationManager = std::make_shared<SimulationManager>();
+    std::cout << "Set up simulation" << std::endl;
+    simulationManager->setUp(simulationManager);
     std::cout << "Run Axon growth" << std::endl;
-    simulationManager.run();
+    simulationManager->run();
 
-    std::vector<std::vector<std::vector<double>>> vec = simulationManager.getAxonPositions();
+    std::vector<std::vector<std::vector<double>>> vec = simulationManager->getAxonPositions();
     std::cout << "Create json" << std::endl;
     nlohmann::json j(vec);
     std::ofstream myfile;

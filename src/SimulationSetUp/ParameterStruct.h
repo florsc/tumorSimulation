@@ -25,10 +25,10 @@ class ConstraintManager;
 class GrowthModel;
 struct ParameterStruct {
     ParameterStruct();
-
+    
     std::mt19937 m_generator = std::mt19937(
             std::chrono::system_clock::now().time_since_epoch().count());
-    static constexpr int numberOfStartingAxons = 4;
+    static constexpr int numberOfStartingAxons = 1;
     static constexpr double minDistance = 0.5;
     static constexpr double branchingProbability = 0.1;
     static constexpr double maximumTime = 10.0;

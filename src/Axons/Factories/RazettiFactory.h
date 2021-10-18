@@ -5,6 +5,7 @@
 #ifndef TUMORSIMULATION_RAZETTIFACTORY_H
 #define TUMORSIMULATION_RAZETTIFACTORY_H
 
+#include <iostream>
 #include "AxonFactory.h"
 
 class RazettiFactory : public AxonFactory {
@@ -18,13 +19,14 @@ class RazettiFactory : public AxonFactory {
 public:
     RazettiFactory(int numberOfGrowthStepsEachTimeStep,
                    int numberOfRetractions, int maxNumberOfConstraintEncounters, double alpha, double beta,
-                   double stepLength);
+                   double stepLength, SimulationManagerHandle simulationManagerHandle);
 
     AxonHandle makeAxon(const EuclideanVector &startPosition) override;
 
     AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) override;
 
-    AxonHandle makeDirectedAxon(const EuclideanVector &startPosition, const EuclideanVector &direction) override;
+    ~RazettiFactory(){std::cout<<"RazettyFactory destructed"<<std::endl;}
+
 };
 
 #endif //TUMORSIMULATION_RAZETTIFACTORY_H

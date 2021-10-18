@@ -17,7 +17,7 @@ class Razetti:public GrowthModel {
 
 public:
     Razetti():GrowthModel(){}
-    AxonFactoryHandle makeAxonFactory() override;
+    AxonFactoryHandle makeAxonFactory(SimulationManagerHandle simulationManager) override;
 };
 
 

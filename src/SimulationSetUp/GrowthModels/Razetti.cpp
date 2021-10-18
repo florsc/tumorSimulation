@@ -5,6 +5,6 @@
 #include "Razetti.h"
 #include "../../Axons/Factories/RazettiFactory.h"
 
-AxonFactoryHandle Razetti::makeAxonFactory() {
-    return AxonFactoryHandle (new RazettiFactory(6, 2, 100, 10, 0, 1));
+AxonFactoryHandle Razetti::makeAxonFactory(SimulationManagerHandle simulationManager) {
+    return AxonFactoryHandle (new RazettiFactory(6, 2, 100, 10, 0, 1,simulationManager));
 }

@@ -10,7 +10,7 @@
 
 RazettiFactory::RazettiFactory(int numberOfGrowthStepsEachTimeStep,
                                int numberOfRetractions, int maxNumberOfConstraintEncounters, double alpha, double beta,
-                               double stepLength) : AxonFactory(),
+                               double stepLength, SimulationManagerHandle simulationManagerHandle) : AxonFactory(simulationManagerHandle),
                                                     m_numberOfGrowthStepsEachTimeStep(numberOfGrowthStepsEachTimeStep),
                                                     m_numberOfRetractions(numberOfRetractions),
                                                     m_maxNumberOfConstraintEncounters(maxNumberOfConstraintEncounters),
@@ -19,16 +19,17 @@ RazettiFactory::RazettiFactory(int numberOfGrowthStepsEachTimeStep,
 }
 
 AxonHandle RazettiFactory::makeAxon(const EuclideanVector &startPosition) {
-    return std::shared_ptr<BaseAxon>(
+    return AxonHandle(
             new RazettiAxon(m_numberOfGrowthStepsEachTimeStep, m_numberOfRetractions, m_maxNumberOfConstraintEncounters,
                             m_alpha, m_beta, m_stepLength,
-                            startPosition, m_constraintManager));
+                            startPosition, m_constraintManager, m_simulationManager));
 }
 
 AxonHandle RazettiFactory::makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
-    return AxonHandle();
-}
-
-AxonHandle RazettiFactory::makeDirectedAxon(const EuclideanVector &startPosition, const EuclideanVector &direction) {
-    return AxonHandle();
+    auto axon = std::make_shared<RazettiAxon>(m_numberOfGrowthStepsEachTimeStep, m_numberOfRetractions, m_maxNumberOfConstraintEncounters,
+                            m_alpha, m_beta, m_stepLength,
+                            startPosition, m_constraintManager, m_simulationManager);
+    auto angles = HelperFunctions::getSphericalAngles(nextPosition-startPosition);
+    axon->addPosition(nextPosition,angles);
+    return axon;
 }

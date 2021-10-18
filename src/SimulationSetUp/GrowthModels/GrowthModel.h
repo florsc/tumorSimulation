@@ -10,6 +10,6 @@
 struct GrowthModel{
 public:
     GrowthModel(){}
-    virtual AxonFactoryHandle makeAxonFactory()=0;
+    virtual AxonFactoryHandle makeAxonFactory(SimulationManagerHandle simulationManager)=0;
 };
 #endif //TUMORSIMULATION_GROWTHMODEL_H

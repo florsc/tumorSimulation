@@ -26,18 +26,22 @@ public:
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
                 double stepLength, EuclideanVector startPosition, EuclideanVector nextPosition,
-                ConstraintManagerHandle constraintManager);
+                ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
 
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
-                double stepLength, EuclideanVector startPosition, ConstraintManagerHandle constraintManager);
+                double stepLength, EuclideanVector startPosition, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
 
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
                 double stepLength, const EuclideanVector &startPosition,
-                std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager);
+                std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
 
     void grow() override;
+
+    void addPosition(EuclideanVector position);
+
+    void addPosition(EuclideanVector position, std::pair<double, double>);
 
 private:
     EuclideanVector sampleVector();
@@ -45,7 +49,10 @@ private:
     void checkStopCondition();
 
     void checkTargetReached() {};
-    //void createNewBranch(){};
+
+    bool checkBranching();
+
+    void createNewBranch(const PositionVector& possibleStartingPoints);
 
 };
 

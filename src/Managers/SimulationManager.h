@@ -12,8 +12,6 @@
 
 class ParameterStruct;
 
-class Axon;
-
 class AxonManager;
 
 
@@ -24,6 +22,8 @@ class SimulationManager {
 public:
     explicit SimulationManager();
 
+    void setUp(SimulationManagerHandle  simulationManager);
+
     static std::list<EuclideanVector>
     createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);
 
@@ -32,8 +32,6 @@ public:
     std::vector<std::vector<std::vector<double>>> getAxonPositions();
 
     void addAxon(const EuclideanVector &startPosition);
-
-    void addDirectedAxon(const EuclideanVector &startPosition, const EuclideanVector &direction);
 
     void addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition);
 

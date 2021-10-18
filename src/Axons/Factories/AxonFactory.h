@@ -13,15 +13,16 @@ class AxonFactory {
 
 protected:
     ConstraintManagerHandle m_constraintManager;
-
-    AxonFactory();
+    SimulationManagerHandle m_simulationManager;
+    AxonFactory(SimulationManagerHandle simulationManager);
 
 public:
     virtual AxonHandle makeAxon(const EuclideanVector &startPosition) = 0;
 
     virtual AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) = 0;
 
-    virtual AxonHandle makeDirectedAxon(const EuclideanVector &startPosition, const EuclideanVector &direction) = 0;
+
+    virtual ~AxonFactory(){}
 };
 
 /*

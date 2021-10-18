@@ -24,6 +24,8 @@ namespace HelperFunctions {
         container.erase(std::next(container.end(), -numberOfElementsToRemove),
                         container.end());
     }
+
+    std::pair<double, double> getSphericalAngles(const EuclideanVector &v);
 };
 
 #endif //TUMORSIMULATION_HELPERFUNCTIONS_H
