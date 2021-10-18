@@ -10,19 +10,23 @@
 #include <memory>
 #include <queue>
 #include <list>
+#include <algorithm>
 #include "../../util/TypeDefs.h"
 
 class Axon;
 
 class AxonManager {
 protected:
-    AxonVector m_allAxons;
+    AxonList m_allAxons;
 public:
     virtual AxonHandle getNextAxon() = 0;
 
     virtual void addAxon(AxonHandle axon) = 0;
 
-    AxonVector getAllAxons() { return m_allAxons; }
+    void removeAxon(int id);
+
+    AxonList getAllAxons() {
+        return m_allAxons; }
 
 };
 

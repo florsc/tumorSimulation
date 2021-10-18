@@ -33,6 +33,8 @@ public:
 
     void addAxon(const EuclideanVector &startPosition);
 
+    void removeAxon(const int id);
+
     void addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition);
 
     void addAxon(AxonHandle axon);

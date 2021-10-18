@@ -16,10 +16,12 @@ class EuclideanVector;
 class BaseAxon {
 protected:
     PositionVector m_tipPositions;
+    AxonVector childAxons;
     ConstraintManagerHandle m_constraintHandler;
     SimulationManagerHandle m_simulationManager;
     int m_identifier;
     bool m_active{true};
+    bool m_isAlive{true};
 
     static int m_currentIdentifier;
 
@@ -31,15 +33,19 @@ protected:
              ConstraintManagerHandle constraintHandler, SimulationManagerHandle simulationManager);
 
 public:
-    void stopAxon();
+    virtual void stopAxon();
 
+
+    virtual void killAxon();;
     [[nodiscard]] virtual bool isActive() const;
 
     virtual void createNewBranch(EuclideanVector startPosition);
 
-    virtual void grow() {};
+    virtual void grow() = 0;
 
     PositionVector getTipPositions();
+
+    bool hasId(const int id) {return m_identifier == id;}
 
 
 };

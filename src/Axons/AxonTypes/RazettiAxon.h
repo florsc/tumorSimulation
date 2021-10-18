@@ -39,9 +39,9 @@ public:
 
     void grow() override;
 
-    void addPosition(EuclideanVector position);
+    bool addPosition(EuclideanVector position);
 
-    void addPosition(EuclideanVector position, std::pair<double, double>);
+    bool addPosition(EuclideanVector position, std::pair<double, double>);
 
 private:
     EuclideanVector sampleVector();

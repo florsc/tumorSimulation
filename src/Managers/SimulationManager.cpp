@@ -94,3 +94,7 @@ void SimulationManager::addAxon(AxonHandle axon) {
 }
 
 SimulationManager::~SimulationManager() { std::cout << "SimulationManager destructed" << std::endl; }
+
+void SimulationManager::removeAxon(const int id) {
+    m_axonManager->removeAxon(id);
+}

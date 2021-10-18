@@ -30,6 +30,8 @@ public:
 
     void freeSpace(int axonIdentifier, std::initializer_list<int> growthSteps);
 
+    void freeSpace(int axonIdentifier);
+
     bool checkForConstraint(const std::vector<EuclideanVector> &positions, int axonIdentifier, int growthStep);
 
     bool checkForConstraint(const std::vector<EuclideanVector> &positions);

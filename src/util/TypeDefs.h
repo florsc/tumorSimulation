@@ -35,6 +35,7 @@ using PositionVector = std::vector<EuclideanVector>;
 using PositionList = std::list<EuclideanVector>;
 using AxonHandle = std::shared_ptr<BaseAxon>;
 using AxonVector = std::vector<AxonHandle>;
+using AxonList = std::list<AxonHandle>;
 using ConstraintManagerHandle = std::shared_ptr<ConstraintManager>;
 
 #endif //TUMORSIMULATION_TYPEDEFS_H

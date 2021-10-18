@@ -5,6 +5,7 @@
 #include "BaseAxon.h"
 #include "../../util/EuclideanVector.h"
 #include "../../Managers/SimulationManager.h"
+#include "../../Managers/ConstraintManager.h"
 
 BaseAxon::BaseAxon(EuclideanVector startPosition, ConstraintManagerHandle constraintHandler, SimulationManagerHandle simulationManagerHandle) : m_identifier(
         m_currentIdentifier), m_constraintHandler(
@@ -36,3 +37,7 @@ if(auto simulationManager = m_simulationManager.lock()){
     simulationManager->addAxon(startPosition);
 }
 }
+
+void BaseAxon::killAxon() {m_constraintHandler->freeSpace(m_identifier);
+    if(auto simulationManager = m_simulationManager.lock()){
+    simulationManager->removeAxon(m_identifier); m_isAlive = false; m_active = false;}}
