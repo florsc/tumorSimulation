@@ -3,7 +3,6 @@
 //
 
 #include <gtest/gtest.h>
-#include "../Axon.h"
 #include "../util/HelperFunctions.h"
 
 /*

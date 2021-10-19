@@ -3,14 +3,14 @@
 //
 
 #include "ParameterStruct.h"
-#include "../Sampler.h"
 #include "../Axons/Factories/RazettiFactory.h"
 #include "../ExteriorLimits/ExteriorLimit.h"
 #include "GrowthModels/Razetti.h"
+#include "GrowthModels/RandomDirection.h"
 #include "AxonOrder/AxonOrderSampledWaitingTime.h"
 
-ParameterStruct::ParameterStruct() : exteriorLimit(new SphericalLimit(30)),
-                                     growthModel(new Razetti()),
+ParameterStruct::ParameterStruct() : exteriorLimit(new SphericalLimit(40)),
+                                     growthModel(new RandomDirection()),
                                      axonOrder(new AxonOrderSampledWaitingTime()){
 
 }

@@ -18,6 +18,7 @@ protected:
     PositionVector m_tipPositions;
     AxonVector childAxons;
     ConstraintManagerHandle m_constraintHandler;
+    int m_maxConstraintsEachGrowthStep;
     SimulationManagerHandle m_simulationManager;
     int m_identifier;
     bool m_active{true};
@@ -27,26 +28,25 @@ protected:
 
 protected:
 
-    BaseAxon(EuclideanVector startPosition, ConstraintManagerHandle constraintHandler, SimulationManagerHandle simulationManager);
+    BaseAxon(EuclideanVector startPosition, int maxConstraintsEachGrowthStep, ConstraintManagerHandle constraintHandler, SimulationManagerHandle simulationManager);
 
-    BaseAxon(EuclideanVector startPosition, EuclideanVector nextPosition,
+    BaseAxon(EuclideanVector startPosition, EuclideanVector nextPosition, int maxConstraintsEachGrowthStep,
              ConstraintManagerHandle constraintHandler, SimulationManagerHandle simulationManager);
 
 public:
     virtual void stopAxon();
 
+    virtual void killAxon();
 
-    virtual void killAxon();;
-    [[nodiscard]] virtual bool isActive() const;
+    [[nodiscard]] bool isActive() const;
 
-    virtual void createNewBranch(EuclideanVector startPosition);
+    [[nodiscard]] bool isAlive() const;
 
     virtual void grow() = 0;
 
     PositionVector getTipPositions();
 
     bool hasId(const int id) {return m_identifier == id;}
-
 
 };
 

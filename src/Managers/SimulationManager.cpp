@@ -8,7 +8,6 @@
 #include "../SimulationSetUp/ParameterStruct.h"
 #include "SimulationManager.h"
 #include "AxonManagers/AxonManager.h"
-#include "../Sampler.h"
 #include "../Axons/AxonTypes/RazettiAxon.h"
 #include "../Axons/Factories/AxonFactory.h"
 #include "../SimulationSetUp/GrowthModels/GrowthModel.h"

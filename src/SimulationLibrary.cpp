@@ -6,7 +6,6 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include "SimulationLibrary.h"
-#include "Axon.h"
 #include "util/HelperFunctions.h"
 #include "Managers/SimulationManager.h"
 

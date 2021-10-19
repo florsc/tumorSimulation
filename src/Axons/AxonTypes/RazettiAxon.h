@@ -10,14 +10,13 @@
 #include "BaseAxon.h"
 
 class RazettiAxon : public BaseAxon {
-    std::vector<int> m_timeStepIndices;
+    std::vector<int> m_growthStepIndices;
     std::vector<std::pair<double, double>> m_growthAngles;
-    int m_GrowthStepsEachTimeStep;
-    int m_maxConstraintsEachTimeStep{2};
-    int m_numberOfRetractions;
+    int m_substepsEachGrowthStep;
+    int m_maxConstraintsEachGrowthStep;
     double m_alpha;
     double m_beta;
-    double m_stepLength;
+    SamplerHandle m_lengthSampler;
     int m_maxConstraintEncounters;
     int m_numberOfGrowthTimes{0};
     int m_constraintCounter{0};
@@ -25,16 +24,16 @@ class RazettiAxon : public BaseAxon {
 public:
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
-                double stepLength, EuclideanVector startPosition, EuclideanVector nextPosition,
+                SamplerHandle lengthSampler, EuclideanVector startPosition, EuclideanVector nextPosition,
                 ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
 
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
-                double stepLength, EuclideanVector startPosition, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
+                SamplerHandle lengthSampler, EuclideanVector startPosition, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
 
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
-                double stepLength, const EuclideanVector &startPosition,
+                SamplerHandle lengthSampler, const EuclideanVector &startPosition,
                 std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
 
     void grow() override;

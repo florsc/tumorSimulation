@@ -14,12 +14,12 @@ class RazettiFactory : public AxonFactory {
     int m_maxNumberOfConstraintEncounters;
     double m_alpha;
     double m_beta;
-    double m_stepLength;
+    SamplerHandle m_lengthSampler;
 
 public:
     RazettiFactory(int numberOfGrowthStepsEachTimeStep,
                    int numberOfRetractions, int maxNumberOfConstraintEncounters, double alpha, double beta,
-                   double stepLength, SimulationManagerHandle simulationManagerHandle);
+                   SamplerHandle lengthSampler, SimulationManagerHandle simulationManagerHandle);
 
     AxonHandle makeAxon(const EuclideanVector &startPosition) override;
 

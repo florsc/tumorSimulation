@@ -5,7 +5,6 @@
 #include "AxonManagerNoWaitingTime.h"
 
 #include "AxonManager.h"
-#include "../../Sampler.h"
 #include "../../Axons/AxonTypes/BaseAxon.h"
 
 AxonHandle AxonManagerNoWaitingTime::getNextAxon() {

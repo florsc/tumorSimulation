@@ -14,10 +14,18 @@ public:
 };
 
 class UniformDoubleSampler : public Samplers{
-    std::uniform_real_distribution<double> dist;
+    std::uniform_real_distribution<double> m_dist;
 public:
-    UniformDoubleSampler(double low, double high):dist(std::uniform_real_distribution(low,high)){}
-     double sample() override {return dist(parameters.m_generator);}
+    UniformDoubleSampler(double low, double high):m_dist(std::uniform_real_distribution(low,high)){}
+    double sample() override {return m_dist(parameters.m_generator);}
+};
+
+
+class ConstantValueSampler : public Samplers{
+    double m_constantValue;
+public:
+    ConstantValueSampler(double constantValue):m_constantValue(constantValue){}
+    double sample() override {return m_constantValue;}
 };
 
 

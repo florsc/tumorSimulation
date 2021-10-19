@@ -28,7 +28,7 @@ class AxonFactory;
 class SimulationManager;
 
 using AxonFactoryHandle = std::unique_ptr<AxonFactory>;
-using SamplerHandle = std::unique_ptr<Samplers>;
+using SamplerHandle = std::shared_ptr<Samplers>;
 using SimulationManagerHandle = std::weak_ptr<SimulationManager>;
 using AxonManagerHandle = std::shared_ptr<AxonManager>;
 using PositionVector = std::vector<EuclideanVector>;
