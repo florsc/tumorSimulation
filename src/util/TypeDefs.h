@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <list>
+#include <random>
 
 class BaseAxon;
 
@@ -27,6 +28,8 @@ class AxonFactory;
 
 class SimulationManager;
 
+using Generator = std::mt19937;
+using GeneratorHandle = std::shared_ptr<Generator>;
 using AxonFactoryHandle = std::unique_ptr<AxonFactory>;
 using SamplerHandle = std::shared_ptr<Samplers>;
 using SimulationManagerHandle = std::weak_ptr<SimulationManager>;

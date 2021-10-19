@@ -219,7 +219,7 @@ EuclideanVector::EuclideanVector(double xi, double yi, double zi) : x(xi), y(yi)
 }
 
 EuclideanVector::EuclideanVector() {
-    x=0;
-    y=0;
-    z=0;
+    x = 0;
+    y = 0;
+    z = 0;
 }

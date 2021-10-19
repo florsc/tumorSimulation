@@ -7,5 +7,6 @@
 #include "../../Managers/ConstraintManager.h"
 
 AxonFactory::AxonFactory(SimulationManagerHandle simulationManager) : m_constraintManager(
-        new ConstraintManager(parameters.exteriorLimit, parameters.minDistance)), m_simulationManager(simulationManager) {}
+        new ConstraintManager(parameters.exteriorLimit, parameters.minDistance)),
+                                                                      m_simulationManager(simulationManager) {}
 

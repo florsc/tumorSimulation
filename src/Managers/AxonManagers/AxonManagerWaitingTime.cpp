@@ -16,7 +16,7 @@ void AxonManagerWaitingTime::addAxon(AxonHandle axon) {
 }
 
 AxonHandle AxonManagerWaitingTime::getNextAxon() {
-    if (m_currentTime > parameters.maximumTime) { return {}; }
+    if (m_currentTime > m_maximumWaitingTime) { return {}; }
     auto tmp = m_waitingTimeQueue.top();
     while (!tmp.second->isActive()) {
         m_waitingTimeQueue.pop();
@@ -30,6 +30,6 @@ AxonHandle AxonManagerWaitingTime::getNextAxon() {
     return tmp.second;
 }
 
-AxonManagerWaitingTime::AxonManagerWaitingTime(SamplerHandle& sampler): m_waitingTimeSampler(std::move(sampler)) {
+AxonManagerWaitingTime::AxonManagerWaitingTime(SamplerHandle &sampler, double maximumWaitingTime) : m_waitingTimeSampler(std::move(sampler)), m_maximumWaitingTime(maximumWaitingTime) {
 
 }

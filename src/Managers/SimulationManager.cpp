@@ -18,7 +18,7 @@ SimulationManager::SimulationManager() {
 
 }
 
-void SimulationManager::setUp(SimulationManagerHandle  simulationManager){
+void SimulationManager::setUp(SimulationManagerHandle simulationManager) {
     m_axonManager = std::move(parameters.axonOrder->makeAxonManager());
     m_axonFactory = std::move(parameters.growthModel->makeAxonFactory(simulationManager));
 
@@ -27,7 +27,7 @@ void SimulationManager::setUp(SimulationManagerHandle  simulationManager){
     for (int i = 0; i < parameters.numberOfStartingAxons; i++) {
         auto startPositionIter = startPositions.begin();
         auto indexSampler = std::uniform_int_distribution<int>(0, startPositions.size() - 1);
-        int startPositionIndex = indexSampler(parameters.m_generator);
+        int startPositionIndex = indexSampler(*parameters.m_generator);
         std::advance(startPositionIter, startPositionIndex);
         addAxon(*startPositionIter);
         startPositions.erase(startPositionIter);

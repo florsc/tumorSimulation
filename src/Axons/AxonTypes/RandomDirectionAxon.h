@@ -13,17 +13,20 @@
 
 class SimulationManager;
 
-class RandomDirectionAxon : public BaseAxon{
+class RandomDirectionAxon : public BaseAxon {
 
     SamplerHandle m_lengthSampler;
     int m_maxConstraintEncounters;
+    double m_angleBackwardThreshold;
+
     int m_numberOfGrowthTimes{0};
     int m_constraintCounter{0};
+
     std::normal_distribution<double> m_normalDistribution{0, 1};
 
 public:
-    RandomDirectionAxon(int maxConstraintEncounters, SamplerHandle lengthSampler, EuclideanVector startPosition,
-                ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
+    RandomDirectionAxon(int maxConstraintEncounters, double angleBackwardThreshold, SamplerHandle lengthSampler, EuclideanVector startPosition,
+                        ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
 
     void grow() override;
 
@@ -31,10 +34,6 @@ public:
 
 private:
     EuclideanVector sampleVector();
-
-    void checkStopCondition();
-
-    void checkTargetReached() {};
 
     bool checkBranching();
 

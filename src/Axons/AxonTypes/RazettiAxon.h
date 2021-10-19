@@ -29,12 +29,14 @@ public:
 
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
-                SamplerHandle lengthSampler, EuclideanVector startPosition, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
+                SamplerHandle lengthSampler, EuclideanVector startPosition, ConstraintManagerHandle constraintManager,
+                SimulationManagerHandle simulationManager);
 
     RazettiAxon(int numberOfGrowthStepsEachTimeStep, int numberOfRetractions,
                 int maxConstraintEncounters, double alpha, double beta,
                 SamplerHandle lengthSampler, const EuclideanVector &startPosition,
-                std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager);
+                std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager,
+                SimulationManagerHandle simulationManager);
 
     void grow() override;
 
@@ -47,11 +49,9 @@ private:
 
     void checkStopCondition();
 
-    void checkTargetReached() {};
-
     bool checkBranching();
 
-    void createNewBranch(const PositionVector& possibleStartingPoints);
+    void createNewBranch(const PositionVector &possibleStartingPoints);
 
 };
 

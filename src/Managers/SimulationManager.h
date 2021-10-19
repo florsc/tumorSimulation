@@ -22,7 +22,7 @@ class SimulationManager {
 public:
     explicit SimulationManager();
 
-    void setUp(SimulationManagerHandle  simulationManager);
+    void setUp(SimulationManagerHandle simulationManager);
 
     static std::list<EuclideanVector>
     createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);

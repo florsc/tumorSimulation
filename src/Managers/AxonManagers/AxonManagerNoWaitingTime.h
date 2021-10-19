@@ -4,6 +4,7 @@
 
 #ifndef TUMORSIMULATION_AXONMANAGERNOWAITINGTIME_H
 #define TUMORSIMULATION_AXONMANAGERNOWAITINGTIME_H
+
 #include "AxonManager.h"
 
 class AxonManagerNoWaitingTime : public AxonManager {

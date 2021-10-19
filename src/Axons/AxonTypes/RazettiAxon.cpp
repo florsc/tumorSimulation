@@ -8,10 +8,12 @@
 #include "../../Managers/SimulationManager.h"
 #include "../../util/Samplers.h"
 
-RazettiAxon::RazettiAxon(int numberOfGrowthStepsEachTimeStep, int maxConstraintsEachGrowthStep, int maxConstraintEncounters,
+RazettiAxon::RazettiAxon(int numberOfGrowthStepsEachTimeStep, int maxConstraintsEachGrowthStep,
+                         int maxConstraintEncounters,
                          double alpha, double beta,
-                         SamplerHandle lengthSampler, EuclideanVector startPosition, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager)
-        : BaseAxon(startPosition,maxConstraintsEachGrowthStep, constraintManager, simulationManager),
+                         SamplerHandle lengthSampler, EuclideanVector startPosition,
+                         ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager)
+        : BaseAxon(startPosition, maxConstraintsEachGrowthStep, constraintManager, simulationManager),
           m_substepsEachGrowthStep(numberOfGrowthStepsEachTimeStep), m_maxConstraintEncounters(maxConstraintEncounters),
           m_alpha(alpha), m_beta(beta),
           m_lengthSampler(lengthSampler) {
@@ -19,27 +21,31 @@ RazettiAxon::RazettiAxon(int numberOfGrowthStepsEachTimeStep, int maxConstraints
     m_growthStepIndices.push_back(1);
 }
 
-RazettiAxon::RazettiAxon(int numberOfGrowthStepsEachTimeStep,int maxConstraintsEachGrowthStep, int maxConstraintEncounters,
+RazettiAxon::RazettiAxon(int numberOfGrowthStepsEachTimeStep, int maxConstraintsEachGrowthStep,
+                         int maxConstraintEncounters,
                          double alpha, double beta,
                          SamplerHandle lengthSampler, EuclideanVector startPosition, EuclideanVector nextPosition,
-                         ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager) : BaseAxon(startPosition, nextPosition,maxConstraintsEachGrowthStep,
-                                                                               constraintManager, simulationManager),
-                                                                                                                 m_substepsEachGrowthStep(
-                                                                              numberOfGrowthStepsEachTimeStep),
+                         ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager)
+        : BaseAxon(startPosition, nextPosition, maxConstraintsEachGrowthStep,
+                   constraintManager, simulationManager),
+          m_substepsEachGrowthStep(
+                  numberOfGrowthStepsEachTimeStep),
 
-                                                                                                                 m_maxConstraintEncounters(
-                                                                              maxConstraintEncounters),
-                                                                                                                 m_alpha(alpha), m_beta(beta), m_lengthSampler(
+          m_maxConstraintEncounters(
+                  maxConstraintEncounters),
+          m_alpha(alpha), m_beta(beta), m_lengthSampler(
                 lengthSampler) {
     m_growthAngles.push_back(std::make_pair<double, double>(0, 0));
     m_growthStepIndices.push_back(2);
 }
 
-RazettiAxon::RazettiAxon(int numberOfGrowthStepsEachTimeStep, int maxConstraintsEachGrowthStep, int maxConstraintEncounters,
+RazettiAxon::RazettiAxon(int numberOfGrowthStepsEachTimeStep, int maxConstraintsEachGrowthStep,
+                         int maxConstraintEncounters,
                          double alpha, double beta,
                          SamplerHandle lengthSampler, const EuclideanVector &startPosition,
-                         std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager, SimulationManagerHandle simulationManager)
-        : BaseAxon(startPosition,maxConstraintsEachGrowthStep,
+                         std::pair<double, double> startingAngles, ConstraintManagerHandle constraintManager,
+                         SimulationManagerHandle simulationManager)
+        : BaseAxon(startPosition, maxConstraintsEachGrowthStep,
                    std::move(constraintManager), simulationManager),
           m_substepsEachGrowthStep(
                   numberOfGrowthStepsEachTimeStep), m_maxConstraintEncounters(maxConstraintEncounters),
@@ -84,7 +90,7 @@ void RazettiAxon::grow() {
     for (const auto &centers: centersCurrentTimeStep) {
         m_constraintHandler->addConstraintCenters(centers, m_identifier, m_numberOfGrowthTimes);
     }
-    if(checkBranching() && tipPositionsCurrentTimeStep.size()>2){
+    if (checkBranching() && tipPositionsCurrentTimeStep.size() > 2) {
         createNewBranch(tipPositionsCurrentTimeStep);
     }
     m_numberOfGrowthTimes++;
@@ -97,11 +103,11 @@ void RazettiAxon::grow() {
 EuclideanVector RazettiAxon::sampleVector() {
     auto expectation_0 = (m_alpha / (m_alpha + m_beta)) * m_growthAngles.back().first;
     auto variation_0 = 1 / sqrt(2 * (m_alpha + m_beta));
-    auto newTheta0 = std::normal_distribution<>(expectation_0, variation_0)(parameters.m_generator);
+    auto newTheta0 = std::normal_distribution<>(expectation_0, variation_0)(*m_generator);
 
     auto expectation_1 = (m_alpha / (m_alpha + m_beta)) * m_growthAngles.back().second;
     auto variation_1 = 1 / sqrt(2 * (m_alpha + m_beta));
-    auto newTheta1 = std::normal_distribution<>(expectation_1, variation_1)(parameters.m_generator);
+    auto newTheta1 = std::normal_distribution<>(expectation_1, variation_1)(*m_generator);
 
     auto finalAngle_0 = 2 * atan(newTheta0);
     auto finalAngle_1 = 2 * atan(newTheta1);
@@ -117,42 +123,44 @@ void RazettiAxon::checkStopCondition() {
 }
 
 bool RazettiAxon::checkBranching() {
-    bool branch = std::bernoulli_distribution(parameters.branchingProbability)(parameters.m_generator);
+    bool branch = std::bernoulli_distribution(parameters.branchingProbability)(*m_generator);
     return branch;
 }
 
-void RazettiAxon::createNewBranch(const PositionVector& possibleStartingPoints) {
-    auto positionIndex = std::uniform_int_distribution<int>(1,possibleStartingPoints.size()-1)(parameters.m_generator);
+void RazettiAxon::createNewBranch(const PositionVector &possibleStartingPoints) {
+    auto positionIndex = std::uniform_int_distribution<int>(1, possibleStartingPoints.size() - 1)(
+            *m_generator);
     auto startPosition = possibleStartingPoints[positionIndex];
-    auto initialAzDistribution = std::uniform_real_distribution<double>(0,2*M_PI);
-    auto initialElDistribution = std::uniform_real_distribution<double>(-0.5*M_PI,0.5*M_PI);
+    auto initialAzDistribution = std::uniform_real_distribution<double>(0, 2 * M_PI);
+    auto initialElDistribution = std::uniform_real_distribution<double>(-0.5 * M_PI, 0.5 * M_PI);
     double az;
     double el;
     EuclideanVector nextPosition;
     std::vector<EuclideanVector> centers;
     auto tries = 0;
-    do{
-        az = initialAzDistribution(parameters.m_generator);
-        el = initialElDistribution(parameters.m_generator);
-        auto growthVector = HelperFunctions::sph2cart(az,el,m_lengthSampler->sample());
-        nextPosition = startPosition+growthVector;
+    do {
+        az = initialAzDistribution(*m_generator);
+        el = initialElDistribution(*m_generator);
+        auto growthVector = HelperFunctions::sph2cart(az, el, m_lengthSampler->sample());
+        nextPosition = startPosition + growthVector;
         tries++;
         centers = HelperFunctions::createCoveringCenters(startPosition, growthVector,
-                                                       parameters.minDistance);
-    }while(m_constraintHandler->checkForConstraint(centers) && tries <20);
-    if(tries<20){
-        if(auto simulationManager = m_simulationManager.lock()){
-        simulationManager->addStartedAxon(startPosition, nextPosition);
-    }}
+                                                         parameters.minDistance);
+    } while (m_constraintHandler->checkForConstraint(centers) && tries < 20);
+    if (tries < 20) {
+        if (auto simulationManager = m_simulationManager.lock()) {
+            simulationManager->addStartedAxon(startPosition, nextPosition);
+        }
+    }
 }
 
 bool RazettiAxon::addPosition(EuclideanVector position) {
-    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position-m_tipPositions.back(), parameters.minDistance);
-    if(m_constraintHandler->checkForConstraint(centers)) {
+    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position - m_tipPositions.back(),
+                                                          parameters.minDistance);
+    if (m_constraintHandler->checkForConstraint(centers)) {
         m_tipPositions.push_back(position);
         m_growthAngles.push_back(m_growthAngles.back());
-    }
-    else{
+    } else {
         return false;
     }
     m_constraintHandler->addConstraintCenters(centers, m_identifier, m_numberOfGrowthTimes);
@@ -161,19 +169,20 @@ bool RazettiAxon::addPosition(EuclideanVector position) {
     m_growthStepIndices.push_back(m_growthStepIndices.back() + 1);
     return true;
 }
+
 bool RazettiAxon::addPosition(EuclideanVector position, std::pair<double, double> angles) {
-    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position-m_tipPositions.back(), parameters.minDistance);
-    if(m_constraintHandler->checkForConstraint(centers)) {
-    m_tipPositions.push_back(position);
-    m_growthAngles.push_back(angles);
-}
-else{
-return false;
-}
+    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position - m_tipPositions.back(),
+                                                          parameters.minDistance);
+    if (m_constraintHandler->checkForConstraint(centers)) {
+        m_tipPositions.push_back(position);
+        m_growthAngles.push_back(angles);
+    } else {
+        return false;
+    }
     m_constraintHandler->addConstraintCenters(centers, m_identifier, m_numberOfGrowthTimes);
     m_numberOfGrowthTimes++;
 
     m_growthStepIndices.push_back(m_growthStepIndices.back() + 1);
-return true;
+    return true;
 
 }

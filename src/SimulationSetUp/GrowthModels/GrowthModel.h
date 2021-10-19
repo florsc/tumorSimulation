@@ -7,9 +7,11 @@
 
 #include "../../util/TypeDefs.h"
 
-struct GrowthModel{
+struct GrowthModel {
 public:
-    GrowthModel(){}
-    virtual AxonFactoryHandle makeAxonFactory(SimulationManagerHandle simulationManager)=0;
+    GrowthModel() {}
+
+    virtual AxonFactoryHandle makeAxonFactory(SimulationManagerHandle simulationManager) = 0;
 };
+
 #endif //TUMORSIMULATION_GROWTHMODEL_H

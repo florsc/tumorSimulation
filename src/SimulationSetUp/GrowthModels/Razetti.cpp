@@ -6,5 +6,7 @@
 #include "../../Axons/Factories/RazettiFactory.h"
 
 AxonFactoryHandle Razetti::makeAxonFactory(SimulationManagerHandle simulationManager) {
-    return AxonFactoryHandle (new RazettiFactory(numberOfGrowthStepsEachTimeStep, numberOfRetractions, maxNumberOfConstraintEncounters, alpha, beta, lengthSampler, simulationManager));
+    return AxonFactoryHandle(
+            new RazettiFactory(numberOfGrowthStepsEachTimeStep, numberOfRetractions, maxNumberOfConstraintEncounters,
+                               alpha, beta, lengthSampler, simulationManager));
 }

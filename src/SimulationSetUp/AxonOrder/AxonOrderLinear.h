@@ -4,8 +4,10 @@
 
 #ifndef TUMORSIMULATION_AXONORDERLINEAR_H
 #define TUMORSIMULATION_AXONORDERLINEAR_H
+
 #include "AxonOrder.h"
-class AxonOrderLinear :public AxonOrder{
+
+class AxonOrderLinear : public AxonOrder {
 public:
     AxonManagerHandle makeAxonManager() override;
 };

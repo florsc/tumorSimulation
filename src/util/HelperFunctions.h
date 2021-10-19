@@ -17,7 +17,7 @@ namespace HelperFunctions {
     checkForDirectionSimilarity(const EuclideanVector &oldVector, const EuclideanVector &newVector, double threshold);
 
     std::vector<EuclideanVector>
-    createCoveringCenters(const EuclideanVector &start, const EuclideanVector &end, double minDistance);
+    createCoveringCenters(const EuclideanVector &start, const EuclideanVector &diff, double minDistance);
 
     template<typename Container>
     void removeElementsFromEnd(Container &container, int numberOfElementsToRemove) {

@@ -4,10 +4,11 @@
 
 #ifndef TUMORSIMULATION_RAZETTI_H
 #define TUMORSIMULATION_RAZETTI_H
+
 #include "GrowthModel.h"
 #include "../../util/Samplers.h"
 
-class Razetti:public GrowthModel {
+class Razetti : public GrowthModel {
 
     const int numberOfGrowthStepsEachTimeStep = 6;
     const int numberOfRetractions = 2;
@@ -17,7 +18,8 @@ class Razetti:public GrowthModel {
     SamplerHandle lengthSampler = std::make_shared<ConstantValueSampler>(1);
 
 public:
-    Razetti():GrowthModel(){}
+    Razetti() : GrowthModel() {}
+
     AxonFactoryHandle makeAxonFactory(SimulationManagerHandle simulationManager) override;
 };
 

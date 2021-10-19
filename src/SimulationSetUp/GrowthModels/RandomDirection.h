@@ -11,13 +11,15 @@
 
 class RandomDirection : public GrowthModel {
 
-        const int maxNumberOfConstraintEncounters = 100;
-        SamplerHandle lengthSampler = std::make_shared<ConstantValueSampler>(1);
+    const int maxNumberOfConstraintEncounters = 1000;
+    static constexpr double angleBackwardThreshold = 0.7 * M_PI;
+    SamplerHandle lengthSampler = std::make_shared<ConstantValueSampler>(1);
 
-    public:
-RandomDirection():GrowthModel(){}
-        AxonFactoryHandle makeAxonFactory(SimulationManagerHandle simulationManager) override;
-    };
+public:
+    RandomDirection() : GrowthModel() {}
+
+    AxonFactoryHandle makeAxonFactory(SimulationManagerHandle simulationManager) override;
+};
 
 
 #endif //TUMORSIMULATION_RANDOMDIRECTION_H

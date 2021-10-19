@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "../../util/TypeDefs.h"
+#include "../../util/EuclideanVector.h"
 
 class ConstraintManager;
 
@@ -16,6 +17,7 @@ class EuclideanVector;
 class BaseAxon {
 protected:
     PositionVector m_tipPositions;
+    GeneratorHandle m_generator;
     AxonVector childAxons;
     ConstraintManagerHandle m_constraintHandler;
     int m_maxConstraintsEachGrowthStep;
@@ -28,25 +30,31 @@ protected:
 
 protected:
 
-    BaseAxon(EuclideanVector startPosition, int maxConstraintsEachGrowthStep, ConstraintManagerHandle constraintHandler, SimulationManagerHandle simulationManager);
+    BaseAxon(const EuclideanVector& startPosition, int maxConstraintsEachGrowthStep, ConstraintManagerHandle constraintHandler,
+             SimulationManagerHandle simulationManager);
 
-    BaseAxon(EuclideanVector startPosition, EuclideanVector nextPosition, int maxConstraintsEachGrowthStep,
+    BaseAxon(const EuclideanVector& startPosition, const EuclideanVector& nextPosition, int maxConstraintsEachGrowthStep,
              ConstraintManagerHandle constraintHandler, SimulationManagerHandle simulationManager);
 
 public:
-    virtual void stopAxon();
 
     virtual void killAxon();
 
-    [[nodiscard]] bool isActive() const;
+    [[nodiscard]] PositionVector getTipPositions() const { return m_tipPositions; }
 
-    [[nodiscard]] bool isAlive() const;
+    virtual void stopAxon() { m_active = false; }
+
+    [[nodiscard]] bool hasId(const int id) const { return m_identifier == id; }
+
+    [[nodiscard]] bool isActive() const { return m_active; }
+
+    [[nodiscard]] bool isAlive() const {
+        return m_isAlive;
+    }
+
+public:
 
     virtual void grow() = 0;
-
-    PositionVector getTipPositions();
-
-    bool hasId(const int id) {return m_identifier == id;}
 
 };
 

@@ -12,16 +12,17 @@
 class RandomDirectionFactory : public AxonFactory {
     int m_maxNumberOfConstraintEncounters;
     SamplerHandle m_lengthSampler;
+    double m_angleBackwardThreshold;
 
 public:
     RandomDirectionFactory(int maxNumberOfConstraintEncounters,
-                   SamplerHandle lengthSampler, SimulationManagerHandle simulationManagerHandle);
+                           SamplerHandle lengthSampler, SimulationManagerHandle simulationManagerHandle, double angleBackwardThreshold);
 
     AxonHandle makeAxon(const EuclideanVector &startPosition) override;
 
     AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) override;
 
-    ~RandomDirectionFactory(){std::cout<<"RandomDirectionFactory destructed"<<std::endl;}
+    ~RandomDirectionFactory() { std::cout << "RandomDirectionFactory destructed" << std::endl; }
 
 };
 

@@ -7,6 +7,6 @@
 #include "../ParameterStruct.h"
 
 AxonManagerHandle AxonOrderSampledWaitingTime::makeAxonManager() {
-    return AxonManagerHandle(new AxonManagerWaitingTime(waitingTimeSampler));
+    return AxonManagerHandle(new AxonManagerWaitingTime(waitingTimeSampler, maximumTime));
 }
 

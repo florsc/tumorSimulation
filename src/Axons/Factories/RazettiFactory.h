@@ -25,7 +25,7 @@ public:
 
     AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) override;
 
-    ~RazettiFactory(){std::cout<<"RazettyFactory destructed"<<std::endl;}
+    ~RazettiFactory() { std::cout << "RazettyFactory destructed" << std::endl; }
 
 };
 

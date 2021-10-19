@@ -16,16 +16,18 @@ class AxonManagerWaitingTime : public AxonManager {
             return a.first > b.first;
         }
     };
-        SamplerHandle m_waitingTimeSampler;
-        double m_currentTime{0};
-        std::priority_queue<std::pair<double, AxonHandle>, std::vector<std::pair<double, AxonHandle>>, Comparator> m_waitingTimeQueue;
-    public:
-    explicit AxonManagerWaitingTime(SamplerHandle& sampler);
-        AxonHandle getNextAxon();
 
-        void addAxon(AxonHandle axon);
-    };
+    SamplerHandle m_waitingTimeSampler;
+    double m_currentTime{0};
+    std::priority_queue<std::pair<double, AxonHandle>, std::vector<std::pair<double, AxonHandle>>, Comparator> m_waitingTimeQueue;
+    double m_maximumWaitingTime;
+public:
+    explicit AxonManagerWaitingTime(SamplerHandle &sampler, double maximumWaitingTime);
 
+    AxonHandle getNextAxon();
+
+    void addAxon(AxonHandle axon);
+};
 
 
 #endif //TUMORSIMULATION_AXONMANAGERWAITINGTIME_H

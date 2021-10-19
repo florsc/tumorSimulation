@@ -15,21 +15,27 @@
 #include <cmath>
 
 RandomDirectionFactory::RandomDirectionFactory(int maxNumberOfConstraintEncounters,
-                               SamplerHandle lengthSampler, SimulationManagerHandle simulationManagerHandle) : AxonFactory(simulationManagerHandle),
-                                                                                                               m_maxNumberOfConstraintEncounters(maxNumberOfConstraintEncounters), m_lengthSampler(lengthSampler) {
+                                               SamplerHandle lengthSampler,
+                                               SimulationManagerHandle simulationManagerHandle, double angleBackwardThreshold) : AxonFactory(
+        simulationManagerHandle),
+                                                                                                  m_maxNumberOfConstraintEncounters(
+                                                                                                          maxNumberOfConstraintEncounters),
+                                                                                                  m_lengthSampler(
+                                                                                                          lengthSampler), m_angleBackwardThreshold(angleBackwardThreshold) {
 
 }
 
 AxonHandle RandomDirectionFactory::makeAxon(const EuclideanVector &startPosition) {
     return AxonHandle(
-            new RandomDirectionAxon(m_maxNumberOfConstraintEncounters, m_lengthSampler,
-                            startPosition, m_constraintManager, m_simulationManager));
+            new RandomDirectionAxon(m_maxNumberOfConstraintEncounters, m_angleBackwardThreshold, m_lengthSampler,
+                                    startPosition, m_constraintManager, m_simulationManager));
 }
 
-AxonHandle RandomDirectionFactory::makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
-    auto axon = std::make_shared<RandomDirectionAxon>(m_maxNumberOfConstraintEncounters,
-                                              m_lengthSampler,
-                                              startPosition, m_constraintManager, m_simulationManager);
+AxonHandle
+RandomDirectionFactory::makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
+    auto axon = std::make_shared<RandomDirectionAxon>(m_maxNumberOfConstraintEncounters, m_angleBackwardThreshold,
+                                                      m_lengthSampler,
+                                                      startPosition, m_constraintManager, m_simulationManager);
     axon->addPosition(nextPosition);
     return axon;
 }

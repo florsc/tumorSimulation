@@ -10,6 +10,7 @@
 #include <cmath>
 #include <chrono>
 #include "../util/EuclideanVector.h"
+#include "../util/TypeDefs.h"
 
 class AxonOrder;
 
@@ -22,17 +23,16 @@ class AxonFactory;
 class ExteriorLimit;
 
 class ConstraintManager;
+
 class GrowthModel;
+
 struct ParameterStruct {
     ParameterStruct();
-    
-    std::mt19937 m_generator = std::mt19937(
-            std::chrono::system_clock::now().time_since_epoch().count());
+    long long seed = std::chrono::system_clock::now().time_since_epoch().count();
+    GeneratorHandle m_generator;
     static constexpr int numberOfStartingAxons = 1;
     static constexpr double minDistance = 0.5;
     static constexpr double branchingProbability = 0.1;
-    static constexpr double maximumTime = 10.0;
-    static constexpr double angleThreshold = 0.7 * M_PI;
     std::pair<EuclideanVector, EuclideanVector> startingAreaCorners{{-10, -10, -10},
                                                                     {10,  10,  10}};
     std::unique_ptr<AxonOrder> axonOrder;

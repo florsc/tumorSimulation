@@ -26,7 +26,8 @@ public:
     void removeAxon(int id);
 
     AxonList getAllAxons() {
-        return m_allAxons; }
+        return m_allAxons;
+    }
 
 };
 

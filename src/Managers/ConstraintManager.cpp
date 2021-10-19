@@ -106,7 +106,7 @@ void ConstraintManager::addConstraintCenters(const std::list<EuclideanVector> &c
 void ConstraintManager::freeSpace(int axonIdentifier) {
     for (auto it = m_centerMap.begin(); it != m_centerMap.end(); it++) {
         if (it->second.second.first == axonIdentifier) {
-                m_centerMap.erase(it);
+            m_centerMap.erase(it);
         }
     }
 }
