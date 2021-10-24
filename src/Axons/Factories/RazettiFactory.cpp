@@ -4,34 +4,28 @@
 
 #include "RazettiFactory.h"
 
-#include "../AxonTypes/RazettiAxon.h"
+#include "../AxonTypes/RazettiAxon/RazettiAxon.h"
 #include "../../util/HelperFunctions.h"
 #include <cmath>
 
-RazettiFactory::RazettiFactory(int numberOfGrowthStepsEachTimeStep,
-                               int numberOfRetractions, int maxNumberOfConstraintEncounters, double alpha, double beta,
-                               SamplerHandle lengthSampler, SimulationManagerHandle simulationManagerHandle)
-        : AxonFactory(simulationManagerHandle),
-          m_numberOfGrowthStepsEachTimeStep(numberOfGrowthStepsEachTimeStep),
-          m_numberOfRetractions(numberOfRetractions),
-          m_maxNumberOfConstraintEncounters(maxNumberOfConstraintEncounters),
-          m_alpha(alpha), m_beta(beta), m_lengthSampler(lengthSampler) {
+RazettiFactory::RazettiFactory() : AxonFactory() {
 
 }
 
-AxonHandle RazettiFactory::makeAxon(const EuclideanVector &startPosition) {
-    return AxonHandle(
-            new RazettiAxon(m_numberOfGrowthStepsEachTimeStep, m_numberOfRetractions, m_maxNumberOfConstraintEncounters,
-                            m_alpha, m_beta, m_lengthSampler,
-                            startPosition, m_constraintManager, m_simulationManager));
+AxonHandle
+RazettiFactory::makeAxon(const EuclideanVector &startPosition, int constraintsEncountered, WeakAxonHandle rootAxon) {
+    auto axon = AxonHandle(
+            new RazettiAxon(startPosition, m_razettiAxonParameters, m_baseAxonParameters, constraintsEncountered));
+    setUpRoot(axon, rootAxon);
+    return axon;
 }
 
-AxonHandle RazettiFactory::makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
-    auto axon = std::make_shared<RazettiAxon>(m_numberOfGrowthStepsEachTimeStep, m_numberOfRetractions,
-                                              m_maxNumberOfConstraintEncounters,
-                                              m_alpha, m_beta, m_lengthSampler,
-                                              startPosition, m_constraintManager, m_simulationManager);
+AxonHandle RazettiFactory::makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
+                                           int constraintsEncountered, WeakAxonHandle rootAxon) {
+    auto axon = std::make_shared<RazettiAxon>(startPosition, m_razettiAxonParameters, m_baseAxonParameters,
+                                              constraintsEncountered);
     auto angles = HelperFunctions::getSphericalAngles(nextPosition - startPosition);
     axon->addPosition(nextPosition, angles);
+    setUpRoot(axon, rootAxon);
     return axon;
 }

@@ -2,12 +2,12 @@
 // Created by florian on 10/15/21.
 //
 
-#include "AxonManagerNoWaitingTime.h"
+#include "AxonManagerLinear.h"
 
 #include "AxonManager.h"
-#include "../../Axons/AxonTypes/BaseAxon.h"
+#include "../../Axons/AxonTypes/BaseAxon/BaseAxon.h"
 
-AxonHandle AxonManagerNoWaitingTime::getNextAxon() {
+AxonHandle AxonManagerLinear::getNextAxon() {
     if (++m_currentAxon == m_activeAxons.end()) {
         m_currentAxon = m_activeAxons.begin();
     }
@@ -19,7 +19,7 @@ AxonHandle AxonManagerNoWaitingTime::getNextAxon() {
     return *m_currentAxon;
 }
 
-void AxonManagerNoWaitingTime::addAxon(AxonHandle axon) {
+void AxonManagerLinear::addAxon(AxonHandle axon) {
     m_allAxons.push_back(axon);
     m_activeAxons.push_back(axon);
 }

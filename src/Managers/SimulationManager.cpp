@@ -8,9 +8,9 @@
 #include "../SimulationSetUp/ParameterStruct.h"
 #include "SimulationManager.h"
 #include "AxonManagers/AxonManager.h"
-#include "../Axons/AxonTypes/RazettiAxon.h"
+#include "../Axons/AxonTypes/RazettiAxon/RazettiAxon.h"
 #include "../Axons/Factories/AxonFactory.h"
-#include "../SimulationSetUp/GrowthModels/GrowthModel.h"
+#include "../SimulationSetUp/GrowthModels/AxonSetUpParameters.h"
 #include "../SimulationSetUp/AxonOrder/AxonOrder.h"
 #include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.h"
 
@@ -20,8 +20,8 @@ SimulationManager::SimulationManager() {
 
 void SimulationManager::setUp(SimulationManagerHandle simulationManager) {
     m_axonManager = std::move(parameters.axonOrder->makeAxonManager());
-    m_axonFactory = std::move(parameters.growthModel->makeAxonFactory(simulationManager));
-
+    m_axonFactory = std::move(parameters.axonFactory);
+    m_axonFactory->setUpFactory(simulationManager);
     auto startPositions = createPossibleStartPositions(parameters.startingAreaCorners.first,
                                                        parameters.startingAreaCorners.second, parameters.minDistance);
     for (int i = 0; i < parameters.numberOfStartingAxons; i++) {
@@ -80,20 +80,27 @@ std::vector<std::vector<std::vector<double>>> SimulationManager::getAxonPosition
     return axonVec;
 }
 
-void SimulationManager::addAxon(const EuclideanVector &startPosition) {
-    addAxon(m_axonFactory->makeAxon(startPosition));
+AxonHandle
+SimulationManager::addAxon(const EuclideanVector &startPosition, int constraintsEncountered, WeakAxonHandle rootAxon) {
+    auto newAxon = (m_axonFactory->makeAxon(startPosition, constraintsEncountered, rootAxon));
+    addAxon(newAxon);
+    return newAxon;
 }
 
-void SimulationManager::addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
-    addAxon(m_axonFactory->makeStartedAxon(startPosition, nextPosition));
+AxonHandle
+SimulationManager::addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
+                                  int constraintsEncountered, WeakAxonHandle rootAxon) {
+    auto newAxon = m_axonFactory->makeStartedAxon(startPosition, nextPosition, constraintsEncountered, rootAxon);
+    addAxon(newAxon);
+    return newAxon;
 }
 
 void SimulationManager::addAxon(AxonHandle axon) {
     m_axonManager->addAxon(axon);
 }
 
-SimulationManager::~SimulationManager() { std::cout << "SimulationManager destructed" << std::endl; }
-
 void SimulationManager::removeAxon(const int id) {
     m_axonManager->removeAxon(id);
 }
+
+SimulationManager::~SimulationManager() { std::cout << "SimulationManager destructed" << std::endl; }

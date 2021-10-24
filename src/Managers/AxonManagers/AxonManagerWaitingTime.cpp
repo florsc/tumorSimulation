@@ -6,7 +6,7 @@
 #include "../../SimulationSetUp/ParameterStruct.h"
 
 #include "AxonManager.h"
-#include "../../Axons/AxonTypes/BaseAxon.h"
+#include "../../Axons/AxonTypes/BaseAxon/BaseAxon.h"
 #include "../../util/Samplers.h"
 
 void AxonManagerWaitingTime::addAxon(AxonHandle axon) {
@@ -30,6 +30,7 @@ AxonHandle AxonManagerWaitingTime::getNextAxon() {
     return tmp.second;
 }
 
-AxonManagerWaitingTime::AxonManagerWaitingTime(SamplerHandle &sampler, double maximumWaitingTime) : m_waitingTimeSampler(std::move(sampler)), m_maximumWaitingTime(maximumWaitingTime) {
+AxonManagerWaitingTime::AxonManagerWaitingTime(SamplerHandle &sampler, double maximumWaitingTime)
+        : m_waitingTimeSampler(std::move(sampler)), m_maximumWaitingTime(maximumWaitingTime) {
 
 }

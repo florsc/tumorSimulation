@@ -3,8 +3,8 @@
 //
 
 #include "AxonOrderLinear.h"
-#include "../../Managers/AxonManagers/AxonManagerNoWaitingTime.h"
+#include "../../Managers/AxonManagers/AxonManagerLinear.h"
 
 AxonManagerHandle AxonOrderLinear::makeAxonManager() {
-    return AxonManagerHandle(new AxonManagerNoWaitingTime());
+    return AxonManagerHandle(new AxonManagerLinear());
 }

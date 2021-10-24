@@ -31,11 +31,13 @@ public:
 
     std::vector<std::vector<std::vector<double>>> getAxonPositions();
 
-    void addAxon(const EuclideanVector &startPosition);
-
     void removeAxon(const int id);
 
-    void addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition);
+    AxonHandle addAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
+                       WeakAxonHandle rootAxon = WeakAxonHandle());
+
+    AxonHandle addStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
+                              int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle());
 
     void addAxon(AxonHandle axon);
 

@@ -3,7 +3,7 @@
 //
 
 #include "AxonManager.h"
-#include "../../Axons/AxonTypes/BaseAxon.h"
+#include "../../Axons/AxonTypes/BaseAxon/BaseAxon.h"
 #include "../../SimulationSetUp/ParameterStruct.h"
 
 void AxonManager::removeAxon(int id) {

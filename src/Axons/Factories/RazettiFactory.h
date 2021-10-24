@@ -7,23 +7,19 @@
 
 #include <iostream>
 #include "AxonFactory.h"
+#include "../AxonTypes/RazettiAxon/RazettiAxonParameters.h"
+#include "../../SimulationSetUp/GrowthModels/RazettiSetUpParameters.h"
 
 class RazettiFactory : public AxonFactory {
-    int m_numberOfGrowthStepsEachTimeStep;
-    int m_numberOfRetractions;
-    int m_maxNumberOfConstraintEncounters;
-    double m_alpha;
-    double m_beta;
-    SamplerHandle m_lengthSampler;
-
+    RazettiAxonParameters m_razettiAxonParameters;
 public:
-    RazettiFactory(int numberOfGrowthStepsEachTimeStep,
-                   int numberOfRetractions, int maxNumberOfConstraintEncounters, double alpha, double beta,
-                   SamplerHandle lengthSampler, SimulationManagerHandle simulationManagerHandle);
+    RazettiFactory();
 
-    AxonHandle makeAxon(const EuclideanVector &startPosition) override;
+    AxonHandle makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
+                        WeakAxonHandle rootAxon = WeakAxonHandle()) override;
 
-    AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) override;
+    AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
+                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle()) override;
 
     ~RazettiFactory() { std::cout << "RazettyFactory destructed" << std::endl; }
 

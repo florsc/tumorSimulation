@@ -8,20 +8,26 @@
 
 #include <random>
 #include "../../util/TypeDefs.h"
+#include "../../SimulationSetUp/GrowthModels/AxonSetUpParameters.h"
+#include "../AxonTypes/BaseAxon/BaseAxonParameters.h"
 
 class AxonFactory {
 
 protected:
-    ConstraintManagerHandle m_constraintManager;
-    SimulationManagerHandle m_simulationManager;
+    BaseAxonParameters m_baseAxonParameters;
 
-    AxonFactory(SimulationManagerHandle simulationManager);
+    explicit AxonFactory();
 
 public:
-    virtual AxonHandle makeAxon(const EuclideanVector &startPosition) = 0;
+    void setUpFactory(SimulationManagerHandle simulationManager);
 
-    virtual AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) = 0;
+    virtual AxonHandle
+    makeAxon(const EuclideanVector &startPosition, int constraintsEncountered, WeakAxonHandle rootAxon) = 0;
 
+    virtual AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
+                                       int constraintsEncountered, WeakAxonHandle rootAxon) = 0;
+
+    void setUpRoot(AxonHandle axon, WeakAxonHandle rootAxon);
 
     virtual ~AxonFactory() {}
 };

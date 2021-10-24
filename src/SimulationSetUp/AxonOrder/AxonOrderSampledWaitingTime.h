@@ -12,7 +12,7 @@ class AxonOrderSampledWaitingTime : public AxonOrder {
     SamplerHandle waitingTimeSampler{new UniformDoubleSampler(0.1, 1)};
     static constexpr double maximumTime = 30.0;
 public:
-    AxonManagerHandle makeAxonManager();
+    AxonManagerHandle makeAxonManager() override;
 };
 
 

@@ -43,10 +43,10 @@ class Visualizer:
                                alpha=0.2, rstride=rstride, cstride=cstride)
         self.axis.plot_surface(Xc, -Yc, Zc, color='r',
                                alpha=0.2, rstride=rstride, cstride=cstride)
-
+'''
     def addTargets(self, targets):
-        radius = targets["radius"]
-        for index in range(targets["centers"][:,0].size):
+        for index in range(len(targets["radius"])):
+            radius = targets["radius"][index]
             center = targets["centers"][index]
             u = np.linspace(0, 2 * np.pi, 100)
             v = np.linspace(0, np.pi, 100)
@@ -56,7 +56,7 @@ class Visualizer:
 
             # Plot the surface
             self.axis.plot_surface(x, y, z, alpha=0.2, color='r')
-        '''
+
 
     def addAxons(self):
         for i in range(len(self.simulatedAxons)):
@@ -84,7 +84,8 @@ class Visualizer:
 
     def visualize(self):
         self.addAxons()
-        self.addBallLimits(30)
+        #self.addBallLimits(400)
+        self.addTargets({"radius":[20,30], "centers":[[12,70,20],[-120,5,20]]})
         self.axis.set_xlabel("X")
         self.axis.set_ylabel("Y")
         self.axis.set_zlabel("Z")

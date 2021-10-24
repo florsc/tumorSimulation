@@ -7,11 +7,11 @@
 
 #include <random>
 #include "TypeDefs.h"
-#include "../SimulationSetUp/ParameterStruct.h"
 
 class Samplers {
 protected:
-    Samplers():m_generator(parameters.m_generator){}
+    Samplers();
+
     GeneratorHandle m_generator;
 public:
     virtual double sample() = 0;
@@ -20,7 +20,7 @@ public:
 class UniformDoubleSampler : public Samplers {
     std::uniform_real_distribution<double> m_dist;
 public:
-    UniformDoubleSampler(double low, double high) :Samplers(), m_dist(std::uniform_real_distribution(low, high)) {}
+    UniformDoubleSampler(double low, double high) : Samplers(), m_dist(std::uniform_real_distribution(low, high)) {}
 
     double sample() override { return m_dist(*m_generator); }
 };

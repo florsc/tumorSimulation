@@ -11,6 +11,8 @@
 
 
 int run() {
+    std::cout << "Initialize global parameters" << std::endl;
+    parameters.init();
     std::cout << "Create Simulation Manager" << std::endl;
     auto simulationManager = std::make_shared<SimulationManager>();
     std::cout << "Set up simulation" << std::endl;

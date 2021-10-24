@@ -6,8 +6,19 @@
 #include <iostream>
 #include "ConstraintManager.h"
 #include <algorithm>
+#include <values.h>
 #include "../ExteriorLimits/ExteriorLimit.h"
 #include "../SimulationSetUp/ParameterStruct.h"
+
+ConstraintManager::ConstraintManager() : m_exteriorLimit(parameters.exteriorLimit),
+                                         m_distanceLimit(parameters.minDistance) {
+
+}
+
+ConstraintManager::ConstraintManager(std::shared_ptr<ExteriorLimit> exteriorLimit, double distanceLimit)
+        : m_exteriorLimit(exteriorLimit), m_distanceLimit(distanceLimit) {
+
+}
 
 bool ConstraintManager::checkForExteriorLimit(const EuclideanVector &position) {
     return m_exteriorLimit->checkExteriorLimitExceeded(position);
@@ -31,31 +42,47 @@ bool ConstraintManager::checkForConstraint(const std::vector<EuclideanVector> &p
 bool ConstraintManager::checkForOccupiedSpace(const std::vector<EuclideanVector> &positions, int axonIdentifier,
                                               int growthStep, bool addCenters) {
     if (!m_centerMap.empty()) {
-        double low = std::min(positions.at(0).at(0), positions.back().at(0));
-        double high = std::max(positions.at(0).at(0), positions.back().at(0));
+        double maxSquaredDistanceToBegin = 0;
+        double low = MAXFLOAT;
+        double high = MINFLOAT;
+        for (const auto &position: positions) {
+            auto distSquared = (position - positions[0]) * (position - positions[0]);
+            if (distSquared > maxSquaredDistanceToBegin) { maxSquaredDistanceToBegin = distSquared; }
+            low = std::min(position[0], low);
+            high = std::max(position[0], high);
+        }
         auto itLow = m_centerMap.lower_bound(low - m_distanceLimit);
-        auto itHigh = m_centerMap.lower_bound(high + m_distanceLimit);
+        auto itHigh = m_centerMap.upper_bound(high + m_distanceLimit);
         auto itLowTmp = itLow;
         double distanceLimitSquared = m_distanceLimit * m_distanceLimit;
         while (itLowTmp != itHigh) {
+
             auto center = itLowTmp->second.first;
-            for (const auto &position: positions) {
-                if ((position - center) * (position - center) < distanceLimitSquared) {
-                    return true;
+            if ((positions[0] - center) * (positions[0] - center) < maxSquaredDistanceToBegin + distanceLimitSquared) {
+                for (const auto &position: positions) {
+                    if ((position - center) * (position - center) < distanceLimitSquared) {
+                        return true;
+                    }
                 }
             }
             itLowTmp++;
         }
         if (addCenters) {
+            auto it = itLow;
             auto itPos = positions.begin();
             while (itPos != positions.end()) {
-                while (itLow != itHigh && itLow->first < itPos->at(0)) {
-                    itLow++;
+                if (it->first < itPos->at(0)) {
+                    while (it != itHigh && it->first < itPos->at(0)) {
+                        it++;
+                    }
+                } else {
+                    while (it != itLow && it->first > itPos->at(0)) {
+                        itLow--;
+                    }
                 }
-
-                m_centerMap.insert(
-                        std::make_pair(itPos->at(0),
-                                       std::make_pair(*itPos, std::make_pair(axonIdentifier, growthStep))));
+                m_centerMap.insert(it,
+                                   std::make_pair(itPos->at(0),
+                                                  std::make_pair(*itPos, std::make_pair(axonIdentifier, growthStep))));
                 itPos++;
             }
         }
@@ -63,22 +90,33 @@ bool ConstraintManager::checkForOccupiedSpace(const std::vector<EuclideanVector>
     return false;
 }
 
-ConstraintManager::ConstraintManager() : m_exteriorLimit(parameters.exteriorLimit),
-                                         m_distanceLimit(parameters.minDistance) {
-
-}
-
-ConstraintManager::ConstraintManager(std::shared_ptr<ExteriorLimit> exteriorLimit, double distanceLimit)
-        : m_exteriorLimit(exteriorLimit), m_distanceLimit(distanceLimit) {
-
-}
-
 void ConstraintManager::addConstraintCenters(const std::vector<EuclideanVector> &constraintCenters, int axonIdentifier,
                                              int growthStep) {
-    for (const auto &constraintCenter: constraintCenters) {
-        m_centerMap.insert(std::make_pair(constraintCenter.at(0), std::make_pair(constraintCenter,
-                                                                                 std::make_pair(axonIdentifier,
-                                                                                                growthStep))));
+
+    double low = MAXFLOAT;
+    double high = MINFLOAT;
+    for (const auto &position: constraintCenters) {
+        low = std::min(position[0], low);
+        high = std::max(position[0], high);
+    }
+    auto itLow = m_centerMap.lower_bound(low - m_distanceLimit);
+    auto itHigh = m_centerMap.upper_bound(high + m_distanceLimit);
+    auto it = itLow;
+    auto itPos = constraintCenters.begin();
+    while (itPos != constraintCenters.end()) {
+        if (it->first < itPos->at(0)) {
+            while (it != itHigh && it->first < itPos->at(0)) {
+                it++;
+            }
+        } else {
+            while (it != itLow && it->first > itPos->at(0)) {
+                itLow--;
+            }
+        }
+        m_centerMap.insert(it,
+                           std::make_pair(itPos->at(0),
+                                          std::make_pair(*itPos, std::make_pair(axonIdentifier, growthStep))));
+        itPos++;
     }
 }
 
@@ -90,16 +128,6 @@ void ConstraintManager::freeSpace(int axonIdentifier, std::initializer_list<int>
                 m_centerMap.erase(it);
             }
         }
-    }
-}
-
-void ConstraintManager::addConstraintCenters(const std::list<EuclideanVector> &constraintCenters, int axonIdentifier,
-                                             int growthStep) {
-
-    for (const auto &constraintCenter: constraintCenters) {
-        m_centerMap.insert(std::make_pair(constraintCenter.at(0), std::make_pair(constraintCenter,
-                                                                                 std::make_pair(axonIdentifier,
-                                                                                                growthStep))));
     }
 }
 

@@ -7,20 +7,21 @@
 
 #include <iostream>
 #include "AxonFactory.h"
+#include "../AxonTypes/RandomDirectionAxon/RandomDirectionAxonParameters.h"
+#include "../../SimulationSetUp/GrowthModels/RandomDirectionSetUpParameters.h"
 
 
 class RandomDirectionFactory : public AxonFactory {
-    int m_maxNumberOfConstraintEncounters;
-    SamplerHandle m_lengthSampler;
-    double m_angleBackwardThreshold;
+    RandomDirectionAxonParameters m_randomDirectionAxonParameters;
 
 public:
-    RandomDirectionFactory(int maxNumberOfConstraintEncounters,
-                           SamplerHandle lengthSampler, SimulationManagerHandle simulationManagerHandle, double angleBackwardThreshold);
+    RandomDirectionFactory();
 
-    AxonHandle makeAxon(const EuclideanVector &startPosition) override;
+    AxonHandle makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
+                        WeakAxonHandle rootAxon = WeakAxonHandle()) override;
 
-    AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) override;
+    AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
+                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle()) override;
 
     ~RandomDirectionFactory() { std::cout << "RandomDirectionFactory destructed" << std::endl; }
 

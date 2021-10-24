@@ -25,9 +25,6 @@ public:
     void addConstraintCenters(const std::vector<EuclideanVector> &constraintCenters, int axonIdentifier = 0,
                               int growthStep = 0);
 
-    void addConstraintCenters(const std::list<EuclideanVector> &constraintCenters, int axonIdentifier = 0,
-                              int growthStep = 0);
-
     void freeSpace(int axonIdentifier, std::initializer_list<int> growthSteps);
 
     void freeSpace(int axonIdentifier);
