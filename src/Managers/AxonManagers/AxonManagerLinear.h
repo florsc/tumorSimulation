@@ -13,9 +13,9 @@ class AxonManagerLinear : public AxonManager {
 public:
     AxonManagerLinear() : m_activeAxons(), m_currentAxon(m_activeAxons.begin()) {}
 
-    void addAxon(AxonHandle axon);
+    void addAxon(AxonHandle axon) override;
 
-    AxonHandle getNextAxon();
+    AxonHandle getNextAxon() override;
 
 };
 

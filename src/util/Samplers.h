@@ -15,6 +15,7 @@ protected:
     GeneratorHandle m_generator;
 public:
     virtual double sample() = 0;
+
 };
 
 class UniformDoubleSampler : public Samplers {
@@ -32,6 +33,18 @@ public:
     ConstantValueSampler(double constantValue) : m_constantValue(constantValue) {}
 
     double sample() override { return m_constantValue; }
+};
+
+
+//For tests only
+
+class DoubleSamplerForTests : public Samplers {
+    std::vector<double> m_values;
+    std::vector<double>::iterator m_currentValue;
+public:
+    DoubleSamplerForTests(std::initializer_list<double> values) : m_values(values),m_currentValue(m_values.begin()) {}
+
+    double sample() override { return *(m_currentValue++); }
 };
 
 

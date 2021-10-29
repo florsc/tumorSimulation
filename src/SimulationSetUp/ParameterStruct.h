@@ -13,6 +13,7 @@
 #include "../util/TypeDefs.h"
 #include "GrowthModels/RandomDirectionSetUpParameters.h"
 #include "../Axons/Factories/RazettiFactory.h"
+#include "../Axons/Factories/RandomDirectionFactory.h"
 
 class AxonOrder;
 
@@ -36,11 +37,11 @@ struct ParameterStruct {
     long long seed = std::chrono::system_clock::now().time_since_epoch().count();
     GeneratorHandle m_generator;
     static constexpr int numberOfStartingAxons = 4;
-    static constexpr double minDistance = 0.3;
+    static constexpr double minDistance = 0.1;
     std::pair<EuclideanVector, EuclideanVector> startingAreaCorners{{-10, -10, -10},
                                                                     {10,  10,  10}};
     std::unique_ptr<AxonOrder> axonOrder;
-    std::unique_ptr<RazettiFactory> axonFactory;
+    AxonFactoryHandle axonFactory;
     std::shared_ptr<ExteriorLimit> exteriorLimit;
     TargetVector targets;
 };

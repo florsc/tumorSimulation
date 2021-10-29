@@ -12,7 +12,7 @@
 
 class RazettiAxon : public BaseAxon {
     std::vector<int> m_growthStepIndices;
-    std::vector<std::pair<double, double>> m_growthAngles;
+    std::vector<std::pair<double, double>> m_growthAnglesParameters;
     int m_numberOfGrowthTimes{0};
 
     RazettiAxonParameters m_razettiAxonParameters;
@@ -37,6 +37,7 @@ private:
 
     void setUpNewBranch(const PositionVector &possibleStartingPoints);
 
+    friend class AxonTest;
 };
 
 

@@ -12,12 +12,11 @@
 #include "../AxonTypes/RazettiAxon/RazettiAxon.h"
 #include "../../util/HelperFunctions.h"
 #include "../AxonTypes/RandomDirectionAxon/RandomDirectionAxon.h"
-#include <cmath>
 
 RandomDirectionFactory::RandomDirectionFactory() : AxonFactory() {}
 
 AxonHandle RandomDirectionFactory::makeAxon(const EuclideanVector &startPosition, int constraintsEncountered,
-                                            WeakAxonHandle rootAxon) {
+                                            WeakAxonHandle rootAxon) const {
     auto axon = AxonHandle(
             new RandomDirectionAxon(
                     startPosition, m_randomDirectionAxonParameters, m_baseAxonParameters, constraintsEncountered));
@@ -27,7 +26,7 @@ AxonHandle RandomDirectionFactory::makeAxon(const EuclideanVector &startPosition
 
 AxonHandle
 RandomDirectionFactory::makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
-                                        int constraintsEncountered, WeakAxonHandle rootAxon) {
+                                        int constraintsEncountered, WeakAxonHandle rootAxon) const {
     auto axon = std::make_shared<RandomDirectionAxon>(startPosition, m_randomDirectionAxonParameters,
                                                       m_baseAxonParameters, constraintsEncountered);
     axon->addPosition(nextPosition);

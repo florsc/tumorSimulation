@@ -9,22 +9,23 @@
 #include "../../../Managers/ConstraintManager.h"
 #include "../../../Managers/SimulationManager.h"
 #include "../../../util/Samplers.h"
+#include "../../../Managers/TargetManager.h"
 
 RazettiAxon::RazettiAxon(const EuclideanVector &startPosition,
                          RazettiAxonParameters razettiAxonParameters, BaseAxonParameters baseAxonParameters,
                          int constraintsEncountered)
-        : BaseAxon(startPosition, baseAxonParameters, constraintsEncountered),
-          m_razettiAxonParameters(razettiAxonParameters) {
-    m_growthAngles.push_back(std::make_pair<double, double>(0, 0));
+        : BaseAxon(startPosition, std::move(baseAxonParameters), constraintsEncountered),
+          m_razettiAxonParameters(std::move(razettiAxonParameters)) {
+    m_growthAnglesParameters.push_back(std::make_pair<double, double>(0, 0));
     m_growthStepIndices.push_back(1);
 }
 
 RazettiAxon::RazettiAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
                          RazettiAxonParameters razettiAxonParameters, BaseAxonParameters baseAxonParameters,
                          int constraintsEncountered)
-        : BaseAxon(startPosition, nextPosition, baseAxonParameters, constraintsEncountered),
-          m_razettiAxonParameters(razettiAxonParameters) {
-    m_growthAngles.push_back(std::make_pair<double, double>(0, 0));
+        : BaseAxon(startPosition, nextPosition, std::move(baseAxonParameters), constraintsEncountered),
+          m_razettiAxonParameters(std::move(razettiAxonParameters)) {
+    m_growthAnglesParameters.push_back(std::make_pair<double, double>(0, 0));
     m_growthStepIndices.push_back(2);
 }
 
@@ -56,9 +57,9 @@ void RazettiAxon::grow() {
             auto retractions = std::min(m_razettiAxonParameters.numberOfRetractions, growthStep);
             HelperFunctions::removeElementsFromEnd(centersCurrentTimeStep, retractions);
             HelperFunctions::removeElementsFromEnd(tipPositionsCurrentTimeStep, retractions - 1);
-            HelperFunctions::removeElementsFromEnd(m_growthAngles, retractions);
+            HelperFunctions::removeElementsFromEnd(m_growthAnglesParameters, retractions);
             m_constraintCounter++;
-            checkStopCondition();
+            checkForStopping();
             growthStep = growthStep - retractions;
         }
     }
@@ -78,16 +79,49 @@ void RazettiAxon::grow() {
     m_growthStepIndices.push_back(m_growthStepIndices.back() + tipPositionsCurrentTimeStep.size());
 }
 
+bool RazettiAxon::addPosition(const EuclideanVector &position) {
+    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position - m_tipPositions.back(),
+                                                          ParameterStruct::minDistance);
+    if (m_baseAxonParameters.constraintManager->checkForConstraint(centers)) {
+        m_tipPositions.push_back(position);
+        m_growthAnglesParameters.push_back(m_growthAnglesParameters.back());
+    } else {
+        return false;
+    }
+    m_baseAxonParameters.constraintManager->addConstraintCenters(centers, m_identifier, m_numberOfGrowthTimes);
+    m_numberOfGrowthTimes++;
+
+    m_growthStepIndices.push_back(m_growthStepIndices.back() + 1);
+    return true;
+}
+
+bool RazettiAxon::addPosition(const EuclideanVector &position, std::pair<double, double> angles) {
+    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position - m_tipPositions.back(),
+                                                          parameters.minDistance);
+    if (m_baseAxonParameters.constraintManager->checkForConstraint(centers)) {
+        m_tipPositions.push_back(position);
+        m_growthAnglesParameters.push_back(angles);
+    } else {
+        return false;
+    }
+    m_baseAxonParameters.constraintManager->addConstraintCenters(centers, m_identifier, m_numberOfGrowthTimes);
+    m_numberOfGrowthTimes++;
+
+    m_growthStepIndices.push_back(m_growthStepIndices.back() + 1);
+    return true;
+
+}
+
 EuclideanVector RazettiAxon::sampleVector() {
     auto expectation_0 =
             (m_razettiAxonParameters.alpha / (m_razettiAxonParameters.alpha + m_razettiAxonParameters.beta)) *
-            m_growthAngles.back().first;
+            m_growthAnglesParameters.back().first;
     auto variation_0 = 1 / sqrt(2 * (m_razettiAxonParameters.alpha + m_razettiAxonParameters.beta));
     auto newTheta0 = std::normal_distribution<>(expectation_0, variation_0)(*m_generator);
 
     auto expectation_1 =
             (m_razettiAxonParameters.alpha / (m_razettiAxonParameters.alpha + m_razettiAxonParameters.beta)) *
-            m_growthAngles.back().second;
+            m_growthAnglesParameters.back().second;
     auto variation_1 = 1 / sqrt(2 * (m_razettiAxonParameters.alpha + m_razettiAxonParameters.beta));
     auto newTheta1 = std::normal_distribution<>(expectation_1, variation_1)(*m_generator);
 
@@ -96,8 +130,8 @@ EuclideanVector RazettiAxon::sampleVector() {
 
     auto growthVector = HelperFunctions::sph2cart(
             finalAngle_0, finalAngle_1, m_razettiAxonParameters.lengthSampler->sample());
-    m_growthAngles.emplace_back(newTheta0, newTheta1);
-    return growthVector;
+    m_growthAnglesParameters.emplace_back(newTheta0, newTheta1);
+    return growthVector+m_baseAxonParameters.targetManager->calculateForce(m_tipPositions.back());
 }
 
 void RazettiAxon::setUpNewBranch(const PositionVector &possibleStartingPoints) {
@@ -118,37 +152,4 @@ void RazettiAxon::setUpNewBranch(const PositionVector &possibleStartingPoints) {
         nextPosition = startPosition + growthVector;
         tries++;
     } while (createBranchIfPossible(startPosition, nextPosition) && tries < 20);
-}
-
-bool RazettiAxon::addPosition(const EuclideanVector &position) {
-    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position - m_tipPositions.back(),
-                                                          ParameterStruct::minDistance);
-    if (m_baseAxonParameters.constraintManager->checkForConstraint(centers)) {
-        m_tipPositions.push_back(position);
-        m_growthAngles.push_back(m_growthAngles.back());
-    } else {
-        return false;
-    }
-    m_baseAxonParameters.constraintManager->addConstraintCenters(centers, m_identifier, m_numberOfGrowthTimes);
-    m_numberOfGrowthTimes++;
-
-    m_growthStepIndices.push_back(m_growthStepIndices.back() + 1);
-    return true;
-}
-
-bool RazettiAxon::addPosition(const EuclideanVector &position, std::pair<double, double> angles) {
-    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position - m_tipPositions.back(),
-                                                          parameters.minDistance);
-    if (m_baseAxonParameters.constraintManager->checkForConstraint(centers)) {
-        m_tipPositions.push_back(position);
-        m_growthAngles.push_back(angles);
-    } else {
-        return false;
-    }
-    m_baseAxonParameters.constraintManager->addConstraintCenters(centers, m_identifier, m_numberOfGrowthTimes);
-    m_numberOfGrowthTimes++;
-
-    m_growthStepIndices.push_back(m_growthStepIndices.back() + 1);
-    return true;
-
 }

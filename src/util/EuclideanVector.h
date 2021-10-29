@@ -31,9 +31,9 @@ public:
 
     EuclideanVector();
 
-    constexpr EuclideanVector(const std::initializer_list<double> &);
+    EuclideanVector(const std::initializer_list<double> &);
 
-    constexpr EuclideanVector(const EuclideanVector &);
+    EuclideanVector(const EuclideanVector &);
 
     ~EuclideanVector() = default;
 

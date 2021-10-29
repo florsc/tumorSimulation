@@ -16,44 +16,20 @@ class AxonFactory {
 protected:
     BaseAxonParameters m_baseAxonParameters;
 
-    explicit AxonFactory();
+    void setUpRoot(const AxonHandle& axon, const WeakAxonHandle& rootAxon) const;
 
 public:
+
     void setUpFactory(SimulationManagerHandle simulationManager);
 
     virtual AxonHandle
-    makeAxon(const EuclideanVector &startPosition, int constraintsEncountered, WeakAxonHandle rootAxon) = 0;
+    makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle())  const= 0;
 
     virtual AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
-                                       int constraintsEncountered, WeakAxonHandle rootAxon) = 0;
+                                       int constraintsEncountered, WeakAxonHandle rootAxon)  const= 0;
 
-    void setUpRoot(AxonHandle axon, WeakAxonHandle rootAxon);
-
-    virtual ~AxonFactory() {}
+    //test related
+    friend class AxonTest;
 };
 
-/*
-class WaitingTimeModel:public AxonFactory{
-
-public:
-    virtual double sampleWaitingTIme() = 0;
-};
-
-
-class LengthModel:public AxonFactory{
-
-public:
-    virtual double sampleLength() = 0;
-};
-
-class UniformLengthUniformWaitingTime: public WaitingTimeModel,LengthModel{
-    std::uniform_real_distribution<double> m_waitingTimeSampler;
-    std::uniform_real_distribution<double> m_lengthSampler;
-public:
-    UniformLengthUniformWaitingTime(double lowLength, double highLength,double lowWaitingTime, double highWaitingTime):m_lengthSampler(lowLength,highLength),
-                                                                                                                       m_waitingTimeSampler(lowWaitingTime, highWaitingTime){
-
-    }
-};
-*/
 #endif //TUMORSIMULATION_AXONFACTORY_H

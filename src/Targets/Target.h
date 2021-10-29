@@ -11,6 +11,7 @@
 class Target {
 public:
     virtual bool checkTargetReached(const EuclideanVector &position) = 0;
+    virtual EuclideanVector calculateForce(const EuclideanVector& position) = 0;
 };
 
 

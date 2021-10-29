@@ -18,10 +18,10 @@ public:
     RandomDirectionFactory();
 
     AxonHandle makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
-                        WeakAxonHandle rootAxon = WeakAxonHandle()) override;
+                        WeakAxonHandle rootAxon = WeakAxonHandle()) const override;
 
     AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
-                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle()) override;
+                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle()) const override;
 
     ~RandomDirectionFactory() { std::cout << "RandomDirectionFactory destructed" << std::endl; }
 

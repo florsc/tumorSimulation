@@ -20,18 +20,17 @@ class SimulationManager {
     AxonFactoryHandle m_axonFactory;
 
 public:
-    explicit SimulationManager();
 
     void setUp(SimulationManagerHandle simulationManager);
 
-    static std::list<EuclideanVector>
+    static PositionList
     createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);
 
     void run();
 
-    std::vector<std::vector<std::vector<double>>> getAxonPositions();
+    [[nodiscard]] std::vector<std::vector<std::vector<double>>> getAxonPositions() const;
 
-    void removeAxon(const int id);
+    void removeAxon(int id);
 
     AxonHandle addAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
                        WeakAxonHandle rootAxon = WeakAxonHandle());
@@ -43,6 +42,8 @@ public:
 
     ~SimulationManager();
 
+    //test related
+    friend class AxonTest;
 };
 
 

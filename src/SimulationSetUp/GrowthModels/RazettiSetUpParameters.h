@@ -13,7 +13,7 @@ struct RazettiSetUpParameters {
     static constexpr int numberOfRetractions = 2;
     static constexpr int maxNumberOfConstraintEncountersEachSubstep = 2;
     static constexpr double alpha = 0.5;
-    static constexpr double beta = 0.5;
+    static constexpr double beta = 0;
     static const SamplerHandle lengthSampler;
 };
 

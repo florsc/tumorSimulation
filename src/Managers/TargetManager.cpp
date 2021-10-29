@@ -8,7 +8,7 @@
 
 TargetManager::TargetManager(TargetVector targets) : m_targets(std::move(targets)) {}
 
-bool TargetManager::checkTargetReached(const EuclideanVector &position) {
+bool TargetManager::checkTargetReached(const EuclideanVector &position)  const{
     bool reached = false;
     for (const auto &target: m_targets) {
         if (target->checkTargetReached(position)) {
@@ -18,3 +18,12 @@ bool TargetManager::checkTargetReached(const EuclideanVector &position) {
     }
     return reached;
 }
+
+EuclideanVector TargetManager::calculateForce(const EuclideanVector &position) const {
+    auto force = EuclideanVector();
+    for(const auto& target:m_targets){
+        force += target->calculateForce(position);
+    }
+    return force;
+}
+

@@ -14,17 +14,14 @@
 #include "../SimulationSetUp/AxonOrder/AxonOrder.h"
 #include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.h"
 
-SimulationManager::SimulationManager() {
-
-}
 
 void SimulationManager::setUp(SimulationManagerHandle simulationManager) {
     m_axonManager = std::move(parameters.axonOrder->makeAxonManager());
     m_axonFactory = std::move(parameters.axonFactory);
-    m_axonFactory->setUpFactory(simulationManager);
+    m_axonFactory->setUpFactory(std::move(simulationManager));
     auto startPositions = createPossibleStartPositions(parameters.startingAreaCorners.first,
-                                                       parameters.startingAreaCorners.second, parameters.minDistance);
-    for (int i = 0; i < parameters.numberOfStartingAxons; i++) {
+                                                       parameters.startingAreaCorners.second, ParameterStruct::minDistance);
+    for (int i = 0; i < ParameterStruct::numberOfStartingAxons; i++) {
         auto startPositionIter = startPositions.begin();
         auto indexSampler = std::uniform_int_distribution<int>(0, startPositions.size() - 1);
         int startPositionIndex = indexSampler(*parameters.m_generator);
@@ -35,9 +32,9 @@ void SimulationManager::setUp(SimulationManagerHandle simulationManager) {
 }
 
 
-std::list<EuclideanVector>
+PositionList
 SimulationManager::createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2,
-                                                double minDistance) {
+                                                double minDistance)  {
     auto diff = c2 - c1;
     std::vector<std::vector<double>> spacedAxisValues;
     for (int i = 0; i < 3; i++) {
@@ -69,7 +66,7 @@ void SimulationManager::run() {
     }
 }
 
-std::vector<std::vector<std::vector<double>>> SimulationManager::getAxonPositions() {
+std::vector<std::vector<std::vector<double>>> SimulationManager::getAxonPositions()  const{
     std::vector<std::vector<std::vector<double>>> axonVec;
     for (const auto &axon: m_axonManager->getAllAxons()) {
         auto &positionVec = axonVec.emplace_back();
@@ -96,7 +93,7 @@ SimulationManager::addStartedAxon(const EuclideanVector &startPosition, const Eu
 }
 
 void SimulationManager::addAxon(AxonHandle axon) {
-    m_axonManager->addAxon(axon);
+    m_axonManager->addAxon(std::move(axon));
 }
 
 void SimulationManager::removeAxon(const int id) {

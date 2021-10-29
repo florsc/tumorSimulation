@@ -9,11 +9,13 @@
 #include <exception>
 #include <string>
 
-class simulationException : public std::exception {
+class SimulationException : public std::exception {
     std::string m_message;
 public:
-    simulationException(const char* message):m_message(message){}
-    const char* what() {return m_message.c_str();}
+    SimulationException(const char *message) : m_message(message) {}
+
+    const char *what() const noexcept override{ return m_message.c_str(); }
+
 };
 
 

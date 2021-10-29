@@ -9,7 +9,7 @@
 
 struct AxonSetUpParameters {
     static constexpr double branchingProbability = 0.01;
-    static constexpr int maxNumberOfConstraintEncounters = 1000;
+    static constexpr int maxNumberOfConstraintEncounters = 10;
 };
 
 #endif //TUMORSIMULATION_AXONSETUPPARAMETERS_H

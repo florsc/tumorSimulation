@@ -1,37 +1,47 @@
 //
-// Created by florian on 9/23/21.
+// Created by florian on 10/27/21.
 //
 
 
-#include <initializer_list>
 #include <gtest/gtest.h>
-#include "../Managers/SimulationManager.h"
+#include "../Managers/AxonManagers/AxonManager.h"
+#include "../Managers/AxonManagers/AxonManagerLinear.h"
+#include "../Managers/AxonManagers/AxonManagerWaitingTime.h"
+#include "../Axons/Factories/RazettiFactory.h"
 #include "../util/EuclideanVector.h"
+#include "../Axons/AxonTypes/RazettiAxon/RazettiAxon.h"
 
-void checkStartPositionEquality(std::initializer_list<double> c1, std::initializer_list<double> c2,
-                                std::initializer_list<std::initializer_list<double>> expectedStartPositions) {
-    auto calculatedStartPositions = SimulationManager::createPossibleStartPositions(EuclideanVector(c1),
-                                                                                    EuclideanVector(c2), 0.1);
-
-    EXPECT_EQ(calculatedStartPositions.size(), expectedStartPositions.size());
-    if (calculatedStartPositions.size() == expectedStartPositions.size()) {
-        auto expectedStartPositionsVector = std::vector<std::vector<double>>();
-        for (const auto &expectedStartPosition: expectedStartPositions) {
-            expectedStartPositionsVector.emplace_back(expectedStartPosition);
-        }
-        auto calculatedStartPositionsIter = calculatedStartPositions.begin();
-        for (int i = 0; i < calculatedStartPositions.size(); i++) {
-            for (int j = 0; j < 3; j++) {
-                EXPECT_NEAR(calculatedStartPositionsIter->at(j), expectedStartPositionsVector.at(i).at(j), 0.001);
-            }
-            calculatedStartPositionsIter++;
-        }
+TEST(Test, checkLinearOrder) {
+    AxonManagerLinear axonManager = AxonManagerLinear();
+    auto factory = RazettiFactory();
+    axonManager.addAxon(factory.makeAxon(EuclideanVector(0,0,0)));
+    axonManager.addAxon(factory.makeAxon(EuclideanVector(1,0,0)));
+    axonManager.addAxon(factory.makeAxon(EuclideanVector(2,0,0)));
+    for(int i = 0;i<10;i++){
+        auto currentAxon = axonManager.getNextAxon();
+        auto axonPosition = currentAxon->getTipPositions().back();
+        EXPECT_NEAR(axonPosition[0],double(i%3),0.01);
     }
 }
 
-TEST(Test, samplingStartValues) {
-    checkStartPositionEquality({0, -0.1, -0.1}, {0, 0.1, 0.1}, {{0, -0.1, -0.1},
-                                                                {0, -0.1, 0.1},
-                                                                {0, 0.1,  -0.1},
-                                                                {0, 0.1,  0.1}});
+TEST(Test, checkWaitingTimeOrder) {
+    SamplerHandle testSampler(new DoubleSamplerForTests({1,3,4,1,4,5,1,8,3,4,7,9,2,4}));
+    AxonManagerWaitingTime axonManager = AxonManagerWaitingTime(testSampler, 10);
+    auto factory = RazettiFactory();
+    axonManager.addAxon(factory.makeAxon(EuclideanVector(0,0,0)));
+    axonManager.addAxon(factory.makeAxon(EuclideanVector(1,0,0)));
+    axonManager.addAxon(factory.makeAxon(EuclideanVector(2,0,0)));
+    //sampled waiting times: 1,3,4,1,4,5,1,8,3,4,7,9,2,4
+    //axon grow times (max 10):
+    //0: 1     2 6           9       13>10
+    //1:   3       8           12>10
+    //2:     4       5 13>10
+    //order: 0, 0, 1, 2, 2, 0, 1, 0
+    auto order = std::vector<double>({0,0,1,2,2,0,1,0});
+    for(auto it = order.begin();it != order.end();it++){
+        auto currentAxon = axonManager.getNextAxon();
+        auto axonPosition = currentAxon->getTipPositions().back();
+        EXPECT_NEAR(axonPosition[0],double(*it),0.01);
+    }
+    EXPECT_EQ(nullptr ,axonManager.getNextAxon());
 }

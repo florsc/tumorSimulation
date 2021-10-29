@@ -6,6 +6,7 @@
 #define TUMORSIMULATION_BASEAXON_H
 
 
+#include <utility>
 #include <vector>
 #include <iostream>
 #include "../../../util/TypeDefs.h"
@@ -15,6 +16,7 @@
 class ConstraintManager;
 
 class EuclideanVector;
+class AxonTest;
 
 class BaseAxon {
 protected:
@@ -39,25 +41,27 @@ protected:
     BaseAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
              BaseAxonParameters baseAxonParameters, int constraintsEncountered = 0);
 
+    virtual bool checkConstraints(const PositionVector &positions) const;
+
+    bool checkIfBranching() const;
+
+    bool createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) const;
+
     bool checkTargetReached(const EuclideanVector &position);
-
-    virtual bool checkConstraints(const PositionVector &positions);
-
-    bool checkAxonGrowth(const PositionVector &positions);
-
-    virtual bool checkConstraintEncounterLimit();
-
-    bool createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition);
 
     void setTargetReached();
 
+    void checkForStopping();
+
 public:
 
-    void setUpRootAxon(WeakAxonHandle rootAxon) { m_rootAxon = rootAxon; }
+    void setUpRootAxon(WeakAxonHandle rootAxon) { m_rootAxon = std::move(rootAxon); }
 
     virtual void killAxon();
 
-    virtual void stopAxon() { m_active = false; std::cout<<m_constraintCounter<<std::endl; }
+    virtual void stopAxonBranch();
+
+    virtual void stopAxon();
 
     [[nodiscard]] PositionVector getTipPositions() const { return m_tipPositions; }
 
@@ -71,14 +75,12 @@ public:
         return m_isAlive;
     }
 
-    void checkStopCondition();
-
-    bool checkIfBranching();
-
 public:
 
     virtual void grow() = 0;
 
+    //test related
+    friend class AxonTest;
 };
 
 

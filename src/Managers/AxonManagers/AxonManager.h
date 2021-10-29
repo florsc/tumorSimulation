@@ -28,7 +28,6 @@ public:
     AxonList getAllAxons() {
         return m_allAxons;
     }
-
 };
 
 

@@ -10,7 +10,7 @@
 
 
 // Copy constructor
-constexpr EuclideanVector::EuclideanVector(const EuclideanVector &copy) : x(copy.x), y(copy.y), z(copy.z) {
+EuclideanVector::EuclideanVector(const EuclideanVector &copy) : x(copy.x), y(copy.y), z(copy.z) {
 }
 
 // Copy assignment
@@ -196,7 +196,7 @@ std::ostream &operator<<(std::ostream &os, const EuclideanVector &v) {
     return os;
 }
 
-constexpr EuclideanVector::EuclideanVector(const std::initializer_list<double> &magnitudes) : x(*magnitudes.begin()),
+EuclideanVector::EuclideanVector(const std::initializer_list<double> &magnitudes) : x(*magnitudes.begin()),
                                                                                               y(*std::next(
                                                                                                       magnitudes.begin(),
                                                                                                       1)), z(*std::next(

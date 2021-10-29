@@ -13,7 +13,8 @@
 #include "../Axons/Factories/RandomDirectionFactory.h"
 #include "AxonOrder/AxonOrderLinear.h"
 
-ParameterStruct::ParameterStruct() : m_generator(new std::mt19937(seed)) {
+ParameterStruct::ParameterStruct() : m_generator(new std::mt19937(
+        seed)) {
     std::ofstream seedFile;
     seedFile.open("seeds.txt", std::ios_base::app);
     seedFile << seed << "\n";
@@ -23,9 +24,9 @@ ParameterStruct::ParameterStruct() : m_generator(new std::mt19937(seed)) {
 void ParameterStruct::init() {
     exteriorLimit = std::shared_ptr<ExteriorLimit>(new SphericalLimit(200));
     axonOrder = std::make_unique<AxonOrderLinear>();
-    targets = TargetVector({TargetHandle(new SphericalTarget({12, 70, 20}, 20)),
-                            TargetHandle(new SphericalTarget({-120, 5, -20}, 30))});
-    axonFactory = std::make_unique<RazettiFactory>();
+    targets = TargetVector({TargetHandle(new SphericalTarget({12, 70, 20}, 20,10)),
+                            TargetHandle(new SphericalTarget({-120, 5, -20}, 30,10))});
+    axonFactory = std::make_shared<RazettiFactory>();
 }
 
 ParameterStruct parameters;

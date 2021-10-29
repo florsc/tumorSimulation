@@ -20,13 +20,13 @@ class AxonManagerWaitingTime : public AxonManager {
     SamplerHandle m_waitingTimeSampler;
     double m_currentTime{0};
     std::priority_queue<std::pair<double, AxonHandle>, std::vector<std::pair<double, AxonHandle>>, Comparator> m_waitingTimeQueue;
-    double m_maximumWaitingTime;
+    const double m_maximumWaitingTime;
 public:
     explicit AxonManagerWaitingTime(SamplerHandle &sampler, double maximumWaitingTime);
 
-    AxonHandle getNextAxon();
+    AxonHandle getNextAxon() override;
 
-    void addAxon(AxonHandle axon);
+    void addAxon(AxonHandle axon) override;
 };
 
 

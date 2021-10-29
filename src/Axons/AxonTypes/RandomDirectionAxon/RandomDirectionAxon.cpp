@@ -3,6 +3,8 @@
 //
 
 #include "RandomDirectionAxon.h"
+
+#include <utility>
 #include "../../../SimulationSetUp/ParameterStruct.h"
 #include "../../../util/HelperFunctions.h"
 #include "../../../util/Samplers.h"
@@ -10,11 +12,11 @@
 #include "../../../Managers/ConstraintManager.h"
 
 
-RandomDirectionAxon::RandomDirectionAxon(EuclideanVector startPosition,
+RandomDirectionAxon::RandomDirectionAxon(const EuclideanVector &startPosition,
                                          RandomDirectionAxonParameters randomDirectionAxonParameters,
                                          BaseAxonParameters baseAxonParameters, int constraintsEncountered)
-        : BaseAxon(startPosition, baseAxonParameters, constraintsEncountered),
-          m_randomDirectionAxonParameters(randomDirectionAxonParameters) {
+        : BaseAxon(startPosition, std::move(baseAxonParameters), constraintsEncountered),
+          m_randomDirectionAxonParameters(std::move(randomDirectionAxonParameters)) {
 }
 
 void RandomDirectionAxon::grow() {
@@ -27,7 +29,7 @@ void RandomDirectionAxon::grow() {
         }
     }
     auto growthVector = directionVector * m_randomDirectionAxonParameters.lengthSampler->sample();
-    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), growthVector, parameters.minDistance);
+    auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), growthVector, ParameterStruct::minDistance);
 
     if (!m_baseAxonParameters.constraintManager->checkForConstraint(centers, m_identifier, m_tipPositions.size())) {
         m_tipPositions.emplace_back(m_tipPositions.back() + directionVector);
@@ -37,13 +39,13 @@ void RandomDirectionAxon::grow() {
         }
     } else {
         m_constraintCounter++;
-        if (m_constraintCounter > m_baseAxonParameters.maxNumberOfConstraintEncounters) { stopAxon(); }
+        if (m_constraintCounter > m_baseAxonParameters.maxNumberOfConstraintEncounters) { stopAxonBranch(); }
     }
 }
 
-bool RandomDirectionAxon::addPosition(EuclideanVector position) {
+bool RandomDirectionAxon::addPosition(const EuclideanVector& position) {
     auto centers = HelperFunctions::createCoveringCenters(m_tipPositions.back(), position - m_tipPositions.back(),
-                                                          parameters.minDistance);
+                                                          ParameterStruct::minDistance);
     if (m_baseAxonParameters.constraintManager->checkForConstraint(centers)) {
         m_tipPositions.push_back(position);
     } else {
@@ -66,6 +68,6 @@ void RandomDirectionAxon::setUpNewBranch() {
                                            m_tipPositions.at(size - 2) - m_tipPositions.at(size - 3));
     if (auto simulationManager = m_baseAxonParameters.simulationManager.lock()) {
         simulationManager->addStartedAxon(m_tipPositions.at(size - 1), m_tipPositions.at(size - 1) + (
-                2 * parameters.minDistance * crossProductVector.CreateUnitVector()), m_constraintCounter);
+                2 * ParameterStruct::minDistance * crossProductVector.CreateUnitVector()), m_constraintCounter);
     }
 }
