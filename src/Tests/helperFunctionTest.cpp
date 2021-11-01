@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include "../util/HelperFunctions.h"
 #include <cmath>
+#include <fstream>
 
-// Demonstrate some basic assertions.
-/*
+
 void checkDoubleVectorEquality(EuclideanVector v1, EuclideanVector v2) {
     EXPECT_NEAR(v1[0], v2[0], 0.001);
     EXPECT_NEAR(v1[1], v2[1], 0.001);
@@ -62,14 +62,66 @@ TEST(Test, sphericalCoordinateFunctionComplex) {
                               EuclideanVector({-sqrt(0.5), 0, sqrt(0.5)}));
 }
 
-TEST(Test, sphericalCoordinateTestValues) {
-    checkDoubleVectorEquality(HelperFunctions::sph2cart(0.9272, 0.7853, 7.0710),
-                              EuclideanVector({3, 4, 5}));
-    checkDoubleVectorEquality(HelperFunctions::sph2cart(0.1616, 1.1837, 10.066),
-                              EuclideanVector({9.2, 1.5, 3.8}));
+
+void compareEuclideanVector(EuclideanVector e1, EuclideanVector e2, double dist){
+    EXPECT_NEAR(e1[0], e2[0], dist);
+    EXPECT_NEAR(e1[1], e2[1], dist);
+    EXPECT_NEAR(e1[2], e2[2], dist);
 }
 
-*/
+TEST(Test, sphericalCoordinateTestValues) {
+    compareEuclideanVector(HelperFunctions::sph2cart(0.9272, 0.7853, 7.0710),
+                           EuclideanVector(3, 4, 5),0.01);
+    compareEuclideanVector(HelperFunctions::sph2cart(1.2, 0.5*M_PI-0.6, 10.6),
+                           EuclideanVector(2.17, 5.58, 8.75),0.01);
+    auto vector = HelperFunctions::sph2cart(1.5616, 1.17, 12.2);
+    EXPECT_NEAR(vector.GetEuclideanNorm(), 12.2,0.01);
+}
+
+TEST(Test, euclideanCoordinateTest) {
+    std::vector<double> azVec({0.0, 0.2,0.9,1.2,1.9, 2.7, 3.05, 0.5*M_PI,M_PI,1.5*M_PI,2*M_PI});
+    std::vector<double> elVec({- 0.5*M_PI, -1.5, -1.2, -0.811, 0.3, 0.0, 0.2,0.5,0.9,1.2,1.45, 0.5*M_PI});
+    std::vector<double> lengthVec({0.1, 1.1, 10.0});
+    for(const auto& el:elVec){
+        for(const auto& az:azVec){
+            for(const auto& length:lengthVec){
+                auto sphericalAngles = HelperFunctions::getSphericalAngles(HelperFunctions::sph2cart(az, el, length));
+                EXPECT_NEAR(sphericalAngles.first, az,0.01);
+                EXPECT_NEAR(sphericalAngles.second, el,0.01);
+
+            }
+        }
+    }
+
+}
+
+TEST(Test, euclideanCoordinateRandomTestValues) {
+    long long seed = std::chrono::system_clock::now().time_since_epoch().count();
+    GeneratorHandle generator;
+    std::ofstream testSeedFile;
+    testSeedFile.open("testSeeds.txt", std::ios_base::app);
+    testSeedFile << seed << "\n";
+    testSeedFile.close();
+    auto azDist = std::uniform_real_distribution(0.0,2*M_PI);
+    auto elDist = std::uniform_real_distribution(-0.5 *M_PI,0.5*M_PI);
+    auto lengthDist = std::uniform_real_distribution(0.01,100.0);
+    auto angle1 = azDist(*generator);
+    auto angle2 = elDist(*generator);
+    auto length = lengthDist(*generator);
+    auto sphericalAngles = HelperFunctions::getSphericalAngles(HelperFunctions::sph2cart(angle1, angle2, length));
+    EXPECT_NEAR(sphericalAngles.first, angle1,0.01);
+    EXPECT_NEAR(sphericalAngles.second, angle2,0.01);
+}
+
+TEST(Test, sphericalEuclideanTest) {
+    compareEuclideanVector(HelperFunctions::sph2cart(0.9272, 0.7853, 7.0710),
+                           EuclideanVector(3, 4, 5),0.01);
+    compareEuclideanVector(HelperFunctions::sph2cart(1.2, 0.5*M_PI-0.6, 10.6),
+                           EuclideanVector(2.17, 5.58, 8.75),0.01);
+    auto vector = HelperFunctions::sph2cart(1.5616, 1.17, 12.2);
+    EXPECT_NEAR(vector.GetEuclideanNorm(), 12.2,0.01);
+}
+
 
 TEST(Test, removeElementsFromEndTest) {
     std::vector<int> vec({1, 2, 3, 4});

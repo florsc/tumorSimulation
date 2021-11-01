@@ -25,10 +25,14 @@ EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     return EuclideanVector(x, y, z);
 }
 
+std::pair<double, double> HelperFunctions::getModelParameters(const EuclideanVector &v) {
+auto angles = HelperFunctions::getSphericalAngles(v);
+    return {2 * atan(angles.first), 2 * atan(angles.second)};
+}
 std::pair<double, double> HelperFunctions::getSphericalAngles(const EuclideanVector &v) {
     auto azimuth = atan2(v[1], v[0]);
     auto elevation = atan2(v[2], sqrt(v[0] * v[0] + v[1] * v[1]));
-    return {2 * atan(azimuth), 2 * atan(elevation)};
+    return {azimuth,elevation};
 }
 
 bool

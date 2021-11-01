@@ -26,6 +26,8 @@ namespace HelperFunctions {
     }
 
     std::pair<double, double> getSphericalAngles(const EuclideanVector &v);
+
+    std::pair<double, double> getModelParameters(const EuclideanVector &v);
 };
 
 #endif //TUMORSIMULATION_HELPERFUNCTIONS_H
