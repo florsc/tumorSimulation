@@ -9,12 +9,15 @@
 #include "../../util/Samplers.h"
 
 struct RazettiSetUpParameters {
-    static constexpr int numberOfGrowthStepsEachStep = 6;
+    static constexpr int numberOfGrowthStepsEachStep = 5;
     static constexpr int numberOfRetractions = 2;
     static constexpr int maxNumberOfConstraintEncountersEachSubstep = 2;
     static constexpr double alpha = 0.5;
-    static constexpr double beta = 0;
-    static const SamplerHandle lengthSampler;
+    static constexpr double beta = 12;
+    SamplerHandle lengthSampler;
+    SamplerHandle getLengthSampler();
+    int i = 0;
 };
 
+extern RazettiSetUpParameters razettiSetUpParameters;
 #endif //TUMORSIMULATION_RAZETTISETUPPARAMETERS_H

@@ -7,7 +7,7 @@
 #include "EuclideanVector.h"
 #include <iostream>
 
-/*
+
 EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     double rsin_theta = r * sin(el);
     double x = rsin_theta * cos(az);
@@ -15,8 +15,7 @@ EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     double z = r * cos(el);
     return EuclideanVector(x, y, z);
 }
-*/
-
+/*
 EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     double rsin_theta = r * cos(el);
     double x = rsin_theta * cos(az);
@@ -24,13 +23,14 @@ EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     double z = r * sin(el);
     return EuclideanVector(x, y, z);
 }
-
+*/
 std::pair<double, double> HelperFunctions::getModelParameters(const EuclideanVector &v) {
 auto angles = HelperFunctions::getSphericalAngles(v);
     return {2 * atan(angles.first), 2 * atan(angles.second)};
 }
 std::pair<double, double> HelperFunctions::getSphericalAngles(const EuclideanVector &v) {
     auto azimuth = atan2(v[1], v[0]);
+    if(v.at(0)<0){azimuth +=M_PI;}
     auto elevation = atan2(v[2], sqrt(v[0] * v[0] + v[1] * v[1]));
     return {azimuth,elevation};
 }

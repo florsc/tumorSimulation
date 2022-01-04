@@ -3,6 +3,7 @@
 #include <cmath>
 #include <fstream>
 
+/*
 
 void checkDoubleVectorEquality(EuclideanVector v1, EuclideanVector v2) {
     EXPECT_NEAR(v1[0], v2[0], 0.001);
@@ -61,7 +62,6 @@ TEST(Test, sphericalCoordinateFunctionComplex) {
     checkDoubleVectorEquality(HelperFunctions::sph2cart(0, 7 * M_PI / 4, 1),
                               EuclideanVector({-sqrt(0.5), 0, sqrt(0.5)}));
 }
-
 
 void compareEuclideanVector(EuclideanVector e1, EuclideanVector e2, double dist){
     EXPECT_NEAR(e1[0], e2[0], dist);
@@ -122,7 +122,7 @@ TEST(Test, sphericalEuclideanTest) {
     EXPECT_NEAR(vector.GetEuclideanNorm(), 12.2,0.01);
 }
 
-
+*/
 TEST(Test, removeElementsFromEndTest) {
     std::vector<int> vec({1, 2, 3, 4});
     HelperFunctions::removeElementsFromEnd(vec, 2);

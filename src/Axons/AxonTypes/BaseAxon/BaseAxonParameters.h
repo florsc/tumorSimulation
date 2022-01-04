@@ -10,7 +10,7 @@
 struct BaseAxonParameters {
 
     const int maxNumberOfConstraintEncounters;
-    const double branchingProbability;
+    double branchingProbability;
 
     ConstraintManagerHandle constraintManager;
     TargetManagerHandle targetManager;

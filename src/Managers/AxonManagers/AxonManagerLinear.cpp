@@ -13,7 +13,8 @@ void AxonManagerLinear::addAxon(AxonHandle axon) {
 }
 
 AxonHandle AxonManagerLinear::getNextAxon() {
-    if (++m_currentAxon == m_activeAxons.end()) {
+
+    if ((++m_currentAxon) == m_activeAxons.end()) {
         m_currentAxon = m_activeAxons.begin();
     }
     while (!(*m_currentAxon)->isActive()) {

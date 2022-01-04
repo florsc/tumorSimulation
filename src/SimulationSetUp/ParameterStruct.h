@@ -34,16 +34,31 @@ struct ParameterStruct {
 
     void init();
 
-    long long seed = std::chrono::system_clock::now().time_since_epoch().count();
+    long long seed =std::chrono::system_clock::now().time_since_epoch().count();
     GeneratorHandle m_generator;
-    static constexpr int numberOfStartingAxons = 4;
+    static constexpr int maxNumberOfBranches =20;
+    static constexpr int exteriorLimitRadius = 400;
+    static constexpr int numberOfStartingAxons = 1;
     static constexpr double minDistance = 0.1;
-    std::pair<EuclideanVector, EuclideanVector> startingAreaCorners{{-10, -10, -10},
-                                                                    {10,  10,  10}};
+    static constexpr double startDistance = 2;
+    static constexpr double maxAxonLength = 400;
+    std::pair<EuclideanVector, EuclideanVector> startingAreaCorners{{-5, -5, -5},
+                                                                    {5,  5,  5}};
     std::unique_ptr<AxonOrder> axonOrder;
-    AxonFactoryHandle axonFactory;
     std::shared_ptr<ExteriorLimit> exteriorLimit;
+    double radius = 5;
+    std::pair<double, double> startAngles;
     TargetVector targets;
+    PositionVector targetPositions;
+    AxonFactoryHandle makeAxonFactory();
+    std::shared_ptr<ExteriorLimit> getExteriorLimit();
+    TargetVector getTargets();
+
+    void createRandomTargets(int minTargets, int maxTargets, double mass);
+
+    void createFixTargets();
+
+    void createStartAngles();
 };
 
 extern ParameterStruct parameters;

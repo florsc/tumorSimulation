@@ -71,7 +71,9 @@ void ConstraintManager::freeSpace(int axonIdentifier) {
 
 bool ConstraintManager::checkForConstraint(const std::vector<EuclideanVector> &positions, int axonIdentifier,
                                            int growthStep) {
+    //return false;
     if(!checkForConstraint(positions)){
+        //return false;
         addConstraintCenters(positions,axonIdentifier,growthStep);
         return false;
     }
@@ -79,7 +81,8 @@ bool ConstraintManager::checkForConstraint(const std::vector<EuclideanVector> &p
 }
 
 bool ConstraintManager::checkForConstraint(const std::vector<EuclideanVector> &positions) const{
-    if(positions.empty()){return true;}
+
+    if(positions.empty()){return false;}
     if (!checkForExteriorLimit(positions.back())) {
         return checkForOccupiedSpace(positions);
     }

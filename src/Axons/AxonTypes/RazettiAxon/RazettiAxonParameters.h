@@ -22,7 +22,7 @@ struct RazettiAxonParameters {
                                       RazettiSetUpParameters::maxNumberOfConstraintEncountersEachSubstep),
                               alpha(RazettiSetUpParameters::alpha),
                               beta(RazettiSetUpParameters::beta),
-                              lengthSampler(RazettiSetUpParameters::lengthSampler) {}
+                              lengthSampler(razettiSetUpParameters.getLengthSampler()) {}
 };
 
 #endif //TUMORSIMULATION_RAZETTIAXONPARAMETERS_H

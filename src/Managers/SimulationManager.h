@@ -9,6 +9,7 @@
 #include <queue>
 #include <list>
 #include "../util/TypeDefs.h"
+#include "../SimulationSetUp/GrowthModels/AxonSetUpParameters.h"
 
 class ParameterStruct;
 
@@ -21,7 +22,7 @@ class SimulationManager {
 
 public:
 
-    void setUp(SimulationManagerHandle simulationManager);
+    void setUp(SimulationManagerHandle simulationManager, double branchingProbability = AxonSetUpParameters::branchingProbability);
 
     static PositionList
     createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);
@@ -40,10 +41,12 @@ public:
 
     void addAxon(AxonHandle axon);
 
-    ~SimulationManager();
-
+    int getNumberOfTargetReached();
+double getNumberOfAxons();
     //test related
     friend class AxonTest;
+
+    double getAxonLength();
 };
 
 

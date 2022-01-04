@@ -13,8 +13,6 @@
 class ExteriorLimit {
 public:
     [[nodiscard]] virtual bool checkExteriorLimitExceeded(EuclideanVector) const = 0;
-
-    virtual ~ExteriorLimit() { std::cout << "Exterior Limit destructed" << std::endl; }
 };
 
 class SphericalLimit : public ExteriorLimit {
@@ -24,8 +22,6 @@ public:
     explicit SphericalLimit(double radius);
 
     [[nodiscard]] bool checkExteriorLimitExceeded(EuclideanVector position) const override;
-
-    ~SphericalLimit() { std::cout << "Spherical Limit destructed" << std::endl; }
 
 };
 

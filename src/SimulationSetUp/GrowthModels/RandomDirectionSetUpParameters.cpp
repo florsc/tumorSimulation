@@ -3,4 +3,8 @@
 //
 #include "RandomDirectionSetUpParameters.h"
 
-SamplerHandle RandomDirectionSetUpParameters::lengthSampler{std::make_shared<ConstantValueSampler>(1)};
+SamplerHandle RandomDirectionSetUpParameters::getLengthSampler() {
+    lengthSampler = std::make_shared<ConstantValueSampler>(1);
+    return lengthSampler;
+}
+RandomDirectionSetUpParameters randomDirectionSetUpParameters;

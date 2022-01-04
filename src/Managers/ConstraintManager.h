@@ -40,8 +40,6 @@ public:
 
     [[nodiscard]] virtual bool checkForConstraint(const std::vector<EuclideanVector> &positions) const;
 
-    ~ConstraintManager() { std::cout << "ConstraintManager destructed" << std::endl; }
-
     bool operator==(const ConstraintManager& constraintManager) const {return m_centerMap == constraintManager.m_centerMap && m_distanceLimit == constraintManager.m_distanceLimit && m_exteriorLimit==constraintManager.m_exteriorLimit;};
 
 private:

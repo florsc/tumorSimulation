@@ -15,6 +15,15 @@ if __name__ == '__main__':
 
     # Closing file
     f.close()
+    f = open('targets.json', )
+
+    # returns JSON object as
+    # a dictionary
+    dataTargets = json.load(f)
+
+    # Closing file
+    f.close()
+
     axisLimits = [[999999999, -999999999],[999999999, -999999999],[999999999, -999999999]]
     for axon in data:
         for position in axon:
@@ -23,7 +32,14 @@ if __name__ == '__main__':
                     axisLimits[i][0]=position[i]
                 if position[i]>axisLimits[i][1]:
                     axisLimits[i][1]=position[i]
-
+    '''
+    for position in dataTargets[:-1]:
+        for i in range(3):
+            if position[i]<axisLimits[i][0]:
+                axisLimits[i][0]=position[i]
+            if position[i]>axisLimits[i][1]:
+                axisLimits[i][1]=position[i]
+    '''
     ranges = [-1,-1,-1]
     for i in range(3):
         ranges[i] = axisLimits[i][1]-axisLimits[i][0]

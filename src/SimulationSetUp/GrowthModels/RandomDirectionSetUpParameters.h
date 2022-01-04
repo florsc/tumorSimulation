@@ -11,8 +11,10 @@
 
 struct RandomDirectionSetUpParameters {
     static constexpr double angleBackwardThreshold = 0.7 * M_PI;
-    static SamplerHandle lengthSampler;
+    SamplerHandle lengthSampler;
+    SamplerHandle getLengthSampler();
 };
 
 
+extern RandomDirectionSetUpParameters randomDirectionSetUpParameters;
 #endif //TUMORSIMULATION_RANDOMDIRECTIONSETUPPARAMETERS_H

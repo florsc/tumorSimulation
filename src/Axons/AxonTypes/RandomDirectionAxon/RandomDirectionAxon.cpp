@@ -12,10 +12,10 @@
 #include "../../../Managers/ConstraintManager.h"
 
 
-RandomDirectionAxon::RandomDirectionAxon(const EuclideanVector &startPosition,
+RandomDirectionAxon::RandomDirectionAxon(const EuclideanVector &startPosition, int id,
                                          RandomDirectionAxonParameters randomDirectionAxonParameters,
                                          BaseAxonParameters baseAxonParameters, int constraintsEncountered)
-        : BaseAxon(startPosition, std::move(baseAxonParameters), constraintsEncountered),
+        : BaseAxon(startPosition, id, std::move(baseAxonParameters), constraintsEncountered),
           m_randomDirectionAxonParameters(std::move(randomDirectionAxonParameters)) {
 }
 

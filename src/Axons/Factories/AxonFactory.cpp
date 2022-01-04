@@ -10,11 +10,12 @@
 #include "../../Managers/TargetManager.h"
 #include "../AxonTypes/BaseAxon/BaseAxon.h"
 
-void AxonFactory::setUpFactory(SimulationManagerHandle simulationManager) {
+void AxonFactory::setUpFactory(SimulationManagerHandle simulationManager, double branchingProbability) {
     m_baseAxonParameters.simulationManager = std::move(simulationManager);
     m_baseAxonParameters.constraintManager = std::make_shared<ConstraintManager>
-            (parameters.exteriorLimit, ParameterStruct::minDistance);
-    m_baseAxonParameters.targetManager = std::make_unique<TargetManager>(parameters.targets);
+            (parameters.getExteriorLimit(), ParameterStruct::minDistance);
+    m_baseAxonParameters.targetManager = std::make_unique<TargetManager>(parameters.getTargets());
+    m_baseAxonParameters.branchingProbability = branchingProbability;
 }
 
 void AxonFactory::setUpRoot(const AxonHandle& axon, const WeakAxonHandle& rootAxon) const {

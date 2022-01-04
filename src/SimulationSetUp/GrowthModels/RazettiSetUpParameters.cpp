@@ -1,6 +1,12 @@
 //
 // Created by florian on 10/20/21.
 //
+#include <iostream>
 #include "RazettiSetUpParameters.h"
+#include <cmath>
 
-const SamplerHandle RazettiSetUpParameters::lengthSampler = std::make_shared<ConstantValueSampler>(1);
+SamplerHandle RazettiSetUpParameters::getLengthSampler() {
+    lengthSampler = std::make_shared<LogNormalSampler>(log(0.2),1);
+    return lengthSampler;
+}
+RazettiSetUpParameters razettiSetUpParameters;

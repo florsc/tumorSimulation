@@ -8,8 +8,8 @@
 #include "../../util/TypeDefs.h"
 
 struct AxonSetUpParameters {
-    static constexpr double branchingProbability = 0.01;
-    static constexpr int maxNumberOfConstraintEncounters = 10;
+    static constexpr double branchingProbability = 0.05;
+    static constexpr int maxNumberOfConstraintEncounters = 1000;
 };
 
 #endif //TUMORSIMULATION_AXONSETUPPARAMETERS_H

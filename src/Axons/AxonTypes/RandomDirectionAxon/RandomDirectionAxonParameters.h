@@ -14,7 +14,7 @@ struct RandomDirectionAxonParameters {
 
     RandomDirectionAxonParameters() :
             angleBackwardThreshold(RandomDirectionSetUpParameters::angleBackwardThreshold),
-            lengthSampler(RandomDirectionSetUpParameters::lengthSampler) {
+            lengthSampler(randomDirectionSetUpParameters.getLengthSampler()) {
     }
 };
 

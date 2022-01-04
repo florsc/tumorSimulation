@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 
 
 class Visualizer:
@@ -8,11 +9,15 @@ class Visualizer:
         self.simulatedAxons = simulatedAxons
         plt.figure()
         self.axis = plt.axes(projection='3d')
+        #self.axis.set_xlim3d(-100,100)
+        #self.axis.set_ylim3d(-100,100)
+        #self.axis.set_zlim3d(-100,100)
+
 
         self.axis.set_xlim3d(range[0][0], range[0][1])
         self.axis.set_ylim3d(range[1][0], range[1][1])
         self.axis.set_zlim3d(range[2][0], range[2][1])
-        '''
+    '''    
     def addBallLimits(self, radius):
 
         # Ball
@@ -43,8 +48,10 @@ class Visualizer:
                                alpha=0.2, rstride=rstride, cstride=cstride)
         self.axis.plot_surface(Xc, -Yc, Zc, color='r',
                                alpha=0.2, rstride=rstride, cstride=cstride)
-'''
+    '''
+
     def addTargets(self, targets):
+        print(targets)
         for index in range(len(targets["radius"])):
             radius = targets["radius"][index]
             center = targets["centers"][index]
@@ -85,7 +92,20 @@ class Visualizer:
     def visualize(self):
         self.addAxons()
         #self.addBallLimits(400)
-        self.addTargets({"radius":[20,30], "centers":[[12,70,20],[-120,5,20]]})
+        centers = []
+        radius = []
+        f = open('targets.json', )
+
+    # returns JSON object as
+    # a dictionary
+        data = json.load(f)
+
+    # Closing file
+        f.close()
+        print(data)
+        self.addTargets({"radius":[data[-1] for i in range(len(data)-1)], "centers":data[:-1]})
+
+        #self.addBallLimits(100)
         self.axis.set_xlabel("X")
         self.axis.set_ylabel("Y")
         self.axis.set_zlabel("Z")

@@ -17,6 +17,8 @@ public:
 
     EuclideanVector calculateForce(const EuclideanVector& position) override;
     bool checkTargetReached(const EuclideanVector &position) override;
+
+    double m_mass;
 };
 
 

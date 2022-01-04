@@ -12,29 +12,24 @@
 #include "../../../util/HelperFunctions.h"
 #include "../../../util/SimulationException.h"
 
-BaseAxon::BaseAxon(const EuclideanVector &startPosition, BaseAxonParameters baseAxonParameters,
+BaseAxon::BaseAxon(const EuclideanVector &startPosition, int id, BaseAxonParameters baseAxonParameters,
                    int constraintsEncountered)
-        : m_identifier(
-        m_currentIdentifier), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(parameters.m_generator),
+        : m_identifier(id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(parameters.m_generator),
           m_constraintCounter(constraintsEncountered) {
     m_tipPositions.push_back(startPosition);
-    m_currentIdentifier++;
 }
 
-BaseAxon::BaseAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
+BaseAxon::BaseAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition, int id,
                    BaseAxonParameters baseAxonParameters, int constraintsEncountered)
         : m_identifier(
-        m_currentIdentifier), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(parameters.m_generator),
+        id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(parameters.m_generator),
           m_constraintCounter(constraintsEncountered) {
     m_tipPositions.push_back(startPosition);
     m_tipPositions.push_back(nextPosition);
-    m_currentIdentifier++;
 }
 
-int BaseAxon::m_currentIdentifier{0};
-
 bool BaseAxon::checkConstraints(const PositionVector &positions)  const{
-    return m_baseAxonParameters.constraintManager->checkForConstraint(positions);
+    return false;//m_baseAxonParameters.constraintManager->checkForConstraint(positions);
 }
 
 bool BaseAxon::checkIfBranching()  const{
@@ -42,24 +37,31 @@ bool BaseAxon::checkIfBranching()  const{
     return branch;
 }
 
-bool BaseAxon::createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition)  const{
+bool BaseAxon::createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition)  {
+
+    if(m_numberOfBranches<ParameterStruct::maxNumberOfBranches){
     if (!checkConstraints(HelperFunctions::createCoveringCenters(startPosition, nextPosition - startPosition,
                                                                  ParameterStruct::minDistance))) {
         if (auto simulationManager = m_baseAxonParameters.simulationManager.lock()) {
-            simulationManager->addStartedAxon(startPosition, nextPosition, m_constraintCounter, m_rootAxon);
+            m_childAxons.push_back(simulationManager->addStartedAxon(startPosition, nextPosition, m_constraintCounter, m_rootAxon));
+            increaseBranchNumberBase();
+            m_childAxons.back()->setBranchNumber(m_numberOfBranches);
             return true;
         }
-    }
+    }}
     return false;
 }
 
 void BaseAxon::checkForStopping() {
-    if (m_constraintCounter > m_baseAxonParameters.maxNumberOfConstraintEncounters) { stopAxonBranch(); }
+    if (m_constraintCounter > m_baseAxonParameters.maxNumberOfConstraintEncounters ) { stopAxon(); }
+}
+
+void BaseAxon::checkLength(){
+    if(getAxonLength() > ParameterStruct::maxAxonLength){stopAxon();}
 }
 
 bool BaseAxon::checkTargetReached(const EuclideanVector &position) {
     if (m_baseAxonParameters.targetManager->checkTargetReached(position)) {
-        stopAxonBranch();
         if (auto rootAxon = m_rootAxon.lock()) { rootAxon->setTargetReached(); }
     }
 }
@@ -88,3 +90,17 @@ void BaseAxon::stopAxonBranch() { m_active = false;
     for(const auto& child:m_childAxons){child->stopAxonBranch();}}
 
 void BaseAxon::stopAxon() { if(auto rootAxon = m_rootAxon.lock()){rootAxon->stopAxonBranch();}}
+double BaseAxon::getAxonLength() {
+    if(auto rootAxon = m_rootAxon.lock()){return rootAxon->getBranchLength();} return 0;
+}
+
+double BaseAxon::getBranchLength() {
+    /*double length = 0;
+    for(int i = 1;i<m_tipPositions.size();i++){
+        length +=(m_tipPositions[i]-m_tipPositions[i-1]).GetEuclideanNorm();
+    }
+    for(const auto& childAxon: m_childAxons){
+        length+=childAxon->getBranchLength();
+    }*/
+    return m_length;
+}

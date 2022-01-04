@@ -35,6 +35,13 @@ public:
     double sample() override { return m_constantValue; }
 };
 
+class LogNormalSampler : public Samplers {
+    std::lognormal_distribution<double> m_dist;
+public:
+    LogNormalSampler(double logMean, double logVariance) : m_dist(logMean,logVariance) {}
+
+    double sample() override { return m_dist(*m_generator); }
+};
 
 //For tests only
 

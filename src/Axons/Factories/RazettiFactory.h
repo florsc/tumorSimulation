@@ -16,12 +16,10 @@ public:
     RazettiFactory();
 
     AxonHandle makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
-                        WeakAxonHandle rootAxon = WeakAxonHandle()) const override;
+                        WeakAxonHandle rootAxon = WeakAxonHandle())  override;
 
     AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
-                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle()) const override;
-
-    ~RazettiFactory() { std::cout << "RazettyFactory destructed" << std::endl; }
+                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle())  override;
 
     friend class AxonTest;
 };

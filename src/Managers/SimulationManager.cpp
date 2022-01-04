@@ -15,12 +15,12 @@
 #include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.h"
 
 
-void SimulationManager::setUp(SimulationManagerHandle simulationManager) {
+void SimulationManager::setUp(SimulationManagerHandle simulationManager,double branchingProbability) {
     m_axonManager = std::move(parameters.axonOrder->makeAxonManager());
-    m_axonFactory = std::move(parameters.axonFactory);
-    m_axonFactory->setUpFactory(std::move(simulationManager));
+    m_axonFactory = std::move(parameters.makeAxonFactory());
+    m_axonFactory->setUpFactory(std::move(simulationManager), branchingProbability);
     auto startPositions = createPossibleStartPositions(parameters.startingAreaCorners.first,
-                                                       parameters.startingAreaCorners.second, ParameterStruct::minDistance);
+                                                       parameters.startingAreaCorners.second, ParameterStruct::startDistance);
     for (int i = 0; i < ParameterStruct::numberOfStartingAxons; i++) {
         auto startPositionIter = startPositions.begin();
         auto indexSampler = std::uniform_int_distribution<int>(0, startPositions.size() - 1);
@@ -100,4 +100,28 @@ void SimulationManager::removeAxon(const int id) {
     m_axonManager->removeAxon(id);
 }
 
-SimulationManager::~SimulationManager() { std::cout << "SimulationManager destructed" << std::endl; }
+int SimulationManager::getNumberOfTargetReached() {
+    int targetsReached = 0;
+    auto allAxons = m_axonManager->getAllAxons();
+    for(const auto& axon:allAxons){
+        if(axon->getId()<ParameterStruct::numberOfStartingAxons && axon->targetIsReached()){
+            targetsReached++;
+        }
+    }
+    return targetsReached;
+}
+
+double SimulationManager::getAxonLength() {
+    double length = 0;
+    auto allAxons = m_axonManager->getAllAxons();
+    for(const auto& axon:allAxons){
+        if(axon->getId()<ParameterStruct::numberOfStartingAxons){
+            length += axon->getBranchLength();
+        }
+    }
+    return length;
+}
+
+double SimulationManager::getNumberOfAxons() {
+    return m_axonManager->getAllAxons().size();
+}

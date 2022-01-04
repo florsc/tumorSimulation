@@ -12,15 +12,15 @@ RazettiFactory::RazettiFactory() : AxonFactory() {
 }
 
 AxonHandle
-RazettiFactory::makeAxon(const EuclideanVector &startPosition, int constraintsEncountered, WeakAxonHandle rootAxon) const {
-    auto axon = std::make_shared<RazettiAxon>(startPosition, m_razettiAxonParameters, m_baseAxonParameters, constraintsEncountered);
+RazettiFactory::makeAxon(const EuclideanVector &startPosition, int constraintsEncountered, WeakAxonHandle rootAxon)  {
+    auto axon = std::make_shared<RazettiAxon>(startPosition, m_axonIdentifier++, m_razettiAxonParameters, m_baseAxonParameters, constraintsEncountered);
     setUpRoot(axon, rootAxon);
     return axon;
 }
 
 AxonHandle RazettiFactory::makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
-                                           int constraintsEncountered, WeakAxonHandle rootAxon) const {
-    auto axon = std::make_shared<RazettiAxon>(startPosition, m_razettiAxonParameters, m_baseAxonParameters,
+                                           int constraintsEncountered, WeakAxonHandle rootAxon)  {
+    auto axon = std::make_shared<RazettiAxon>(startPosition, m_axonIdentifier++, m_razettiAxonParameters, m_baseAxonParameters,
                                               constraintsEncountered);
     auto angles = HelperFunctions::getSphericalAngles(nextPosition - startPosition);
     axon->addPosition(nextPosition, angles);
