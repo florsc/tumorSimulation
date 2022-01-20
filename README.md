@@ -30,11 +30,11 @@ The results can be extracted by running the dataHandler.py while being in the tu
 Visualization runs the simulation once.
 The result can be shown as 3D diagram by running the python_wrapper.py while being in the tumorSimulation folder.
 
-You can build the relevant targets by:
+You can build the relevant targets in the tumorSimulation folder by:
 
-cmake --build /home/florian/CLionProjects/tumorSimulation/build --target simulationRun
+cmake --build ./build --target simulationRun
 
-cmake --build /home/florian/CLionProjects/tumorSimulation/build --target visualizationRun
+cmake --build ./build --target visualizationRun
 
 Go in the directory and run respectively ./simulationRun or ./visualizationRun to create the data.
 Afterwards you can run the python files.
