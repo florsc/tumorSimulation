@@ -51,7 +51,6 @@ class Visualizer:
     '''
 
     def addTargets(self, targets):
-        print(targets)
         for index in range(len(targets["radius"])):
             radius = targets["radius"][index]
             center = targets["centers"][index]
@@ -102,7 +101,6 @@ class Visualizer:
 
     # Closing file
         f.close()
-        print(data)
         #self.addTargets({"radius":[data[-1] for i in range(len(data)-1)], "centers":data[:-1]})
 
         #self.addBallLimits(100)

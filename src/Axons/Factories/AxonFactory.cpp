@@ -14,13 +14,13 @@
 
 void AxonFactory::setUpFactory(SimulationManagerHandle simulationManager) {
     m_baseAxonParameters.simulationManager = std::move(simulationManager);
-    if(auto simulationManager = m_baseAxonParameters.simulationManager.lock()){
+    if (auto simulationManager = m_baseAxonParameters.simulationManager.lock()) {
         m_baseAxonParameters.targetManager = simulationManager->getTargetManager();
         m_baseAxonParameters.constraintManager = simulationManager->getConstraintManager();
     }
 }
 
-void AxonFactory::setUpRoot(const AxonHandle& axon, const WeakAxonHandle& rootAxon) const {
+void AxonFactory::setUpRoot(const AxonHandle &axon, const WeakAxonHandle &rootAxon) const {
     if (rootAxon.lock()) {
         axon->setUpRootAxon(rootAxon);
     } else {
@@ -28,6 +28,6 @@ void AxonFactory::setUpRoot(const AxonHandle& axon, const WeakAxonHandle& rootAx
     }
 }
 
-AxonFactory::AxonFactory(AxonSetUpParametersHandle axonSetUpParameters): m_baseAxonParameters(axonSetUpParameters) {
+AxonFactory::AxonFactory(AxonSetUpParametersHandle axonSetUpParameters) : m_baseAxonParameters(axonSetUpParameters) {
 }
 

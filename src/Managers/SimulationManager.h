@@ -23,10 +23,13 @@ class SimulationManager {
     TargetManagerHandle m_targetManager;
 
 public:
-    ConstraintManagerHandle getConstraintManager(){return m_constraintManager;}
-    TargetManagerHandle getTargetManager(){return m_targetManager;}
-    SimulationManager(ParameterStruct& modelParameters);
-    void setUp(ParameterStruct& modelParameters, SimulationManagerHandle simulationManager);
+    ConstraintManagerHandle getConstraintManager() { return m_constraintManager; }
+
+    TargetManagerHandle getTargetManager() { return m_targetManager; }
+
+    SimulationManager(ParameterStruct &modelParameters);
+
+    void setUp(ParameterStruct &modelParameters, SimulationManagerHandle simulationManager);
 
     static PositionList
     createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);
@@ -46,7 +49,9 @@ public:
     void addAxon(AxonHandle axon);
 
     int getNumberOfTargetReached();
+
     double getNumberOfAxons();
+
     //test related
     friend class AxonTest;
 

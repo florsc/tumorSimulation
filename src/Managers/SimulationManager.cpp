@@ -2,7 +2,6 @@
 // Created by florian on 9/22/21.
 //
 
-#include <iostream>
 #include <utility>
 #include <random>
 #include "../SimulationSetUp/ParameterStruct.h"
@@ -12,21 +11,15 @@
 #include "AxonManagers/AxonManager.h"
 #include "../Axons/AxonTypes/RazettiAxon/RazettiAxon.h"
 #include "../Axons/Factories/AxonFactory.h"
-#include "../Axons/Factories/RandomDirectionFactory.h"
-#include "../Axons/Factories/RazettiFactory.h"
-#include "AxonManagers/AxonManagerLinear.h"
-#include "AxonManagers/AxonManagerWaitingTime.h"
-#include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTimeData.h"
-#include "../util/SimulationException.h"
-#include "../SimulationSetUp/AxonOrder/AxonOrderLinearData.h"
 #include "../util/DynamicCreators.h"
 
 
-void SimulationManager::setUp(ParameterStruct& modelParameters, SimulationManagerHandle simulationManager) {
+void SimulationManager::setUp(ParameterStruct &modelParameters, SimulationManagerHandle simulationManager) {
     m_axonFactory->setUpFactory(std::move(simulationManager));
 
     auto startPositions = createPossibleStartPositions(modelParameters.startingAreaCorners.first,
-                                                       modelParameters.startingAreaCorners.second, modelParameters.startDistance);
+                                                       modelParameters.startingAreaCorners.second,
+                                                       modelParameters.startDistance);
     for (int i = 0; i < modelParameters.numberOfStartingAxons; i++) {
         auto startPositionIter = startPositions.begin();
         auto indexSampler = std::uniform_int_distribution<int>(0, startPositions.size() - 1);
@@ -40,7 +33,7 @@ void SimulationManager::setUp(ParameterStruct& modelParameters, SimulationManage
 
 PositionList
 SimulationManager::createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2,
-                                                double minDistance)  {
+                                                double minDistance) {
     auto diff = c2 - c1;
     std::vector<std::vector<double>> spacedAxisValues;
     for (int i = 0; i < 3; i++) {
@@ -72,7 +65,7 @@ void SimulationManager::run() {
     }
 }
 
-std::vector<std::vector<std::vector<double>>> SimulationManager::getAxonPositions()  const{
+std::vector<std::vector<std::vector<double>>> SimulationManager::getAxonPositions() const {
     std::vector<std::vector<std::vector<double>>> axonVec;
     for (const auto &axon: m_axonManager->getAllAxons()) {
         auto &positionVec = axonVec.emplace_back();
@@ -109,8 +102,8 @@ void SimulationManager::removeAxon(const int id) {
 int SimulationManager::getNumberOfTargetReached() {
     int targetsReached = 0;
     auto allAxons = m_axonManager->getAllAxons();
-    for(const auto& axon:allAxons){
-        if(axon->getRootAxon()==axon && axon->targetIsReached()){
+    for (const auto &axon: allAxons) {
+        if (axon->getRootAxon() == axon && axon->targetIsReached()) {
             targetsReached++;
         }
     }
@@ -120,8 +113,8 @@ int SimulationManager::getNumberOfTargetReached() {
 double SimulationManager::getAxonLength() {
     double length = 0;
     auto allAxons = m_axonManager->getAllAxons();
-    for(const auto& axon:allAxons){
-        if(axon->getRootAxon()==axon){
+    for (const auto &axon: allAxons) {
+        if (axon->getRootAxon() == axon) {
             length += axon->getBranchLength();
         }
     }
@@ -132,7 +125,7 @@ double SimulationManager::getNumberOfAxons() {
     return m_axonManager->getAllAxons().size();
 }
 
-SimulationManager::SimulationManager(ParameterStruct& modelParameters) {
+SimulationManager::SimulationManager(ParameterStruct &modelParameters) {
     m_targetManager = std::make_shared<TargetManager>(modelParameters.targets);
 
     m_constraintManager = std::make_shared<ConstraintManager>

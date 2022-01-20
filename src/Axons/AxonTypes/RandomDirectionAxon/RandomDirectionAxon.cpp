@@ -5,9 +5,7 @@
 #include "RandomDirectionAxon.h"
 
 #include <utility>
-#include "../../../SimulationSetUp/ParameterStruct.h"
 #include "../../../util/HelperFunctions.h"
-#include "../../../util/Samplers.h"
 #include "../../../Managers/SimulationManager.h"
 #include "../../../Managers/ConstraintManager.h"
 
@@ -43,7 +41,7 @@ void RandomDirectionAxon::grow() {
     }
 }
 
-bool RandomDirectionAxon::addPosition(const EuclideanVector& position) {
+bool RandomDirectionAxon::addPosition(const EuclideanVector &position) {
     if (m_baseAxonParameters.constraintManager->checkForConstraintAndAdd(m_tipPositions.back(),
                                                                          position - m_tipPositions.back(), m_identifier,
                                                                          m_numberOfGrowthTimes)) {
@@ -65,6 +63,7 @@ void RandomDirectionAxon::setUpNewBranch() {
                                            m_tipPositions.at(size - 2) - m_tipPositions.at(size - 3));
     if (auto simulationManager = m_baseAxonParameters.simulationManager.lock()) {
         simulationManager->addStartedAxon(m_tipPositions.at(size - 1), m_tipPositions.at(size - 1) + (
-                m_randomDirectionAxonParameters.lengthSampler->sample() * crossProductVector.CreateUnitVector()), m_constraintCounter);
+                                                  m_randomDirectionAxonParameters.lengthSampler->sample() * crossProductVector.CreateUnitVector()),
+                                          m_constraintCounter);
     }
 }

@@ -8,13 +8,11 @@
 #include "../../../Managers/SimulationManager.h"
 #include "../../../Managers/ConstraintManager.h"
 #include "../../../Managers/TargetManager.h"
-#include "../../../SimulationSetUp/ParameterStruct.h"
-#include "../../../util/HelperFunctions.h"
-#include "../../../util/SimulationException.h"
 
 BaseAxon::BaseAxon(const EuclideanVector &startPosition, int id, BaseAxonParameters baseAxonParameters,
                    int constraintsEncountered)
-        : m_identifier(id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(GeneratorSingleton::getInstance()->m_generator),
+        : m_identifier(id), m_baseAxonParameters(std::move(baseAxonParameters)),
+          m_generator(GeneratorSingleton::getInstance()->m_generator),
           m_constraintCounter(constraintsEncountered) {
     m_tipPositions.push_back(startPosition);
 }
@@ -22,45 +20,51 @@ BaseAxon::BaseAxon(const EuclideanVector &startPosition, int id, BaseAxonParamet
 BaseAxon::BaseAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition, int id,
                    BaseAxonParameters baseAxonParameters, int constraintsEncountered)
         : m_identifier(
-        id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(GeneratorSingleton::getInstance()->m_generator),
+        id), m_baseAxonParameters(std::move(baseAxonParameters)),
+          m_generator(GeneratorSingleton::getInstance()->m_generator),
           m_constraintCounter(constraintsEncountered) {
     m_tipPositions.push_back(startPosition);
     m_tipPositions.push_back(nextPosition);
 }
 
-bool BaseAxon::checkConstraints(const EuclideanVector &startPosition, const EuclideanVector &growthVector)  const{
+bool BaseAxon::checkConstraints(const EuclideanVector &startPosition, const EuclideanVector &growthVector) const {
     return m_baseAxonParameters.constraintManager->checkForConstraint(startPosition, growthVector);
 }
 
-bool BaseAxon::checkConstraintsAndAdd(const EuclideanVector &startPosition, const EuclideanVector &growthVector, int numberOfGrowthTimes)  {
-    return m_baseAxonParameters.constraintManager->checkForConstraintAndAdd(startPosition, growthVector, m_identifier, numberOfGrowthTimes);
+bool BaseAxon::checkConstraintsAndAdd(const EuclideanVector &startPosition, const EuclideanVector &growthVector,
+                                      int numberOfGrowthTimes) {
+    return m_baseAxonParameters.constraintManager->checkForConstraintAndAdd(startPosition, growthVector, m_identifier,
+                                                                            numberOfGrowthTimes);
 }
 
-bool BaseAxon::checkIfBranching()  const{
+bool BaseAxon::checkIfBranching() const {
     bool branch = std::bernoulli_distribution(m_baseAxonParameters.branchingProbability)(*m_generator);
     return branch;
 }
 
-bool BaseAxon::createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition)  {
+bool BaseAxon::createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) {
 
-    if(m_numberOfBranches<m_baseAxonParameters.maxNumberOfBranches){
-    if (!checkConstraints(startPosition, nextPosition - startPosition)) {
-        if (auto simulationManager = m_baseAxonParameters.simulationManager.lock()) {
-            m_childAxons.push_back(simulationManager->addStartedAxon(startPosition, nextPosition, m_constraintCounter, m_rootAxon));
-            increaseBranchNumberBase();
-            m_childAxons.back()->setBranchNumber(m_numberOfBranches);
-            return true;
+    if (m_numberOfBranches < m_baseAxonParameters.maxNumberOfBranches) {
+        if (!checkConstraints(startPosition, nextPosition - startPosition)) {
+            if (auto simulationManager = m_baseAxonParameters.simulationManager.lock()) {
+                m_childAxons.push_back(
+                        simulationManager->addStartedAxon(startPosition, nextPosition, m_constraintCounter,
+                                                          m_rootAxon));
+                increaseBranchNumberBase();
+                m_childAxons.back()->setBranchNumber(m_numberOfBranches);
+                return true;
+            }
         }
-    }}
+    }
     return false;
 }
 
 void BaseAxon::checkForStopping() {
-    if (m_constraintCounter > m_baseAxonParameters.maxNumberOfConstraintEncounters ) { stopAxon(); }
+    if (m_constraintCounter > m_baseAxonParameters.maxNumberOfConstraintEncounters) { stopAxon(); }
 }
 
-void BaseAxon::checkLength(){
-    if(getAxonLength() > m_baseAxonParameters.maxAxonLength){stopAxon();}
+void BaseAxon::checkLength() {
+    if (getAxonLength() > m_baseAxonParameters.maxAxonLength) { stopAxon(); }
 }
 
 bool BaseAxon::checkTargetReached(const EuclideanVector &position) {
@@ -89,12 +93,16 @@ void BaseAxon::killAxon() {
     }
 }
 
-void BaseAxon::stopAxonBranch() { m_active = false;
-    for(const auto& child:m_childAxons){child->stopAxonBranch();}}
+void BaseAxon::stopAxonBranch() {
+    m_active = false;
+    for (const auto &child: m_childAxons) { child->stopAxonBranch(); }
+}
 
-void BaseAxon::stopAxon() { if(auto rootAxon = m_rootAxon.lock()){rootAxon->stopAxonBranch();}}
+void BaseAxon::stopAxon() { if (auto rootAxon = m_rootAxon.lock()) { rootAxon->stopAxonBranch(); }}
+
 double BaseAxon::getAxonLength() {
-    if(auto rootAxon = m_rootAxon.lock()){return rootAxon->getBranchLength();} return 0;
+    if (auto rootAxon = m_rootAxon.lock()) { return rootAxon->getBranchLength(); }
+    return 0;
 }
 
 double BaseAxon::getBranchLength() {

@@ -16,6 +16,7 @@
 class ConstraintManager;
 
 class EuclideanVector;
+
 class AxonTest;
 
 class BaseAxon {
@@ -43,15 +44,24 @@ protected:
 
     BaseAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition, int id,
              BaseAxonParameters baseAxonParameters, int constraintsEncountered = 0);
-    void increaseBranchNumberBase(){if(auto rootAxon = m_rootAxon.lock()){rootAxon->increaseBranchNumber();}}
-    void increaseBranchNumber(){m_numberOfBranches++; for(const auto & child:m_childAxons){child->increaseBranchNumber();}}
+
+    void increaseBranchNumberBase() { if (auto rootAxon = m_rootAxon.lock()) { rootAxon->increaseBranchNumber(); }}
+
+    void increaseBranchNumber() {
+        m_numberOfBranches++;
+        for (const auto &child: m_childAxons) { child->increaseBranchNumber(); }
+    }
+
     virtual bool checkConstraints(const EuclideanVector &startPosition, const EuclideanVector &growthVector) const;
-    virtual bool checkConstraintsAndAdd(const EuclideanVector &startPosition, const EuclideanVector &growthVector, int numberOfGrowthTimes);
-    void setBranchNumber(int branchNumber){m_numberOfBranches = branchNumber;}
+
+    virtual bool checkConstraintsAndAdd(const EuclideanVector &startPosition, const EuclideanVector &growthVector,
+                                        int numberOfGrowthTimes);
+
+    void setBranchNumber(int branchNumber) { m_numberOfBranches = branchNumber; }
 
     bool checkIfBranching() const;
 
-    bool createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition) ;
+    bool createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition);
 
     bool checkTargetReached(const EuclideanVector &position);
 
@@ -62,6 +72,7 @@ protected:
 public:
 
     void setUpRootAxon(WeakAxonHandle rootAxon) { m_rootAxon = std::move(rootAxon); }
+
     AxonHandle getRootAxon() { return m_rootAxon.lock(); }
 
     virtual void killAxon();
@@ -73,7 +84,9 @@ public:
     [[nodiscard]] PositionVector getTipPositions() const { return m_tipPositions; }
 
     [[nodiscard]] bool hasId(const int id) const { return m_identifier == id; }
-int getId(){return m_identifier;}
+
+    int getId() { return m_identifier; }
+
     [[nodiscard]] bool isActive() const { return m_active; }
 
     [[nodiscard]] bool targetIsReached() const { return m_targetReached; }
@@ -83,7 +96,9 @@ int getId(){return m_identifier;}
     }
 
     double getAxonLength();
+
     double getBranchLength();
+
 public:
 
     virtual void grow() = 0;

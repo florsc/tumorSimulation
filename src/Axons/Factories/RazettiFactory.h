@@ -17,10 +17,10 @@ public:
     RazettiFactory(RazettiSetUpParametersHandle razettiSetUpParameters);
 
     AxonHandle makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
-                        WeakAxonHandle rootAxon = WeakAxonHandle())  override;
+                        WeakAxonHandle rootAxon = WeakAxonHandle()) override;
 
     AxonHandle makeStartedAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition,
-                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle())  override;
+                               int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle()) override;
 
     friend class AxonTest;
 };

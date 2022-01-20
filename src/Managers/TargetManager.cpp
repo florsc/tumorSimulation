@@ -7,13 +7,13 @@
 
 #include <utility>
 
-TargetManager::TargetManager(const TargetSetUpVector& targetSetUpVector)   {
-    for(const auto& targetSetUp:targetSetUpVector){
+TargetManager::TargetManager(const TargetSetUpVector &targetSetUpVector) {
+    for (const auto &targetSetUp: targetSetUpVector) {
         m_targets.push_back(createTarget(targetSetUp));
     }
 }
 
-bool TargetManager::checkTargetReached(const EuclideanVector &position)  const{
+bool TargetManager::checkTargetReached(const EuclideanVector &position) const {
     bool reached = false;
     for (const auto &target: m_targets) {
         if (target->checkTargetReached(position)) {
@@ -26,7 +26,7 @@ bool TargetManager::checkTargetReached(const EuclideanVector &position)  const{
 
 EuclideanVector TargetManager::calculateForce(const EuclideanVector &position) const {
     auto force = EuclideanVector();
-    for(const auto& target:m_targets){
+    for (const auto &target: m_targets) {
         force += target->calculateForce(position);
     }
     return force;

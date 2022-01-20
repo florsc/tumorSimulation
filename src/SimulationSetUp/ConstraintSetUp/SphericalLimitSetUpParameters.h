@@ -8,8 +8,10 @@
 
 #include "ExteriorLimitSetUpParameters.h"
 
-struct SphericalLimitSetUpParameters: public ExteriorLimitSetUpParameters {
-double radius = 400;
+struct SphericalLimitSetUpParameters : public ExteriorLimitSetUpParameters {
+    double radius;
+
+    SphericalLimitSetUpParameters();
 };
 
 

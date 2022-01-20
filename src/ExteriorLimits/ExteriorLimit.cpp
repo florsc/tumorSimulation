@@ -5,7 +5,8 @@
 #include "ExteriorLimit.h"
 #include "../SimulationSetUp/ConstraintSetUp/SphericalLimitSetUpParameters.h"
 
-SphericalLimit::SphericalLimit(SphericalLimitSetUpParametersHandle sphericalLimitSetUpParameters) : m_radiusSquared(sphericalLimitSetUpParameters->radius * sphericalLimitSetUpParameters->radius) {
+SphericalLimit::SphericalLimit(SphericalLimitSetUpParametersHandle sphericalLimitSetUpParameters) : m_radiusSquared(
+        sphericalLimitSetUpParameters->radius * sphericalLimitSetUpParameters->radius) {
 
 }
 

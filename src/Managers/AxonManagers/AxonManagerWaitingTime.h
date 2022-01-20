@@ -7,7 +7,6 @@
 
 
 #include "AxonManager.h"
-#include "../../SimulationSetUp/ParameterStruct.h"
 
 class AxonManagerWaitingTime : public AxonManager {
 

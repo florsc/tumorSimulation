@@ -3,3 +3,7 @@
 //
 
 #include "SphericalLimitSetUpParameters.h"
+
+SphericalLimitSetUpParameters::SphericalLimitSetUpParameters() : ExteriorLimitSetUpParameters() {
+    radius = 400;
+}

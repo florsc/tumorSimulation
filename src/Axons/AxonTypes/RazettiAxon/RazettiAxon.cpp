@@ -8,11 +8,11 @@
 #include "../../../util/HelperFunctions.h"
 #include "../../../Managers/ConstraintManager.h"
 #include "../../../Managers/SimulationManager.h"
-#include "../../../util/Samplers.h"
 #include "../../../Managers/TargetManager.h"
 
 RazettiAxon::RazettiAxon(const EuclideanVector &startPosition, int id,
-                         RazettiAxonParameters razettiAxonParameters, BaseAxonParameters baseAxonParameters, std::pair<double, double> start_angle,
+                         RazettiAxonParameters razettiAxonParameters, BaseAxonParameters baseAxonParameters,
+                         std::pair<double, double> start_angle,
                          int constraintsEncountered)
         : BaseAxon(startPosition, id, std::move(baseAxonParameters), constraintsEncountered),
           m_razettiAxonParameters(std::move(razettiAxonParameters)) {
@@ -25,7 +25,9 @@ RazettiAxon::RazettiAxon(const EuclideanVector &startPosition, const EuclideanVe
                          int constraintsEncountered)
         : BaseAxon(startPosition, nextPosition, id, std::move(baseAxonParameters), constraintsEncountered),
           m_razettiAxonParameters(std::move(razettiAxonParameters)) {
-    m_growthAnglesParameters.push_back(std::make_pair<double, double>(std::uniform_real_distribution<>(0.0, M_PI)(*m_generator), std::uniform_real_distribution<>(0.0, 2*M_PI)(*m_generator)));
+    m_growthAnglesParameters.push_back(
+            std::make_pair<double, double>(std::uniform_real_distribution<>(0.0, M_PI)(*m_generator),
+                                           std::uniform_real_distribution<>(0.0, 2 * M_PI)(*m_generator)));
     m_growthStepIndices.push_back(2);
 }
 
@@ -42,7 +44,6 @@ void RazettiAxon::grow() {
            m_active) {
         growthStep++;
         auto growthVector = sampleVector(m_razettiAxonParameters.maxAngleFraction);
-
 
 
         if (!checkConstraints(tipPositionsCurrentTimeStep.back(), growthVector)) {
@@ -62,17 +63,17 @@ void RazettiAxon::grow() {
     }
     PositionVector flatVector;
     for (const auto &centers: centersCurrentTimeStep) {
-        flatVector.insert(flatVector.end(),centers.begin(),centers.end());
+        flatVector.insert(flatVector.end(), centers.begin(), centers.end());
     }
     m_baseAxonParameters.constraintManager->addConstraintCenters(flatVector, m_identifier, m_numberOfGrowthTimes);
 
-    if (m_active&&checkIfBranching() && tipPositionsCurrentTimeStep.size() > 2) {
+    if (m_active && checkIfBranching() && tipPositionsCurrentTimeStep.size() > 2) {
         setUpNewBranch(tipPositionsCurrentTimeStep);
     }
     m_numberOfGrowthTimes++;
     auto tmp = m_tipPositions.back();
-    for(const auto& step:tipPositionsCurrentTimeStep){
-        m_length +=(tmp-step).GetEuclideanNorm();
+    for (const auto &step: tipPositionsCurrentTimeStep) {
+        m_length += (tmp - step).GetEuclideanNorm();
         tmp = step;
     }
     m_tipPositions.insert(m_tipPositions.end(), ++tipPositionsCurrentTimeStep.begin(),
@@ -86,7 +87,7 @@ bool RazettiAxon::addPosition(const EuclideanVector &position) {
     if (m_baseAxonParameters.constraintManager->checkForConstraintAndAdd(m_tipPositions.back(),
                                                                          position - m_tipPositions.back(), m_identifier,
                                                                          m_numberOfGrowthTimes)) {
-        m_length += (m_tipPositions.back()-position).GetEuclideanNorm();
+        m_length += (m_tipPositions.back() - position).GetEuclideanNorm();
         m_tipPositions.push_back(position);
         m_growthAnglesParameters.push_back(m_growthAnglesParameters.back());
         m_numberOfGrowthTimes++;
@@ -98,10 +99,10 @@ bool RazettiAxon::addPosition(const EuclideanVector &position) {
 }
 
 bool RazettiAxon::addPosition(const EuclideanVector &position, std::pair<double, double> angles) {
-    if(m_baseAxonParameters.constraintManager->checkForConstraintAndAdd(m_tipPositions.back(),
-                                                                        position - m_tipPositions.back(), m_identifier,
-                                                                        m_numberOfGrowthTimes)) {
-    m_length += (m_tipPositions.back()-position).GetEuclideanNorm();
+    if (m_baseAxonParameters.constraintManager->checkForConstraintAndAdd(m_tipPositions.back(),
+                                                                         position - m_tipPositions.back(), m_identifier,
+                                                                         m_numberOfGrowthTimes)) {
+        m_length += (m_tipPositions.back() - position).GetEuclideanNorm();
         m_tipPositions.push_back(position);
         m_growthAnglesParameters.push_back(angles);
         m_numberOfGrowthTimes++;
@@ -109,9 +110,10 @@ bool RazettiAxon::addPosition(const EuclideanVector &position, std::pair<double,
         checkLength();
         return true;
     }
-return false;
+    return false;
 
 }
+
 /*
 EuclideanVector RazettiAxon::sampleAngles() {
     auto expectation_0 =
@@ -137,38 +139,39 @@ EuclideanVector RazettiAxon::sampleAngles() {
 */
 EuclideanVector RazettiAxon::sampleVector(double angle, bool save, int reverseIndex) {
 
-    std::gamma_distribution<double> dist(m_razettiAxonParameters.beta,m_razettiAxonParameters.beta);
+    std::gamma_distribution<double> dist(m_razettiAxonParameters.beta, m_razettiAxonParameters.beta);
     auto x1 = dist(*m_generator);
-    auto angleFraction = x1/(x1+dist(*m_generator));
-    auto circularAngle = std::uniform_real_distribution<>(0.0, 2*M_PI)(*m_generator);
-    auto deviationAngle = std::abs(angle*M_PI*(angleFraction-0.5));
-    auto newAngleAz =atan(sin(deviationAngle)*sin(circularAngle)/cos(deviationAngle));
-    auto newAngleEl =(atan(sin(deviationAngle)*cos(circularAngle)/sqrt(
-            (pow(cos(deviationAngle),2)+(pow(sin(deviationAngle)*sin(circularAngle),2))))));
-
+    auto angleFraction = x1 / (x1 + dist(*m_generator));
+    auto circularAngle = std::uniform_real_distribution<>(0.0, 2 * M_PI)(*m_generator);
+    auto deviationAngle = std::abs(angle * M_PI * (angleFraction - 0.5));
+    auto newAngleAz = atan(sin(deviationAngle) * sin(circularAngle) / cos(deviationAngle));
+    auto newAngleEl = (atan(sin(deviationAngle) * cos(circularAngle) / sqrt(
+            (pow(cos(deviationAngle), 2) + (pow(sin(deviationAngle) * sin(circularAngle), 2))))));
 
 
     auto finalAngle_El = m_growthAnglesParameters.end()[-reverseIndex].first + newAngleEl;
-    auto finalAngle_Az = m_growthAnglesParameters.end()[-reverseIndex].second+newAngleAz;
-    if(finalAngle_El<0){finalAngle_El = -finalAngle_El;
+    auto finalAngle_Az = m_growthAnglesParameters.end()[-reverseIndex].second + newAngleAz;
+    if (finalAngle_El < 0) {
+        finalAngle_El = -finalAngle_El;
         finalAngle_Az += M_PI;
     }
-    if(finalAngle_El>M_PI){finalAngle_El = 2*M_PI-finalAngle_El;
+    if (finalAngle_El > M_PI) {
+        finalAngle_El = 2 * M_PI - finalAngle_El;
         finalAngle_Az += M_PI;
     }
 
-    while(finalAngle_Az>2*M_PI){finalAngle_Az = finalAngle_Az-2*M_PI;}
-    while(finalAngle_Az<0){finalAngle_Az = finalAngle_Az+2*M_PI;}
+    while (finalAngle_Az > 2 * M_PI) { finalAngle_Az = finalAngle_Az - 2 * M_PI; }
+    while (finalAngle_Az < 0) { finalAngle_Az = finalAngle_Az + 2 * M_PI; }
     auto growthVector = HelperFunctions::sph2cart(
             finalAngle_Az, finalAngle_El, m_razettiAxonParameters.lengthSampler->sample());
-    if(save){
-    m_growthAnglesParameters.emplace_back(finalAngle_El, finalAngle_Az);
-}
+    if (save) {
+        m_growthAnglesParameters.emplace_back(finalAngle_El, finalAngle_Az);
+    }
     return growthVector;
 }
 
 void RazettiAxon::setUpNewBranch(const PositionVector &possibleStartingPoints) {
-    if(m_numberOfBranches<m_baseAxonParameters.maxNumberOfBranches) {
+    if (m_numberOfBranches < m_baseAxonParameters.maxNumberOfBranches) {
         auto positionIndex = std::uniform_int_distribution<int>(1, possibleStartingPoints.size() - 1)(
                 *m_generator);
         auto startPosition = possibleStartingPoints[positionIndex];
@@ -180,7 +183,8 @@ void RazettiAxon::setUpNewBranch(const PositionVector &possibleStartingPoints) {
         std::vector<EuclideanVector> centers;
         auto tries = 0;
         do {
-            auto growthVector = sampleVector(0.75,false, possibleStartingPoints.size()-positionIndex+1);//HelperFunctions::sph2cart(az, el, 1);//m_razettiAxonParameters.lengthSampler->sample());
+            auto growthVector = sampleVector(0.75, false, possibleStartingPoints.size() - positionIndex +
+                                                          1);//HelperFunctions::sph2cart(az, el, 1);//m_razettiAxonParameters.lengthSampler->sample());
             nextPosition = startPosition + growthVector;
             tries++;
 

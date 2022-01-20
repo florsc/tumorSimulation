@@ -75,11 +75,14 @@ add_executable(
         src/Tests/helperFunctionTest.cpp
         src/util/HelperFunctions.cpp src/util/HelperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp src/util/EuclideanVector.cpp src/util/EuclideanVector.h src/Tests/constraintHandlerTest.cpp src/Tests/simulationManagerTest.cpp src/Tests/axonManagerTest.cpp        src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.h
         src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.h
-        src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.cpp src/util/GeneratorSingleton.h)
+        src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.cpp src/util/GeneratorSingleton.h src/Tests/visualizationTest.cpp)
 
 add_executable(
         simulationRun
         src/util/HelperFunctions.cpp src/util/HelperFunctions.h src/Tests/generalTest.cpp src/util/EuclideanVector.cpp src/util/EuclideanVector.h)
+add_executable(
+        visualizationRun
+        src/util/HelperFunctions.cpp src/util/HelperFunctions.h src/Tests/visualizationTest.cpp src/util/EuclideanVector.cpp src/util/EuclideanVector.h)
 
 FetchContent_Declare(json
         GIT_REPOSITORY https://github.com/nlohmann/json
@@ -97,14 +100,24 @@ target_link_libraries(
         gtest_main
         gmock_main
         simulationLibrary
+        stdc++fs
 )
 target_link_libraries(
         simulationRun
         gtest_main
         gmock_main
         simulationLibrary
+        stdc++fs
+)
+target_link_libraries(
+        visualizationRun
+        gtest_main
+        gmock_main
+        simulationLibrary
+        stdc++fs
 )
 
 include(GoogleTest)
 gtest_discover_tests(tests)
 gtest_discover_tests(simulationRun)
+gtest_discover_tests(visualizationRun)

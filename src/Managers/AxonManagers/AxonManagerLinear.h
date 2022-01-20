@@ -11,7 +11,8 @@ class AxonManagerLinear : public AxonManager {
     std::list<AxonHandle> m_activeAxons;
     std::list<AxonHandle>::iterator m_currentAxon;
 public:
-    AxonManagerLinear(AxonOrderLinearDataHandle axonOrderLinearData) : m_activeAxons(), m_currentAxon(m_activeAxons.begin()) {}
+    AxonManagerLinear(AxonOrderLinearDataHandle axonOrderLinearData)
+            : m_activeAxons(), m_currentAxon(m_activeAxons.begin()) {}
 
     void addAxon(AxonHandle axon) override;
 

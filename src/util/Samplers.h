@@ -32,7 +32,7 @@ public:
 class ConstantValueSampler : public Samplers {
     double m_constantValue;
 public:
-    ConstantValueSampler(double constantValue) : Samplers(),m_constantValue(constantValue) {}
+    ConstantValueSampler(double constantValue) : Samplers(), m_constantValue(constantValue) {}
 
     double sample() override { return m_constantValue; }
 };
@@ -40,7 +40,7 @@ public:
 class LogNormalSampler : public Samplers {
     std::lognormal_distribution<double> m_dist;
 public:
-    LogNormalSampler(double logMean, double logVariance) : Samplers(),m_dist(logMean,logVariance) {}
+    LogNormalSampler(double logMean, double logVariance) : Samplers(), m_dist(logMean, logVariance) {}
 
     double sample() override { return m_dist(*m_generator); }
 };
@@ -49,15 +49,17 @@ class FixedValuesSampler : public Samplers {
     std::vector<double> m_values;
     std::vector<double>::iterator m_currentValue;
 public:
-    FixedValuesSampler(std::initializer_list<double> values) : Samplers(), m_values(values), m_currentValue(m_values.begin()) {}
+    FixedValuesSampler(std::initializer_list<double> values)
+            : Samplers(), m_values(values), m_currentValue(m_values.begin()) {}
 
     double sample() override {
-        if(m_currentValue==m_values.end()){
+        if (m_currentValue == m_values.end()) {
             throw SimulationException("Sampler for fixed values exceeds list of given values.");
         }
-        return *(m_currentValue++); }
+        return *(m_currentValue++);
+    }
 
-        void reset(){m_currentValue = m_values.begin();}
+    void reset() { m_currentValue = m_values.begin(); }
 };
 
 

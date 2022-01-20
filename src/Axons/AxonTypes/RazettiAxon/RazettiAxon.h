@@ -19,7 +19,8 @@ class RazettiAxon : public BaseAxon {
 
 public:
     RazettiAxon(const EuclideanVector &startPosition, int id, RazettiAxonParameters razettiAxonParameters,
-                BaseAxonParameters baseAxonParameters, std::pair<double, double> start_angle, int constraintsEncountered = 0);
+                BaseAxonParameters baseAxonParameters, std::pair<double, double> start_angle,
+                int constraintsEncountered = 0);
 
     RazettiAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition, int id,
                 RazettiAxonParameters razettiAxonParameters, BaseAxonParameters baseAxonParameters,
@@ -33,7 +34,7 @@ public:
     bool addPosition(const EuclideanVector &position, std::pair<double, double>);
 
 private:
-    EuclideanVector sampleVector(double angle,bool save=true, int reverseIndex=1);
+    EuclideanVector sampleVector(double angle, bool save = true, int reverseIndex = 1);
 
     void setUpNewBranch(const PositionVector &possibleStartingPoints);
 

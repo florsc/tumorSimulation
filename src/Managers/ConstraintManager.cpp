@@ -12,30 +12,33 @@
 #include "../SimulationSetUp/ParameterStruct.h"
 #include "../util/HelperFunctions.h"
 
-ConstraintManager::ConstraintManager(ParameterStruct& modelParameters) :
-                                         m_distanceLimit(modelParameters.minDistance) {
-    if(auto sphericalLimitSetUpParameters = std::dynamic_pointer_cast<SphericalLimitSetUpParameters>(modelParameters.exteriorLimitSetUpParameters)){
+ConstraintManager::ConstraintManager(ParameterStruct &modelParameters) :
+        m_distanceLimit(modelParameters.minDistance) {
+    if (auto sphericalLimitSetUpParameters = std::dynamic_pointer_cast<SphericalLimitSetUpParameters>(
+            modelParameters.exteriorLimitSetUpParameters)) {
 
-            m_exteriorLimit = std::make_shared<SphericalLimit>(sphericalLimitSetUpParameters);
-        }
+        m_exteriorLimit = std::make_shared<SphericalLimit>(sphericalLimitSetUpParameters);
+    }
 }
 
-ConstraintManager::ConstraintManager(ParameterStruct& modelParameters, std::shared_ptr<ExteriorLimit> exteriorLimit)
+ConstraintManager::ConstraintManager(ParameterStruct &modelParameters, std::shared_ptr<ExteriorLimit> exteriorLimit)
         : m_exteriorLimit(std::move(exteriorLimit)), m_distanceLimit(modelParameters.minDistance) {
 
 }
+
 void ConstraintManager::addAxons(const std::vector<EuclideanVector> &growthPoints, int axonIdentifier,
-                                             int growthStep) {
+                                 int growthStep) {
     PositionVector constraintCenters;
     auto it = growthPoints.begin();
     auto previousPosition = *it;
-    while(++it!=growthPoints.end()){
-                auto tmpCenters = HelperFunctions::createCoveringCenters(previousPosition, *it,
-                                                       m_distanceLimit);
-                constraintCenters.insert(constraintCenters.end(),tmpCenters.begin(),tmpCenters.end());
+    while (++it != growthPoints.end()) {
+        auto tmpCenters = HelperFunctions::createCoveringCenters(previousPosition, *it,
+                                                                 m_distanceLimit);
+        constraintCenters.insert(constraintCenters.end(), tmpCenters.begin(), tmpCenters.end());
     }
     addConstraintCenters(constraintCenters);
 }
+
 void ConstraintManager::addConstraintCenters(const std::vector<EuclideanVector> &constraintCenters, int axonIdentifier,
                                              int growthStep) {
     double low = MAXFLOAT;
@@ -84,36 +87,37 @@ void ConstraintManager::freeSpace(int axonIdentifier) {
         }
     }
 }
-bool ConstraintManager::checkForConstraintAndAdd(const EuclideanVector& start, const EuclideanVector& growthVector, int axonIdentifier, int growthStep) {
+
+bool ConstraintManager::checkForConstraintAndAdd(const EuclideanVector &start, const EuclideanVector &growthVector,
+                                                 int axonIdentifier, int growthStep) {
     auto positions = HelperFunctions::createCoveringCenters(start, growthVector, m_distanceLimit);
-    return checkForConstraintAndAdd(positions,axonIdentifier,growthStep);
+    return checkForConstraintAndAdd(positions, axonIdentifier, growthStep);
 }
+
 bool ConstraintManager::checkForConstraintAndAdd(const std::vector<EuclideanVector> &positions, int axonIdentifier,
                                                  int growthStep) {
-    //return false;
-    if(!checkForConstraint(positions)){
-        //return false;
-        addConstraintCenters(positions,axonIdentifier,growthStep);
+    if (!checkForConstraint(positions)) {
+        addConstraintCenters(positions, axonIdentifier, growthStep);
         return false;
     }
     return true;
 }
 
-bool ConstraintManager::checkForConstraint(const EuclideanVector& start, const EuclideanVector& growthVector) const{
+bool ConstraintManager::checkForConstraint(const EuclideanVector &start, const EuclideanVector &growthVector) const {
     auto positions = HelperFunctions::createCoveringCenters(start, growthVector, m_distanceLimit);
-    checkForConstraint(positions);
+    return checkForConstraint(positions);
+
 }
 
-bool ConstraintManager::checkForConstraint(const std::vector<EuclideanVector> &positions) const{
-
-    if(positions.empty()){return false;}
+bool ConstraintManager::checkForConstraint(const std::vector<EuclideanVector> &positions) const {
+    if (positions.empty()) { return false; }
     if (!checkForExteriorLimit(positions.back())) {
         return checkForOccupiedSpace(positions);
     }
     return true;
 }
 
-bool ConstraintManager::checkForOccupiedSpace(const std::vector<EuclideanVector> &positions)  const{
+bool ConstraintManager::checkForOccupiedSpace(const std::vector<EuclideanVector> &positions) const {
     if (!m_centerMap.empty()) {
         double maxSquaredDistanceToBegin = 0;
         double low = MAXFLOAT;
@@ -144,11 +148,12 @@ bool ConstraintManager::checkForOccupiedSpace(const std::vector<EuclideanVector>
             }
             itLowTmp++;
         }
+    }
+    return false;
 }
-return false;}
 
-bool ConstraintManager::checkForExteriorLimit(const EuclideanVector &position)  const{
-    if(m_exteriorLimit){
-    return m_exteriorLimit->checkExteriorLimitExceeded(position);}
-    else{return false;}
+bool ConstraintManager::checkForExteriorLimit(const EuclideanVector &position) const {
+    if (m_exteriorLimit) {
+        return m_exteriorLimit->checkExteriorLimitExceeded(position);
+    } else { return false; }
 }

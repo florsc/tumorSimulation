@@ -9,11 +9,13 @@
 
 struct AxonSetUpParameters {
     double branchingProbability = 0.05;
-    int maxNumberOfConstraintEncounters = 1000;
+    int maxNumberOfConstraintEncounters = 1000; //collision and contact to exterior limit
     int maxNumberOfBranches = 4;
     double maxAxonLength = 400;
-    virtual ~AxonSetUpParameters(){}
 
+    virtual ~AxonSetUpParameters() {}
+
+    AxonSetUpParameters();
 };
 
 #endif //TUMORSIMULATION_AXONSETUPPARAMETERS_H

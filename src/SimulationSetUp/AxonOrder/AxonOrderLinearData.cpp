@@ -3,5 +3,8 @@
 //
 
 #include "AxonOrderLinearData.h"
-#include "../../Managers/AxonManagers/AxonManagerLinear.h"
 
+
+AxonOrderLinearData::AxonOrderLinearData() : AxonOrderData() {
+
+};

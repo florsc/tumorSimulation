@@ -19,27 +19,39 @@
 using ::testing::AtLeast;
 using ::testing::internal::GetWithoutMatchers;
 
-class AxonTest :public ::testing::Test{
+class AxonTest : public ::testing::Test {
 public:
-    AxonFactoryHandle getAxonFactory(std::shared_ptr<SimulationManager> simulationManager){return simulationManager->m_axonFactory; }
-    BaseAxonParameters& getFactoryParameters(AxonFactoryHandle axonFactory){return axonFactory->m_baseAxonParameters;}
-    RazettiAxonParameters& getFactoryParameters(std::shared_ptr<RazettiFactory> axonFactory){return axonFactory->m_razettiAxonParameters;}
-    BaseAxonParameters& getAxonParameters(AxonHandle axon){return axon->m_baseAxonParameters;}
-    RazettiAxonParameters& getAxonParameters(std::shared_ptr<RazettiAxon> axon){return axon->m_razettiAxonParameters;}
+    AxonFactoryHandle
+    getAxonFactory(std::shared_ptr<SimulationManager> simulationManager) { return simulationManager->m_axonFactory; }
+
+    BaseAxonParameters &
+    getFactoryParameters(AxonFactoryHandle axonFactory) { return axonFactory->m_baseAxonParameters; }
+
+    RazettiAxonParameters &
+    getFactoryParameters(std::shared_ptr<RazettiFactory> axonFactory) { return axonFactory->m_razettiAxonParameters; }
+
+    BaseAxonParameters &getAxonParameters(AxonHandle axon) { return axon->m_baseAxonParameters; }
+
+    RazettiAxonParameters &
+    getAxonParameters(std::shared_ptr<RazettiAxon> axon) { return axon->m_razettiAxonParameters; }
 };
 
 class FakeConstraintManager : public ConstraintManager {
 public:
-    FakeConstraintManager(ParameterStruct& parameters):ConstraintManager(parameters){}
-    virtual bool checkForConstraint(const PositionVector& positions) const override {return false;}
+    FakeConstraintManager(ParameterStruct &parameters) : ConstraintManager(parameters) {}
+
+    virtual bool checkForConstraint(const PositionVector &positions) const override { return false; }
 };
+
 class MockConstraintManager : public FakeConstraintManager {
 public:
-    MockConstraintManager(ParameterStruct& parameters):FakeConstraintManager(parameters){}
+    MockConstraintManager(ParameterStruct &parameters) : FakeConstraintManager(parameters) {}
+
     MOCK_METHOD(bool, checkForConstraint, (const PositionVector& positions), (const, override));
-    MOCK_METHOD(void, addConstraintCenters, (const PositionVector& positions,  int axonIdentifier,
-            int growthStep), ( override));
+    MOCK_METHOD(void, addConstraintCenters, (const PositionVector& positions, int axonIdentifier,
+            int growthStep), (override));
 };
+
 TEST_F(AxonTest, CheckConstraintManagerCalls) {
     testing::InSequence s;
     ParameterStruct parameters;
@@ -50,38 +62,40 @@ TEST_F(AxonTest, CheckConstraintManagerCalls) {
     auto simulationManager = std::make_shared<SimulationManager>(parameters);
     simulationManager->setUp(parameters, simulationManager);
     auto axonFactory = getAxonFactory(simulationManager);
-    getFactoryParameters(axonFactory).constraintManager=constraintManager;
-    auto axon = axonFactory->makeAxon(EuclideanVector(0,0,0));
-    auto mockConstraintManager = dynamic_cast<MockConstraintManager*>(constraintManager.get());
+    getFactoryParameters(axonFactory).constraintManager = constraintManager;
+    auto axon = axonFactory->makeAxon(EuclideanVector(0, 0, 0));
+    auto mockConstraintManager = dynamic_cast<MockConstraintManager *>(constraintManager.get());
 
-    EXPECT_CALL(*mockConstraintManager, checkForConstraint).Times(testing::Exactly(razettiSetUpParameters->numberOfGrowthStepsEachStep));
+    EXPECT_CALL(*mockConstraintManager, checkForConstraint).Times(
+            testing::Exactly(razettiSetUpParameters->numberOfGrowthStepsEachStep));
     EXPECT_CALL(*mockConstraintManager, addConstraintCenters).Times(testing::Exactly(1));
     axon->grow();
 }
 
 class MockTargetManager : public TargetManager {
 public:
-    explicit MockTargetManager(TargetSetUpVector targets):TargetManager(targets){};
+    explicit MockTargetManager(TargetSetUpVector targets) : TargetManager(targets) {};
     MOCK_METHOD(bool, checkTargetReached, (const EuclideanVector& position), (const));
     MOCK_METHOD(EuclideanVector, calculateForce, (const EuclideanVector& position), (const));
 };
+
 TEST_F(AxonTest, CheckTargetManagerCalls) {
     ParameterStruct parameters;
     auto sphericalTargetSetUp1 = std::make_shared<SphericalTargetSetUpParameters>();
     auto sphericalTargetSetUp2 = std::make_shared<SphericalTargetSetUpParameters>();
-    sphericalTargetSetUp1->centerPoint = EuclideanVector({12,70,20});
-    sphericalTargetSetUp2->centerPoint = EuclideanVector({-120,5,-20});
+    sphericalTargetSetUp1->centerPoint = EuclideanVector({12, 70, 20});
+    sphericalTargetSetUp2->centerPoint = EuclideanVector({-120, 5, -20});
     sphericalTargetSetUp1->radius = 1;
     sphericalTargetSetUp2->radius = 1;
     parameters.targets = TargetSetUpVector({sphericalTargetSetUp1,
-                                     sphericalTargetSetUp2});
+                                            sphericalTargetSetUp2});
     TargetManagerHandle targetManager = std::make_shared<MockTargetManager>(parameters.targets);
     auto simulationManager = std::make_shared<SimulationManager>(parameters);
     simulationManager->setUp(parameters, simulationManager);
     auto axonFactory = getAxonFactory(simulationManager);
-    getFactoryParameters(axonFactory).targetManager=targetManager;
-    auto axon = axonFactory->makeAxon(EuclideanVector(0,0,0));
-    auto mockTargetManager = dynamic_cast<MockTargetManager*>(targetManager.get());
+    getFactoryParameters(axonFactory).targetManager = targetManager;
+    auto axon = axonFactory->makeAxon(EuclideanVector(0, 0, 0));
+    auto mockTargetManager = dynamic_cast<MockTargetManager *>(targetManager.get());
 
     //EXPECT_CALL(*mockTargetManager, calculateForce).Times(testing::AtLeast(2));
     EXPECT_CALL(*mockTargetManager, checkTargetReached).Times(testing::AtLeast(2));
@@ -94,7 +108,7 @@ TEST_F(AxonTest, CheckCorrectParameterTransfer) {
     auto razettiSetUpParameters = std::make_shared<RazettiSetUpParameters>();
     parameters.axonSetUpParameters = razettiSetUpParameters;
     auto simulationManager = std::make_shared<SimulationManager>(parameters);
-    simulationManager->setUp(parameters,simulationManager);
+    simulationManager->setUp(parameters, simulationManager);
     auto axonFactory = getAxonFactory(simulationManager);
     auto baseParameters = getFactoryParameters(axonFactory);
 
@@ -104,14 +118,16 @@ TEST_F(AxonTest, CheckCorrectParameterTransfer) {
     auto razettiFactory = std::dynamic_pointer_cast<RazettiFactory>(axonFactory);
     auto razettiParameters = getFactoryParameters(razettiFactory);
     EXPECT_EQ(razettiParameters.numberOfRetractions, razettiSetUpParameters->numberOfRetractions);
-    EXPECT_EQ(razettiParameters.maxNumberOfConstraintEncountersEachSubstep, razettiSetUpParameters->maxNumberOfConstraintEncountersEachSubstep);
+    EXPECT_EQ(razettiParameters.maxNumberOfConstraintEncountersEachSubstep,
+              razettiSetUpParameters->maxNumberOfConstraintEncountersEachSubstep);
     EXPECT_EQ(razettiParameters.numberOfSubstepsEachStep, razettiSetUpParameters->numberOfGrowthStepsEachStep);
     EXPECT_EQ(razettiParameters.beta, razettiSetUpParameters->beta);
     EXPECT_EQ(razettiParameters.lengthSampler, razettiSetUpParameters->lengthSampler);
 
-    auto axon = axonFactory->makeAxon(EuclideanVector(0,0,0));
+    auto axon = axonFactory->makeAxon(EuclideanVector(0, 0, 0));
     auto baseAxonParameters = getAxonParameters(axon);
-    EXPECT_EQ(baseAxonParameters.maxNumberOfConstraintEncounters, razettiSetUpParameters->maxNumberOfConstraintEncounters);
+    EXPECT_EQ(baseAxonParameters.maxNumberOfConstraintEncounters,
+              razettiSetUpParameters->maxNumberOfConstraintEncounters);
     EXPECT_EQ(baseAxonParameters.branchingProbability, razettiSetUpParameters->branchingProbability);
     EXPECT_EQ(*baseAxonParameters.constraintManager, ConstraintManager(parameters));
 
@@ -119,7 +135,8 @@ TEST_F(AxonTest, CheckCorrectParameterTransfer) {
     auto razettiAxonParameters = getAxonParameters(razettiAxon);
 
     EXPECT_EQ(razettiAxonParameters.numberOfRetractions, razettiSetUpParameters->numberOfRetractions);
-    EXPECT_EQ(razettiAxonParameters.maxNumberOfConstraintEncountersEachSubstep, razettiSetUpParameters->maxNumberOfConstraintEncountersEachSubstep);
+    EXPECT_EQ(razettiAxonParameters.maxNumberOfConstraintEncountersEachSubstep,
+              razettiSetUpParameters->maxNumberOfConstraintEncountersEachSubstep);
     EXPECT_EQ(razettiAxonParameters.numberOfSubstepsEachStep, razettiSetUpParameters->numberOfGrowthStepsEachStep);
     EXPECT_EQ(razettiAxonParameters.beta, razettiSetUpParameters->beta);
     EXPECT_EQ(razettiAxonParameters.lengthSampler, razettiSetUpParameters->lengthSampler);

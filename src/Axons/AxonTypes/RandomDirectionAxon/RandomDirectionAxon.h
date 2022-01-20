@@ -7,7 +7,6 @@
 
 
 #include <random>
-#include "../../../util/EuclideanVector.h"
 #include "../../../util/TypeDefs.h"
 #include "../BaseAxon/BaseAxon.h"
 #include "RandomDirectionAxonParameters.h"
@@ -23,12 +22,13 @@ class RandomDirectionAxon : public BaseAxon {
     std::normal_distribution<double> m_normalDistribution{0, 1};
 
 public:
-    RandomDirectionAxon(const EuclideanVector &startPosition, int id, RandomDirectionAxonParameters randomDirectionAxonParameters,
+    RandomDirectionAxon(const EuclideanVector &startPosition, int id,
+                        RandomDirectionAxonParameters randomDirectionAxonParameters,
                         BaseAxonParameters baseAxonParameters, int constraintsEncountered = 0);
 
     void grow() override;
 
-    bool addPosition(const EuclideanVector& position);
+    bool addPosition(const EuclideanVector &position);
 
 
 private:

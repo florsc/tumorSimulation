@@ -7,6 +7,7 @@
 
 extern "C" {
 int run();
+int run_visualization();
 }
 
 

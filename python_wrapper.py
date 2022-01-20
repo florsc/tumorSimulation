@@ -4,10 +4,10 @@ import math
 import json
 
 if __name__ == '__main__':
-    lib = ctypes.cdll['./build/libsimulationLibrary.so']
-    lib['run']()
+    #lib = ctypes.cdll['./build/libsimulationLibrary.so']
+    #lib['run']()
     # Opening JSON file
-    f = open('cpp_results.json', )
+    f = open('created_data/visualization_data/cpp_results.json', )
 
     # returns JSON object as
     # a dictionary
@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     # Closing file
     f.close()
-    f = open('targets.json', )
+    f = open('created_data/visualization_data/targets.json', )
 
     # returns JSON object as
     # a dictionary

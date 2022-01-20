@@ -17,12 +17,17 @@ struct RazettiAxonParameters {
     const double maxAngleFraction;
     SamplerHandle lengthSampler;
 
-    RazettiAxonParameters(RazettiSetUpParametersHandle razettiSetUpParameters) : numberOfSubstepsEachStep(razettiSetUpParameters->numberOfGrowthStepsEachStep),
-                              numberOfRetractions(razettiSetUpParameters->numberOfRetractions),
-                              maxNumberOfConstraintEncountersEachSubstep(
-                                      razettiSetUpParameters->maxNumberOfConstraintEncountersEachSubstep),
-                              beta(razettiSetUpParameters->beta),maxAngleFraction(razettiSetUpParameters->maxAngleFraction),
-                              lengthSampler(razettiSetUpParameters->lengthSampler) {}
+    RazettiAxonParameters(RazettiSetUpParametersHandle razettiSetUpParameters) : numberOfSubstepsEachStep(
+            razettiSetUpParameters->numberOfGrowthStepsEachStep),
+                                                                                 numberOfRetractions(
+                                                                                         razettiSetUpParameters->numberOfRetractions),
+                                                                                 maxNumberOfConstraintEncountersEachSubstep(
+                                                                                         razettiSetUpParameters->maxNumberOfConstraintEncountersEachSubstep),
+                                                                                 beta(razettiSetUpParameters->beta),
+                                                                                 maxAngleFraction(
+                                                                                         razettiSetUpParameters->maxAngleFraction),
+                                                                                 lengthSampler(
+                                                                                         razettiSetUpParameters->lengthSampler) {}
 };
 
 #endif //TUMORSIMULATION_RAZETTIAXONPARAMETERS_H

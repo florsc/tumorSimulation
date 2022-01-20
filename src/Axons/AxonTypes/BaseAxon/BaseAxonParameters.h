@@ -6,6 +6,7 @@
 #define TUMORSIMULATION_BASEAXONPARAMETERS_H
 
 #include "../../../SimulationSetUp/GrowthModels/AxonSetUpParameters.h"
+
 class ParameterStruct;
 
 struct BaseAxonParameters {
@@ -19,8 +20,14 @@ struct BaseAxonParameters {
     TargetManagerHandle targetManager;
     SimulationManagerHandle simulationManager;
 
-    explicit BaseAxonParameters(AxonSetUpParametersHandle axonSetUpParameters) : maxNumberOfConstraintEncounters(axonSetUpParameters->maxNumberOfConstraintEncounters),
-                           branchingProbability(axonSetUpParameters->branchingProbability),maxNumberOfBranches(axonSetUpParameters->maxNumberOfBranches),maxAxonLength(axonSetUpParameters->maxAxonLength) {}
+    explicit BaseAxonParameters(AxonSetUpParametersHandle axonSetUpParameters) : maxNumberOfConstraintEncounters(
+            axonSetUpParameters->maxNumberOfConstraintEncounters),
+                                                                                 branchingProbability(
+                                                                                         axonSetUpParameters->branchingProbability),
+                                                                                 maxNumberOfBranches(
+                                                                                         axonSetUpParameters->maxNumberOfBranches),
+                                                                                 maxAxonLength(
+                                                                                         axonSetUpParameters->maxAxonLength) {}
 };
 
 #endif //TUMORSIMULATION_BASEAXONPARAMETERS_H

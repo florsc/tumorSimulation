@@ -6,6 +6,7 @@
 #include <cmath>
 #include "EuclideanVector.h"
 #include <iostream>
+#include <experimental/filesystem>
 
 
 EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
@@ -15,6 +16,7 @@ EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     double z = r * cos(el);
     return EuclideanVector(x, y, z);
 }
+
 /*
 EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
     double rsin_theta = r * cos(el);
@@ -25,14 +27,15 @@ EuclideanVector HelperFunctions::sph2cart(double az, double el, double r) {
 }
 */
 std::pair<double, double> HelperFunctions::getModelParameters(const EuclideanVector &v) {
-auto angles = HelperFunctions::getSphericalAngles(v);
+    auto angles = HelperFunctions::getSphericalAngles(v);
     return {2 * atan(angles.first), 2 * atan(angles.second)};
 }
+
 std::pair<double, double> HelperFunctions::getSphericalAngles(const EuclideanVector &v) {
     auto azimuth = atan2(v[1], v[0]);
-    if(v.at(0)<0){azimuth +=M_PI;}
+    if (v.at(0) < 0) { azimuth += M_PI; }
     auto elevation = atan2(v[2], sqrt(v[0] * v[0] + v[1] * v[1]));
-    return {azimuth,elevation};
+    return {azimuth, elevation};
 }
 
 bool
@@ -56,4 +59,12 @@ HelperFunctions::createCoveringCenters(const EuclideanVector &start, const Eucli
         return res;
     }
     return {};
+}
+
+
+namespace fs = std::experimental::filesystem;
+
+void HelperFunctions::deleteDirectoryContents(const std::string &dir_path) {
+    for (const auto &entry: fs::directory_iterator(dir_path))
+        fs::remove_all(entry.path());
 }

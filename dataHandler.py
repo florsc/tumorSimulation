@@ -7,38 +7,41 @@ from scipy.stats import beta
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+from os import listdir
+from os.path import isfile, join
+
 if __name__ == '__main__':
-    for i in range(7):
-        f = open('build/simRes' +str(i), )
+    files = [f for f in listdir("created_data/simulation_data/") if isfile(join("created_data/simulation_data/", f))]
+    for file in files:
+        if file.startswith("simRes_"):
+            branchingProbability = float(file[7:])
+            f = open("created_data/simulation_data/"+file)
 
-        # returns JSON object as
-        # a dictionary
-        data = f.read()
+            data = f.read()
+            f.close()
+            el = data.split()
+            length = 0
+            lengthTr = 0
+            Tr = 0
+            lengthUsed = 0
+            for i in range(len(el)):
+                if (i%4)==2 and int(el[i])>0:
+                    Tr += 1
+                if i%4==3:
+                    length += float(el[i])
+                    if float(el[i])>=400:
+                        lengthUsed += 1
+                    if int(el[i-1])>0:
+                        lengthTr += float(el[i])
 
-        # Closing file
-        f.close()
-        el = data.split()
-        length = 0
-        lengthTr = 0
-        Tr = 0
-        lengthUsed = 0
-        for i in range(len(el)):
-            if (i%4)==2 and int(el[i])>0:
-                Tr += 1
-            if i%4==3:
-                length += float(el[i])
-                if float(el[i])>=400:
-                    lengthUsed += 1
-                if int(el[i-1])>0:
-                    lengthTr += float(el[i])
-
-        print("Times target reached: " + str(Tr))
-        print("Times stopped by maximal length: "+str(lengthUsed))
-        print("Average length: " + str(length/(len(el)/4)))
-        print("Average length when target reached: " + str(lengthTr/max(Tr,1)))
-        print("Average length when target not reached: " + str(length/max((len(el)/4-Tr),1)))
-        print()
-        print()
+            print("Branching Probability: "+str(branchingProbability))
+            print("Times target reached: " + str(Tr))
+            print("Times stopped by maximal length: "+str(lengthUsed))
+            print("Average length: " + str(length/(len(el)/4)))
+            print("Average length when target reached: " + str(lengthTr/max(Tr,1)))
+            print("Average length when target not reached: " + str(length/max((len(el)/4-Tr),1)))
+            print()
+            print()
 
     '''
     fig = plt.figure()

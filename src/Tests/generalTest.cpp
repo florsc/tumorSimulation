@@ -19,9 +19,10 @@ TEST(Test, BasicAssertions) {
 
         std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
         std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::seconds>(end - begin).count()
-                  << "[µs]" << std::endl;
+                  << "[s]" << std::endl;
     }
     catch (std::exception &e) {
+        std::cout << "Exception happend:" << std::endl;
         std::cout << e.what() << std::endl;
     }
 }

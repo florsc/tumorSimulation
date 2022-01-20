@@ -197,9 +197,9 @@ std::ostream &operator<<(std::ostream &os, const EuclideanVector &v) {
 }
 
 EuclideanVector::EuclideanVector(const std::initializer_list<double> &magnitudes) : x(*magnitudes.begin()),
-                                                                                              y(*std::next(
-                                                                                                      magnitudes.begin(),
-                                                                                                      1)), z(*std::next(
+                                                                                    y(*std::next(
+                                                                                            magnitudes.begin(),
+                                                                                            1)), z(*std::next(
                 magnitudes.begin(), 2)) {
     auto it = magnitudes.begin();
     x = *it++;

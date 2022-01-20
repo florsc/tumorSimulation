@@ -12,25 +12,45 @@
 
 
 class BaseAxon;
+
 class Samplers;
+
 class RazettiAxon;
+
 class ConstraintManager;
+
 class EuclideanVector;
+
 class AxonManager;
+
 class AxonFactory;
+
 class SimulationManager;
+
 class TargetManager;
+
 class Target;
+
 class AxonSetUpParameters;
+
 class RandomDirectionSetUpParameters;
+
 class RazettiSetUpParameters;
+
 class GeneratorSingleton;
+
 class AxonOrderLinearData;
+
 class AxonOrderSampledWaitingTimeData;
+
 class AxonOrderData;
+
 class ExteriorLimitSetUpParameters;
+
 class SphericalTargetSetUpParameters;
+
 class TargetSetUpParameters;
+
 class SphericalLimitSetUpParameters;
 
 using TargetManagerHandle = std::shared_ptr<TargetManager>;

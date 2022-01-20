@@ -31,8 +31,10 @@ class ExteriorLimit;
 class ConstraintManager;
 
 class AxonSetUpParameters;
+
 struct ParameterStruct {
     ParameterStruct();
+
     GeneratorHandle m_generator;
 
     //Exterior Limit

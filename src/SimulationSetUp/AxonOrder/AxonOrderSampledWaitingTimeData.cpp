@@ -3,7 +3,9 @@
 //
 
 #include "AxonOrderSampledWaitingTimeData.h"
-#include "../../Managers/AxonManagers/AxonManagerWaitingTime.h"
-#include "../ParameterStruct.h"
 
+AxonOrderSampledWaitingTimeData::AxonOrderSampledWaitingTimeData() {
 
+    waitingTimeSampler = std::make_shared<UniformDoubleSampler>(0.1, 1);
+    double maximumTime = 30.0; //simulation stops after this time
+}

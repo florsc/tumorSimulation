@@ -16,7 +16,8 @@ class SphericalTarget : public Target {
 public:
     SphericalTarget(SphericalTargetSetUpParametersHandle sphericalTargetSetUpParameters);
 
-    EuclideanVector calculateForce(const EuclideanVector& position) override;
+    EuclideanVector calculateForce(const EuclideanVector &position) override;
+
     bool checkTargetReached(const EuclideanVector &position) override;
 
     double m_mass;

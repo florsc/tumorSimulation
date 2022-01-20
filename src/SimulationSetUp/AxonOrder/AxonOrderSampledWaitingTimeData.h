@@ -9,8 +9,10 @@
 #include "../../util/Samplers.h"
 
 struct AxonOrderSampledWaitingTimeData : public AxonOrderData {
-    SamplerHandle waitingTimeSampler{new UniformDoubleSampler(0.1, 1)};
-    double maximumTime = 30.0;
+    SamplerHandle waitingTimeSampler;
+    double maximumTime;
+
+    AxonOrderSampledWaitingTimeData();
 };
 
 

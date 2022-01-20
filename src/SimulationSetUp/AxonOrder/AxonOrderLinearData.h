@@ -8,6 +8,7 @@
 #include "AxonOrderData.h"
 
 struct AxonOrderLinearData : public AxonOrderData {
+    AxonOrderLinearData();
 };
 
 

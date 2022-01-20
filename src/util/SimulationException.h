@@ -14,7 +14,7 @@ class SimulationException : public std::exception {
 public:
     SimulationException(const char *message) : m_message(message) {}
 
-    const char *what() const noexcept override{ return m_message.c_str(); }
+    const char *what() const noexcept override { return m_message.c_str(); }
 
 };
 

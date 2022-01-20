@@ -9,10 +9,12 @@
 #include "../../util/EuclideanVector.h"
 #include "TargetSetUpParameters.h"
 
-struct SphericalTargetSetUpParameters :public TargetSetUpParameters{
+struct SphericalTargetSetUpParameters : public TargetSetUpParameters {
     EuclideanVector centerPoint;
     double radius;
     double gravityConstant;
+
+    SphericalTargetSetUpParameters();
 };
 
 

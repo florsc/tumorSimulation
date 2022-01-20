@@ -22,23 +22,22 @@ AxonFactoryHandle createAxonFactory(AxonSetUpParametersHandle axonSetUpParameter
     }
 }
 
-AxonManagerHandle createAxonManager(AxonOrderDataHandle axonOrderData){
-    if(auto axonOrderSampledWaitingTimeData = std::dynamic_pointer_cast<AxonOrderSampledWaitingTimeData>(axonOrderData)){
+AxonManagerHandle createAxonManager(AxonOrderDataHandle axonOrderData) {
+    if (auto axonOrderSampledWaitingTimeData = std::dynamic_pointer_cast<AxonOrderSampledWaitingTimeData>(
+            axonOrderData)) {
         return std::make_shared<AxonManagerWaitingTime>(axonOrderSampledWaitingTimeData);
-    }
-    else if(auto axonOrderLinearData = std::dynamic_pointer_cast<AxonOrderLinearData>(axonOrderData)){
+    } else if (auto axonOrderLinearData = std::dynamic_pointer_cast<AxonOrderLinearData>(axonOrderData)) {
         return std::make_shared<AxonManagerLinear>(axonOrderLinearData);
-    }
-    else{
+    } else {
         throw SimulationException("Parameters for axon order are not known.");
     }
 }
 
-TargetHandle createTarget(TargetSetUpParametersHandle targetSetUpParameters){
-    if(auto sphericalTargetSetUpParameters = std::dynamic_pointer_cast<SphericalTargetSetUpParameters>(targetSetUpParameters)){
+TargetHandle createTarget(TargetSetUpParametersHandle targetSetUpParameters) {
+    if (auto sphericalTargetSetUpParameters = std::dynamic_pointer_cast<SphericalTargetSetUpParameters>(
+            targetSetUpParameters)) {
         return std::make_shared<SphericalTarget>(sphericalTargetSetUpParameters);
-    }
-    else{
+    } else {
         throw SimulationException("Parameters for target are not known.");
     }
 }

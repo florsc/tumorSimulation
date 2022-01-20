@@ -4,7 +4,9 @@
 
 #ifndef TUMORSIMULATION_TARGETSETUPPARAMETERS_H
 #define TUMORSIMULATION_TARGETSETUPPARAMETERS_H
-struct TargetSetUpParameters{
-    virtual ~TargetSetUpParameters(){}
+
+struct TargetSetUpParameters {
+    virtual ~TargetSetUpParameters() {}
 };
+
 #endif //TUMORSIMULATION_TARGETSETUPPARAMETERS_H

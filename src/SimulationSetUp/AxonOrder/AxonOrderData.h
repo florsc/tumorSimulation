@@ -8,7 +8,7 @@
 #include "../../util/TypeDefs.h"
 
 struct AxonOrderData {
-    virtual ~AxonOrderData(){}
+    virtual ~AxonOrderData() {}
 };
 
 
