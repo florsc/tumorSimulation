@@ -7,6 +7,7 @@
 
 
 #include "AxonManager.h"
+#include "../../SimulationSetUp/ParameterStruct.h"
 
 class AxonManagerWaitingTime : public AxonManager {
 
@@ -22,7 +23,7 @@ class AxonManagerWaitingTime : public AxonManager {
     std::priority_queue<std::pair<double, AxonHandle>, std::vector<std::pair<double, AxonHandle>>, Comparator> m_waitingTimeQueue;
     const double m_maximumWaitingTime;
 public:
-    explicit AxonManagerWaitingTime(SamplerHandle &sampler, double maximumWaitingTime);
+    explicit AxonManagerWaitingTime(AxonOrderSampledWaitingTimeDataHandle axonOrderSampleWaitingTimeData);
 
     AxonHandle getNextAxon() override;
 

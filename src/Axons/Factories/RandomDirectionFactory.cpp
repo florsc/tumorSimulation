@@ -13,7 +13,8 @@
 #include "../../util/HelperFunctions.h"
 #include "../AxonTypes/RandomDirectionAxon/RandomDirectionAxon.h"
 
-RandomDirectionFactory::RandomDirectionFactory() : AxonFactory() {}
+RandomDirectionFactory::RandomDirectionFactory(RandomDirectionSetUpParametersHandle randomDirectionSetUpParameters) : AxonFactory(randomDirectionSetUpParameters),
+                                                                                   m_randomDirectionAxonParameters(randomDirectionSetUpParameters) {}
 
 AxonHandle RandomDirectionFactory::makeAxon(const EuclideanVector &startPosition, int constraintsEncountered,
                                             WeakAxonHandle rootAxon)  {

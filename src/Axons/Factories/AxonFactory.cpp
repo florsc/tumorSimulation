@@ -7,15 +7,17 @@
 #include <utility>
 #include "../../SimulationSetUp/ParameterStruct.h"
 #include "../../Managers/ConstraintManager.h"
+#include "../../Managers/SimulationManager.h"
 #include "../../Managers/TargetManager.h"
 #include "../AxonTypes/BaseAxon/BaseAxon.h"
+#include "../../ExteriorLimits/ExteriorLimit.h"
 
-void AxonFactory::setUpFactory(SimulationManagerHandle simulationManager, double branchingProbability) {
+void AxonFactory::setUpFactory(SimulationManagerHandle simulationManager) {
     m_baseAxonParameters.simulationManager = std::move(simulationManager);
-    m_baseAxonParameters.constraintManager = std::make_shared<ConstraintManager>
-            (parameters.getExteriorLimit(), ParameterStruct::minDistance);
-    m_baseAxonParameters.targetManager = std::make_unique<TargetManager>(parameters.getTargets());
-    m_baseAxonParameters.branchingProbability = branchingProbability;
+    if(auto simulationManager = m_baseAxonParameters.simulationManager.lock()){
+        m_baseAxonParameters.targetManager = simulationManager->getTargetManager();
+        m_baseAxonParameters.constraintManager = simulationManager->getConstraintManager();
+    }
 }
 
 void AxonFactory::setUpRoot(const AxonHandle& axon, const WeakAxonHandle& rootAxon) const {
@@ -24,5 +26,8 @@ void AxonFactory::setUpRoot(const AxonHandle& axon, const WeakAxonHandle& rootAx
     } else {
         axon->setUpRootAxon(axon);
     }
+}
+
+AxonFactory::AxonFactory(AxonSetUpParametersHandle axonSetUpParameters): m_baseAxonParameters(axonSetUpParameters) {
 }
 

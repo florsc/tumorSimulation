@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include "../util/EuclideanVector.h"
+#include "../SimulationSetUp/ParameterStruct.h"
 
 class ExteriorLimit;
 struct ConstraintData{
@@ -25,10 +26,14 @@ class ConstraintManager {
     double m_distanceLimit;
 
 public:
-    ConstraintManager();
+    bool checkForConstraint(const EuclideanVector& start, const EuclideanVector& growthVector) const;
 
-    ConstraintManager(std::shared_ptr<ExteriorLimit> exteriorLimit, double distanceLimit);
+    ConstraintManager(ParameterStruct& modelParameters);
 
+    ConstraintManager(ParameterStruct& modelParameters, std::shared_ptr<ExteriorLimit> exteriorLimit);
+
+    void addAxons(const std::vector<EuclideanVector> &growthPoints, int axonIdentifier,
+                                     int growthStep);
     virtual void addConstraintCenters(const std::vector<EuclideanVector> &constraintCenters, int axonIdentifier = 0,
                               int growthStep = 0);
 
@@ -36,7 +41,9 @@ public:
 
     void freeSpace(int axonIdentifier);
 
-    bool checkForConstraint(const std::vector<EuclideanVector> &positions, int axonIdentifier, int growthStep);
+    bool checkForConstraintAndAdd(const EuclideanVector& start, const EuclideanVector& growthVector, int axonIdentifier, int growthStep);
+
+    bool checkForConstraintAndAdd(const std::vector<EuclideanVector> &positions, int axonIdentifier, int growthStep);
 
     [[nodiscard]] virtual bool checkForConstraint(const std::vector<EuclideanVector> &positions) const;
 

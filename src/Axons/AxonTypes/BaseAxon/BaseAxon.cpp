@@ -14,7 +14,7 @@
 
 BaseAxon::BaseAxon(const EuclideanVector &startPosition, int id, BaseAxonParameters baseAxonParameters,
                    int constraintsEncountered)
-        : m_identifier(id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(parameters.m_generator),
+        : m_identifier(id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(GeneratorSingleton::getInstance()->m_generator),
           m_constraintCounter(constraintsEncountered) {
     m_tipPositions.push_back(startPosition);
 }
@@ -22,14 +22,18 @@ BaseAxon::BaseAxon(const EuclideanVector &startPosition, int id, BaseAxonParamet
 BaseAxon::BaseAxon(const EuclideanVector &startPosition, const EuclideanVector &nextPosition, int id,
                    BaseAxonParameters baseAxonParameters, int constraintsEncountered)
         : m_identifier(
-        id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(parameters.m_generator),
+        id), m_baseAxonParameters(std::move(baseAxonParameters)), m_generator(GeneratorSingleton::getInstance()->m_generator),
           m_constraintCounter(constraintsEncountered) {
     m_tipPositions.push_back(startPosition);
     m_tipPositions.push_back(nextPosition);
 }
 
-bool BaseAxon::checkConstraints(const PositionVector &positions)  const{
-    return false;//m_baseAxonParameters.constraintManager->checkForConstraint(positions);
+bool BaseAxon::checkConstraints(const EuclideanVector &startPosition, const EuclideanVector &growthVector)  const{
+    return m_baseAxonParameters.constraintManager->checkForConstraint(startPosition, growthVector);
+}
+
+bool BaseAxon::checkConstraintsAndAdd(const EuclideanVector &startPosition, const EuclideanVector &growthVector, int numberOfGrowthTimes)  {
+    return m_baseAxonParameters.constraintManager->checkForConstraintAndAdd(startPosition, growthVector, m_identifier, numberOfGrowthTimes);
 }
 
 bool BaseAxon::checkIfBranching()  const{
@@ -39,9 +43,8 @@ bool BaseAxon::checkIfBranching()  const{
 
 bool BaseAxon::createBranchIfPossible(const EuclideanVector &startPosition, const EuclideanVector &nextPosition)  {
 
-    if(m_numberOfBranches<ParameterStruct::maxNumberOfBranches){
-    if (!checkConstraints(HelperFunctions::createCoveringCenters(startPosition, nextPosition - startPosition,
-                                                                 ParameterStruct::minDistance))) {
+    if(m_numberOfBranches<m_baseAxonParameters.maxNumberOfBranches){
+    if (!checkConstraints(startPosition, nextPosition - startPosition)) {
         if (auto simulationManager = m_baseAxonParameters.simulationManager.lock()) {
             m_childAxons.push_back(simulationManager->addStartedAxon(startPosition, nextPosition, m_constraintCounter, m_rootAxon));
             increaseBranchNumberBase();
@@ -57,7 +60,7 @@ void BaseAxon::checkForStopping() {
 }
 
 void BaseAxon::checkLength(){
-    if(getAxonLength() > ParameterStruct::maxAxonLength){stopAxon();}
+    if(getAxonLength() > m_baseAxonParameters.maxAxonLength){stopAxon();}
 }
 
 bool BaseAxon::checkTargetReached(const EuclideanVector &position) {

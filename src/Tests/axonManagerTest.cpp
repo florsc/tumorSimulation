@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 #include "../Managers/AxonManagers/AxonManager.h"
+#include "../Managers/SimulationManager.h"
 #include "../Managers/AxonManagers/AxonManagerLinear.h"
 #include "../Managers/AxonManagers/AxonManagerWaitingTime.h"
 #include "../Axons/Factories/RazettiFactory.h"
@@ -12,8 +13,11 @@
 #include "../Axons/AxonTypes/RazettiAxon/RazettiAxon.h"
 
 TEST(Test, checkLinearOrder) {
-    AxonManagerLinear axonManager = AxonManagerLinear();
-    auto factory = RazettiFactory();
+    AxonManagerLinear axonManager = AxonManagerLinear(std::make_shared<AxonOrderLinearData>());
+    auto factory = RazettiFactory(std::make_shared<RazettiSetUpParameters>());
+    ParameterStruct parameters;
+    auto simulationManager = std::make_shared<SimulationManager>(parameters);
+    factory.setUpFactory(simulationManager);
     axonManager.addAxon(factory.makeAxon(EuclideanVector(0,0,0)));
     axonManager.addAxon(factory.makeAxon(EuclideanVector(1,0,0)));
     axonManager.addAxon(factory.makeAxon(EuclideanVector(2,0,0)));
@@ -25,9 +29,12 @@ TEST(Test, checkLinearOrder) {
 }
 
 TEST(Test, checkWaitingTimeOrder) {
-    SamplerHandle testSampler(new DoubleSamplerForTests({1,3,4,1,4,5,1,8,3,4,7,9,2,4}));
-    AxonManagerWaitingTime axonManager = AxonManagerWaitingTime(testSampler, 10);
-    auto factory = RazettiFactory();
+    SamplerHandle testSampler(new FixedValuesSampler({1, 3, 4, 1, 4, 5, 1, 8, 3, 4, 7, 9, 2, 4}));
+    auto axonOrderSampledWaitingTimeData = std::make_shared<AxonOrderSampledWaitingTimeData>();
+    axonOrderSampledWaitingTimeData->waitingTimeSampler = testSampler;
+    axonOrderSampledWaitingTimeData->maximumTime=10.0;
+    AxonManagerWaitingTime axonManager = AxonManagerWaitingTime(axonOrderSampledWaitingTimeData);
+    auto factory = RazettiFactory(std::make_shared<RazettiSetUpParameters>());
     axonManager.addAxon(factory.makeAxon(EuclideanVector(0,0,0)));
     axonManager.addAxon(factory.makeAxon(EuclideanVector(1,0,0)));
     axonManager.addAxon(factory.makeAxon(EuclideanVector(2,0,0)));

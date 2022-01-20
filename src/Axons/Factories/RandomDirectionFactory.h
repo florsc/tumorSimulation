@@ -6,16 +6,16 @@
 #define TUMORSIMULATION_RANDOMDIRECTIONFACTORY_H
 
 #include <iostream>
-#include "AxonFactory.h"
 #include "../AxonTypes/RandomDirectionAxon/RandomDirectionAxonParameters.h"
 #include "../../SimulationSetUp/GrowthModels/RandomDirectionSetUpParameters.h"
+#include "AxonFactory.h"
 
 
 class RandomDirectionFactory : public AxonFactory {
     RandomDirectionAxonParameters m_randomDirectionAxonParameters;
 
 public:
-    RandomDirectionFactory();
+    RandomDirectionFactory(RandomDirectionSetUpParametersHandle randomDirectionSetUpParameters);
 
     AxonHandle makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
                         WeakAxonHandle rootAxon = WeakAxonHandle())  override;

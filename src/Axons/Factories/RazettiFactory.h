@@ -6,14 +6,15 @@
 #define TUMORSIMULATION_RAZETTIFACTORY_H
 
 #include <iostream>
-#include "AxonFactory.h"
-#include "../AxonTypes/RazettiAxon/RazettiAxonParameters.h"
 #include "../../SimulationSetUp/GrowthModels/RazettiSetUpParameters.h"
+#include "../AxonTypes/RazettiAxon/RazettiAxonParameters.h"
+#include "AxonFactory.h"
 
 class RazettiFactory : public AxonFactory {
     RazettiAxonParameters m_razettiAxonParameters;
+    SamplerHandle m_startAngleSampler;
 public:
-    RazettiFactory();
+    RazettiFactory(RazettiSetUpParametersHandle razettiSetUpParameters);
 
     AxonHandle makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0,
                         WeakAxonHandle rootAxon = WeakAxonHandle())  override;

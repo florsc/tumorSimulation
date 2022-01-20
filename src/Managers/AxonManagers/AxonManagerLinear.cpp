@@ -6,6 +6,7 @@
 
 #include "AxonManager.h"
 #include "../../Axons/AxonTypes/BaseAxon/BaseAxon.h"
+#include "../../SimulationSetUp/AxonOrder/AxonOrderLinearData.h"
 
 void AxonManagerLinear::addAxon(AxonHandle axon) {
     m_allAxons.push_back(axon);

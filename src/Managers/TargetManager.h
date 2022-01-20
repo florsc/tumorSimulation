@@ -13,7 +13,7 @@
 class TargetManager {
     TargetVector m_targets;
 public:
-    explicit TargetManager(TargetVector targets);
+    explicit TargetManager(const TargetSetUpVector& targetSetUpVector);
 
     virtual bool checkTargetReached(const EuclideanVector &position) const;
     virtual EuclideanVector calculateForce(const EuclideanVector& position) const;

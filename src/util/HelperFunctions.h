@@ -7,7 +7,6 @@
 
 #include <vector>
 #include "EuclideanVector.h"
-#include "../SimulationSetUp/ParameterStruct.h"
 
 namespace HelperFunctions {
 

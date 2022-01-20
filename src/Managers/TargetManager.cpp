@@ -3,10 +3,15 @@
 //
 
 #include "TargetManager.h"
+#include "../util/DynamicCreators.h"
 
 #include <utility>
 
-TargetManager::TargetManager(TargetVector targets) : m_targets(std::move(targets)) {}
+TargetManager::TargetManager(const TargetSetUpVector& targetSetUpVector)   {
+    for(const auto& targetSetUp:targetSetUpVector){
+        m_targets.push_back(createTarget(targetSetUp));
+    }
+}
 
 bool TargetManager::checkTargetReached(const EuclideanVector &position)  const{
     bool reached = false;

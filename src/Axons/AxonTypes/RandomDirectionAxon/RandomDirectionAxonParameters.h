@@ -7,14 +7,15 @@
 
 #include "../../../SimulationSetUp/GrowthModels/RandomDirectionSetUpParameters.h"
 #include "../BaseAxon/BaseAxonParameters.h"
+#include "../../../SimulationSetUp/ParameterStruct.h"
 
 struct RandomDirectionAxonParameters {
     double angleBackwardThreshold;
     SamplerHandle lengthSampler;
 
-    RandomDirectionAxonParameters() :
-            angleBackwardThreshold(RandomDirectionSetUpParameters::angleBackwardThreshold),
-            lengthSampler(randomDirectionSetUpParameters.getLengthSampler()) {
+    RandomDirectionAxonParameters(RandomDirectionSetUpParametersHandle randomDirectionSetUpParameters) :
+            angleBackwardThreshold(randomDirectionSetUpParameters->angleBackwardThreshold),
+            lengthSampler(randomDirectionSetUpParameters->lengthSampler) {
     }
 };
 

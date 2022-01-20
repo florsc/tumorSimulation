@@ -9,10 +9,10 @@
 #include "AxonSetUpParameters.h"
 #include "../../util/Samplers.h"
 
-struct RandomDirectionSetUpParameters {
+struct RandomDirectionSetUpParameters:public AxonSetUpParameters {
     static constexpr double angleBackwardThreshold = 0.7 * M_PI;
-    SamplerHandle lengthSampler;
-    SamplerHandle getLengthSampler();
+    SamplerHandle lengthSampler = std::make_shared<ConstantValueSampler>(1);
+    AxonSetUpParameters axonSetUpParameters;
 };
 
 

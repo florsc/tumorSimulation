@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "../util/EuclideanVector.h"
+#include "../util/TypeDefs.h"
 #include <iostream>
 
 class ExteriorLimit {
@@ -19,7 +20,7 @@ class SphericalLimit : public ExteriorLimit {
 private:
     double m_radiusSquared;
 public:
-    explicit SphericalLimit(double radius);
+    explicit SphericalLimit(SphericalLimitSetUpParametersHandle sphericalLimitSetUpParametersHandle);
 
     [[nodiscard]] bool checkExteriorLimitExceeded(EuclideanVector position) const override;
 

@@ -19,10 +19,14 @@ class AxonManager;
 class SimulationManager {
     AxonManagerHandle m_axonManager;
     AxonFactoryHandle m_axonFactory;
+    ConstraintManagerHandle m_constraintManager;
+    TargetManagerHandle m_targetManager;
 
 public:
-
-    void setUp(SimulationManagerHandle simulationManager, double branchingProbability = AxonSetUpParameters::branchingProbability);
+    ConstraintManagerHandle getConstraintManager(){return m_constraintManager;}
+    TargetManagerHandle getTargetManager(){return m_targetManager;}
+    SimulationManager(ParameterStruct& modelParameters);
+    void setUp(ParameterStruct& modelParameters, SimulationManagerHandle simulationManager);
 
     static PositionList
     createPossibleStartPositions(const EuclideanVector &c1, const EuclideanVector &c2, double minDistance);
@@ -42,7 +46,7 @@ public:
     void addAxon(AxonHandle axon);
 
     int getNumberOfTargetReached();
-double getNumberOfAxons();
+    double getNumberOfAxons();
     //test related
     friend class AxonTest;
 

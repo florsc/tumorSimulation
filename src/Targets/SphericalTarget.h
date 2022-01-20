@@ -7,13 +7,14 @@
 
 
 #include "Target.h"
+#include "../util/TypeDefs.h"
 
 class SphericalTarget : public Target {
     EuclideanVector m_centerPoint;
     double m_radius;
     double m_gravityConstant;
 public:
-    SphericalTarget(const EuclideanVector &centerPoint, double radius, double gravityConstant=0);
+    SphericalTarget(SphericalTargetSetUpParametersHandle sphericalTargetSetUpParameters);
 
     EuclideanVector calculateForce(const EuclideanVector& position) override;
     bool checkTargetReached(const EuclideanVector &position) override;

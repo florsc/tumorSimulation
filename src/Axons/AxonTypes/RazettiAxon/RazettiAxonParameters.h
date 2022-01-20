@@ -7,22 +7,22 @@
 
 #include "../../../SimulationSetUp/GrowthModels/RazettiSetUpParameters.h"
 #include "../BaseAxon/BaseAxonParameters.h"
+#include "../../../SimulationSetUp/ParameterStruct.h"
 
 struct RazettiAxonParameters {
     const int numberOfSubstepsEachStep;
     const int maxNumberOfConstraintEncountersEachSubstep;
     const int numberOfRetractions;
-    const double alpha;
     const double beta;
+    const double maxAngleFraction;
     SamplerHandle lengthSampler;
 
-    RazettiAxonParameters() : numberOfSubstepsEachStep(RazettiSetUpParameters::numberOfGrowthStepsEachStep),
-                              numberOfRetractions(RazettiSetUpParameters::numberOfRetractions),
+    RazettiAxonParameters(RazettiSetUpParametersHandle razettiSetUpParameters) : numberOfSubstepsEachStep(razettiSetUpParameters->numberOfGrowthStepsEachStep),
+                              numberOfRetractions(razettiSetUpParameters->numberOfRetractions),
                               maxNumberOfConstraintEncountersEachSubstep(
-                                      RazettiSetUpParameters::maxNumberOfConstraintEncountersEachSubstep),
-                              alpha(RazettiSetUpParameters::alpha),
-                              beta(RazettiSetUpParameters::beta),
-                              lengthSampler(razettiSetUpParameters.getLengthSampler()) {}
+                                      razettiSetUpParameters->maxNumberOfConstraintEncountersEachSubstep),
+                              beta(razettiSetUpParameters->beta),maxAngleFraction(razettiSetUpParameters->maxAngleFraction),
+                              lengthSampler(razettiSetUpParameters->lengthSampler) {}
 };
 
 #endif //TUMORSIMULATION_RAZETTIAXONPARAMETERS_H

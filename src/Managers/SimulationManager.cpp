@@ -7,24 +7,30 @@
 #include <random>
 #include "../SimulationSetUp/ParameterStruct.h"
 #include "SimulationManager.h"
+#include "TargetManager.h"
+#include "ConstraintManager.h"
 #include "AxonManagers/AxonManager.h"
 #include "../Axons/AxonTypes/RazettiAxon/RazettiAxon.h"
 #include "../Axons/Factories/AxonFactory.h"
-#include "../SimulationSetUp/GrowthModels/AxonSetUpParameters.h"
-#include "../SimulationSetUp/AxonOrder/AxonOrder.h"
-#include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.h"
+#include "../Axons/Factories/RandomDirectionFactory.h"
+#include "../Axons/Factories/RazettiFactory.h"
+#include "AxonManagers/AxonManagerLinear.h"
+#include "AxonManagers/AxonManagerWaitingTime.h"
+#include "../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTimeData.h"
+#include "../util/SimulationException.h"
+#include "../SimulationSetUp/AxonOrder/AxonOrderLinearData.h"
+#include "../util/DynamicCreators.h"
 
 
-void SimulationManager::setUp(SimulationManagerHandle simulationManager,double branchingProbability) {
-    m_axonManager = std::move(parameters.axonOrder->makeAxonManager());
-    m_axonFactory = std::move(parameters.makeAxonFactory());
-    m_axonFactory->setUpFactory(std::move(simulationManager), branchingProbability);
-    auto startPositions = createPossibleStartPositions(parameters.startingAreaCorners.first,
-                                                       parameters.startingAreaCorners.second, ParameterStruct::startDistance);
-    for (int i = 0; i < ParameterStruct::numberOfStartingAxons; i++) {
+void SimulationManager::setUp(ParameterStruct& modelParameters, SimulationManagerHandle simulationManager) {
+    m_axonFactory->setUpFactory(std::move(simulationManager));
+
+    auto startPositions = createPossibleStartPositions(modelParameters.startingAreaCorners.first,
+                                                       modelParameters.startingAreaCorners.second, modelParameters.startDistance);
+    for (int i = 0; i < modelParameters.numberOfStartingAxons; i++) {
         auto startPositionIter = startPositions.begin();
         auto indexSampler = std::uniform_int_distribution<int>(0, startPositions.size() - 1);
-        int startPositionIndex = indexSampler(*parameters.m_generator);
+        int startPositionIndex = indexSampler(*modelParameters.m_generator);
         std::advance(startPositionIter, startPositionIndex);
         addAxon(*startPositionIter);
         startPositions.erase(startPositionIter);
@@ -104,7 +110,7 @@ int SimulationManager::getNumberOfTargetReached() {
     int targetsReached = 0;
     auto allAxons = m_axonManager->getAllAxons();
     for(const auto& axon:allAxons){
-        if(axon->getId()<ParameterStruct::numberOfStartingAxons && axon->targetIsReached()){
+        if(axon->getRootAxon()==axon && axon->targetIsReached()){
             targetsReached++;
         }
     }
@@ -115,7 +121,7 @@ double SimulationManager::getAxonLength() {
     double length = 0;
     auto allAxons = m_axonManager->getAllAxons();
     for(const auto& axon:allAxons){
-        if(axon->getId()<ParameterStruct::numberOfStartingAxons){
+        if(axon->getRootAxon()==axon){
             length += axon->getBranchLength();
         }
     }
@@ -124,4 +130,15 @@ double SimulationManager::getAxonLength() {
 
 double SimulationManager::getNumberOfAxons() {
     return m_axonManager->getAllAxons().size();
+}
+
+SimulationManager::SimulationManager(ParameterStruct& modelParameters) {
+    m_targetManager = std::make_shared<TargetManager>(modelParameters.targets);
+
+    m_constraintManager = std::make_shared<ConstraintManager>
+            (modelParameters);
+    m_axonFactory = createAxonFactory(modelParameters.axonSetUpParameters);
+
+    m_axonManager = createAxonManager(modelParameters.axonOrderData);
+
 }

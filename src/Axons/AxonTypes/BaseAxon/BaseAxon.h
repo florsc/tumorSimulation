@@ -24,6 +24,7 @@ protected:
     GeneratorHandle m_generator;
     AxonVector m_childAxons;
     WeakAxonHandle m_rootAxon;
+    std::pair<double, double> startAngles;
     int m_identifier;
     bool m_active{true};
     bool m_isAlive{true};
@@ -44,7 +45,8 @@ protected:
              BaseAxonParameters baseAxonParameters, int constraintsEncountered = 0);
     void increaseBranchNumberBase(){if(auto rootAxon = m_rootAxon.lock()){rootAxon->increaseBranchNumber();}}
     void increaseBranchNumber(){m_numberOfBranches++; for(const auto & child:m_childAxons){child->increaseBranchNumber();}}
-    virtual bool checkConstraints(const PositionVector &positions) const;
+    virtual bool checkConstraints(const EuclideanVector &startPosition, const EuclideanVector &growthVector) const;
+    virtual bool checkConstraintsAndAdd(const EuclideanVector &startPosition, const EuclideanVector &growthVector, int numberOfGrowthTimes);
     void setBranchNumber(int branchNumber){m_numberOfBranches = branchNumber;}
 
     bool checkIfBranching() const;
@@ -60,6 +62,7 @@ protected:
 public:
 
     void setUpRootAxon(WeakAxonHandle rootAxon) { m_rootAxon = std::move(rootAxon); }
+    AxonHandle getRootAxon() { return m_rootAxon.lock(); }
 
     virtual void killAxon();
 

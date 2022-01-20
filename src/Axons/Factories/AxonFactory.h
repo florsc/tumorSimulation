@@ -5,11 +5,11 @@
 #ifndef TUMORSIMULATION_AXONFACTORY_H
 #define TUMORSIMULATION_AXONFACTORY_H
 
-
 #include <random>
+#include "../AxonTypes/BaseAxon/BaseAxonParameters.h"
 #include "../../util/TypeDefs.h"
 #include "../../SimulationSetUp/GrowthModels/AxonSetUpParameters.h"
-#include "../AxonTypes/BaseAxon/BaseAxonParameters.h"
+#include "../../SimulationSetUp/ParameterStruct.h"
 
 class AxonFactory {
 
@@ -19,8 +19,8 @@ protected:
     void setUpRoot(const AxonHandle& axon, const WeakAxonHandle& rootAxon) const;
 
 public:
-
-    void setUpFactory(SimulationManagerHandle simulationManager, double branchingProbability);
+    AxonFactory(AxonSetUpParametersHandle baseAxonSetUpParameters);
+    void setUpFactory(SimulationManagerHandle simulationManager);
 
     virtual AxonHandle
     makeAxon(const EuclideanVector &startPosition, int constraintsEncountered = 0, WeakAxonHandle rootAxon = WeakAxonHandle())  = 0;

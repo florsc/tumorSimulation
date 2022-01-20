@@ -4,6 +4,7 @@
 
 #include "AxonManagerWaitingTime.h"
 #include "../../SimulationSetUp/ParameterStruct.h"
+#include "../../SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTimeData.h"
 
 #include "AxonManager.h"
 #include "../../Axons/AxonTypes/BaseAxon/BaseAxon.h"
@@ -29,7 +30,8 @@ AxonHandle AxonManagerWaitingTime::getNextAxon() {
     return tmp.second;
 }
 
-AxonManagerWaitingTime::AxonManagerWaitingTime(SamplerHandle &sampler, double maximumWaitingTime)
-        : m_waitingTimeSampler(std::move(sampler)), m_maximumWaitingTime(maximumWaitingTime) {
+AxonManagerWaitingTime::AxonManagerWaitingTime(
+        AxonOrderSampledWaitingTimeDataHandle axonOrderSampleWaitingTimeData)
+        : m_waitingTimeSampler(std::move(axonOrderSampleWaitingTimeData->waitingTimeSampler)), m_maximumWaitingTime(axonOrderSampleWaitingTimeData->maximumTime) {
 
 }

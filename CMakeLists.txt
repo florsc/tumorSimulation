@@ -35,11 +35,11 @@ add_library(simulationLibrary SHARED
         src/Managers/AxonManagers/AxonManagerWaitingTime.h
         src/Managers/AxonManagers/AxonManagerLinear.cpp
         src/Managers/AxonManagers/AxonManagerLinear.h
-        src/SimulationSetUp/AxonOrder/AxonOrder.h
-        src/SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.cpp
-        src/SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTime.h
-        src/SimulationSetUp/AxonOrder/AxonOrderLinear.cpp
-        src/SimulationSetUp/AxonOrder/AxonOrderLinear.h
+        src/SimulationSetUp/AxonOrder/AxonOrderData.h
+        src/SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTimeData.cpp
+        src/SimulationSetUp/AxonOrder/AxonOrderSampledWaitingTimeData.h
+        src/SimulationSetUp/AxonOrder/AxonOrderLinearData.cpp
+        src/SimulationSetUp/AxonOrder/AxonOrderLinearData.h
         src/util/Samplers.h
         src/Axons/AxonTypes/RandomDirectionAxon/RandomDirectionAxon.cpp
         src/Axons/AxonTypes/RandomDirectionAxon/RandomDirectionAxon.h
@@ -52,10 +52,10 @@ add_library(simulationLibrary SHARED
         src/Axons/AxonTypes/BaseAxon/BaseAxonParameters.h
         src/Axons/AxonTypes/RazettiAxon/RazettiAxonParameters.h
         src/Axons/AxonTypes/RandomDirectionAxon/RandomDirectionAxonParameters.h
-        src/util/Samplers.cpp src/SimulationSetUp/GrowthModels/RandomDirectionSetUpParameters.cpp
+        src/SimulationSetUp/GrowthModels/RandomDirectionSetUpParameters.cpp
         src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.h
         src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.cpp
-        src/util/SimulationException.h)
+        src/util/SimulationException.h src/util/GeneratorSingleton.h src/util/GeneratorSingleton.cpp src/SimulationSetUp/GrowthModels/AxonSetUpParameters.cpp src/SimulationSetUp/ConstraintSetUp/ExteriorLimitSetUpParameters.cpp src/SimulationSetUp/ConstraintSetUp/ExteriorLimitSetUpParameters.h src/SimulationSetUp/ConstraintSetUp/SphericalLimitSetUpParameters.cpp src/SimulationSetUp/ConstraintSetUp/SphericalLimitSetUpParameters.h src/SimulationSetUp/TargetSetUp/TargetSetUpParameters.h src/SimulationSetUp/TargetSetUp/SphericalTargetSetUpParameters.cpp src/SimulationSetUp/TargetSetUp/SphericalTargetSetUpParameters.h src/util/DynamicCreators.cpp src/util/DynamicCreators.h)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 
@@ -75,7 +75,7 @@ add_executable(
         src/Tests/helperFunctionTest.cpp
         src/util/HelperFunctions.cpp src/util/HelperFunctions.h src/Tests/axonTest.cpp src/Tests/generalTest.cpp src/util/EuclideanVector.cpp src/util/EuclideanVector.h src/Tests/constraintHandlerTest.cpp src/Tests/simulationManagerTest.cpp src/Tests/axonManagerTest.cpp        src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.h
         src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.h
-        src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.cpp)
+        src/SimulationSetUp/GrowthModels/RazettiSetUpParameters.cpp src/util/GeneratorSingleton.h)
 
 add_executable(
         simulationRun
